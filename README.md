@@ -13,6 +13,8 @@ Shopify App
 [Excel Spreadsheet](https://montanaedu-my.sharepoint.com/:x:/g/personal/j56w894_msu_montana_edu/EaVV4swagBpGimoDWHDCcFcB4JHtuL6F3gUtCRcTsvlBhA?e=7Lv0hD)
 
 ## Contributions
-Write code on your own branch, then when ready, request to pull to base Testing.
+Create a new branch specific to the feature being added.
 
-Once all code in Testing is ready for production, it will be merged into Main
+Write the code, then when ready, issue a pull request to the Testing branch.
+
+Once all code in Testing is ready for production, it will be merged into Main.
