@@ -12,6 +12,24 @@ Shopify App
 ## Read-Only View Burndown
 [Excel Spreadsheet](https://montanaedu-my.sharepoint.com/:x:/g/personal/j56w894_msu_montana_edu/EaVV4swagBpGimoDWHDCcFcB4JHtuL6F3gUtCRcTsvlBhA?e=7Lv0hD)
 
+## Setting Up Your Local Repo
+Clone this repository
+
+Create a Shopiofy partner account and development store to deploy the app to
+
+1. Install the Shopify CLI, Node.js, npm, and Ruby
+
+2. Run `shopify login` to login to your Shopify partner account
+
+3. Create an account on ngrok to obtain an auth token
+
+4. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
+
+5. `cd` into the `better_that_sum` and run `shopify app serve`
+
+6. Open the URL provided by the terminal to install the app on your development store
+
+
 ## Contributions
 Create a new branch specific to the feature being added.
 
