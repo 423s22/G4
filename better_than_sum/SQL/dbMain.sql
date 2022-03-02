@@ -47,5 +47,5 @@ CREATE TABLE VariationBlockers (
     excludeVariationA BIGINT NOT NULL,
     excludeVariationB BIGINT NOT NULL,
     CONSTRAINT FK_VarA FOREIGN KEY (excludeVariationA) REFERENCES Variations(variationID),
-    CONSTRAINT FK_VarB FOREIGN KEY (excludeVariationB) REFERENCES Variations(variationID),
+    CONSTRAINT FK_VarB FOREIGN KEY (excludeVariationB) REFERENCES Variations(variationID)
 );
