@@ -33,7 +33,7 @@ CREATE TABLE Variations (
 CREATE TABLE Combos (
     comboID BIGINT NOT NULL,
     stockAmount INTEGER NOT NULL,
-    PRIMARK KEY (comboID)
+    PRIMARY KEY (comboID)
 );
 
 CREATE TABLE ComboItems (
