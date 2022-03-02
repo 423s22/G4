@@ -1,11 +1,11 @@
 CREATE TABLE Users (
-    userID BIGINT NOT NULL,
+    userID BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(128),
     PRIMARY KEY (userID)
 );
 
 CREATE TABLE Products (
-    productID BIGINT NOT NULL,
+    productID BIGINT NOT NULL AUTO_INCREMENT,
     baseCost INTEGER NOT NULL,
     name VARCHAR(64),
     owningUser BIGINT NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE Products (
 );
 
 CREATE TABLE VariationGroups (
-    groupID BIGINT NOT NULL,
+    groupID BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(64),
     owningProduct BIGINT NOT NULL,
     PRIMARY KEY (groupID),
@@ -22,7 +22,7 @@ CREATE TABLE VariationGroups (
 );
 
 CREATE TABLE Variations (
-    variationID BIGINT NOT NULL,
+    variationID BIGINT NOT NULL AUTO_INCREMENT,
     addedCost INTEGER NOT NULL,
     name VARCHAR(64),
     owningGroup BIGINT NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE Variations (
 );
 
 CREATE TABLE Combos (
-    comboID BIGINT NOT NULL,
+    comboID BIGINT NOT NULL AUTO_INCREMENT,
     stockAmount INTEGER NOT NULL,
     PRIMARY KEY (comboID)
 );
