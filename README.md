@@ -1,6 +1,9 @@
 # ESOF-423 - G4
 Shopify App
 
+## Project Portfolio
+[In Progress](https://docs.google.com/document/d/1jHizNwP9bavrVc76SmixKsihwQgDmYudxxGZaySC_bM/edit?usp=sharing)
+
 ## Group Members
 - Jacob
 - Faith
@@ -11,6 +14,7 @@ Shopify App
 
 ## Read-Only View Burndown
 [Excel Spreadsheet](https://montanaedu-my.sharepoint.com/:x:/g/personal/j56w894_msu_montana_edu/EaVV4swagBpGimoDWHDCcFcB4JHtuL6F3gUtCRcTsvlBhA?e=7Lv0hD)
+
 
 ## Setting Up Your Local Repo
 1. Clone this repository
