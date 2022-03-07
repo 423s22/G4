@@ -2,12 +2,16 @@ import { Heading, Page } from "@shopify/polaris";
 
 export default function Index() {
 
-	// This outputs to the server console and also the browser console
-	// Unsure what process this runs in
-	console.log(window.location.href);
+	// Any code here runs on the server, so the followling line would throw an error
+	//console.log(window.location.href);
 
 	return (
+
 		<Page>
+			<script>
+				// This runs in the browser
+				console.log("Hello!");
+			</script>
 			<Heading>
 				Shopify app with Node and React{" "}
 				<span role="img" aria-label="tada emoji">
