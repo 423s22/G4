@@ -2,7 +2,9 @@ import { Heading, Page } from "@shopify/polaris";
 
 export default function Index() {
 
-	console.log("Called from index");
+	// This outputs to the server console and also the browser console
+	// Unsure what process this runs in
+	console.log(window.location.href);
 
 	return (
 		<Page>
