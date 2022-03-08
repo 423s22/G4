@@ -1,3 +1,5 @@
+import { Heading, Page } from "@shopify/polaris";
+
 export default function Index() {
 
     if (typeof window !== "object") {
@@ -6,6 +8,10 @@ export default function Index() {
     }
 
     return (
-        null
+        <Page>
+			<Heading>
+				Get request
+			</Heading>
+		</Page>
     );
 }
