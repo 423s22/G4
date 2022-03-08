@@ -92,6 +92,12 @@ app.prepare().then(async() => {
 
     router.get("(/_next/static/.*)", handleRequest); // Static content is clear
     router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
+
+    router.get("/database/get/", async(ctx) => {
+        console.log("from db get!");
+        await handleRequest(ctx);
+    });
+
     router.get("(.*)", async(ctx) => {
         const shop = ctx.query.shop;
 
@@ -101,11 +107,6 @@ app.prepare().then(async() => {
         } else {
             await handleRequest(ctx);
         }
-    });
-
-    router.get("/database/get/.*", async(ctx) => {
-        console.log("from db get!");
-        await handleRequest(ctx);
     });
 
     server.use(router.allowedMethods());
