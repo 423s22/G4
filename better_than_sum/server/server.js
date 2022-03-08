@@ -94,8 +94,29 @@ app.prepare().then(async() => {
     router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
 
     router.get("/database/get/", async(ctx) => {
-        console.log("from db get!");
-        await handleRequest(ctx);
+        // Handle get request from database
+
+        // Check the shop is active
+        if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
+            ctx.redirect(`/auth?shop=${shop}`);
+        } else {
+            // Create connection
+            const mysql = require("mysql");
+
+            let conn = mysql.createConnection({
+                host: "localhost",
+                user: process.env.MYSQL_USER,
+                password: process.env.MYSQL_PASS
+            });
+
+            conn.connect(function(err) {
+                if (err)
+                // Handle error
+                    console.log(err);
+                else
+                    console.log("Connected!");
+            });
+        }
     });
 
     router.get("(.*)", async(ctx) => {
@@ -105,6 +126,7 @@ app.prepare().then(async() => {
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
+            console.log("typical request");
             await handleRequest(ctx);
         }
     });
