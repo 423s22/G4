@@ -95,7 +95,7 @@ app.prepare().then(async() => {
     router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
 
     let dbConn = new DatabaseConnection("localhost", process.env.MYSQL_USER, process.env.MYSQL_PASS, "G4db");
-    dbConn.getUserProductsJSON(4);
+    dbConn.connect();
 
     router.get("/database/get/", async(ctx) => {
         // Handle get request from database
