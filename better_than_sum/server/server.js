@@ -114,8 +114,7 @@ app.prepare().then(async() => {
             switch (requestedData) {
                 case "userProducts":
                     const products = await dbConn.getUserProductsJSON(parseInt(ctx.query.userID));
-                    console.log(products);
-                    ctx.res.write(`${products}`);
+                    ctx.res.write(`${JSON.stringify(products)}`);
                     ctx.res.end();
                     break;
             }
