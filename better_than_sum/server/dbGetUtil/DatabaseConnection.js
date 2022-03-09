@@ -13,28 +13,50 @@ export default class DatabaseConnection {
     async handleRequest(ctx) {
         ctx.respond = false;
         const requestedData = ctx.query.request;
+        let results;
         switch (requestedData) {
             case "userProducts":
-                const products = await this._getUserProducts(parseInt(ctx.query.userID));
-                ctx.res.write(`${JSON.stringify(products)}`);
-                ctx.res.end();
+                results = await this._getUserProductsJSON(parseInt(ctx.query.userID));
+                break;
+            case "userID":
+                results = await this._getUserIDJSON(ctx.query.userName);
+                break;
+            case "productVariations":
+                results = await this._getProductVariations(parseInt(ctx.query.productID));
                 break;
         }
+        ctx.res.write(`${results}`);
+        ctx.res.end();
         ctx.res.statusCode = 200;
     }
 
-    async _getUserProducts(userID) {
+    async _getUserProductsJSON(userID) {
         let results = await this._connection.awaitQuery(
-            "SELECT Products.* FROM Products INNER JOIN Users ON Users.userID = Products.owningUser WHERE Users.userID = ?;", [userID]
+            `
+            SELECT Products.* FROM Products 
+            INNER JOIN Users ON Users.userID = Products.owningUser 
+            WHERE Users.userID = ?;
+            `, [userID]
         );
-        return results;
+        return JSON.stringify(results);
     }
 
-    async _getUserID(name) {
+    async _getUserIDJSON(name) {
         let results = await this._connection.awaitQuery(
-            "SELECT userID FROM Users WHERE name = ?", [name]
+            `SELECT userID FROM Users WHERE name = ?`, [name]
         );
-        return results;
+        return JSON.stringify(results);
+    }
+
+    async _getProductVariations(productID) {
+        let results = await this._connection.awaitQuery(
+            `SELECT Variations.* FROM Variations 
+            INNER JOIN VariationGroups ON VariationGroups.groupID = Variations.owningGroup
+            INNER JOIN Products ON Products.productID = VariationGroups.owningProduct
+            WHERE Products.productID = ?
+            `, [productID]
+        );
+        return JSON.stringify(results);
     }
 
     async connect() {
