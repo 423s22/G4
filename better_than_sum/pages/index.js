@@ -1,10 +1,13 @@
 import { Heading, Page } from "@shopify/polaris";
-import AdminApp from "./AdminApp";
+import App from "./AdminApp/App";
 
 export default function Index() {
 
-	let app = new AdminApp();
-	app.start();
+
+	if (typeof window === "object") {
+		let app = new App();
+		app.start();
+	}
 
 	return (
 		<Page>
