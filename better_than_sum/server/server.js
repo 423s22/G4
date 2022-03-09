@@ -101,9 +101,7 @@ app.prepare().then(async() => {
         "G4db"
     );
 
-    dbConn.connect().then(() => {
-        dbConn.getUserProductsJSON();
-    });
+    dbConn.connect();
 
     router.get("/database/get/", async(ctx) => {
         // Handle get request from database
@@ -111,7 +109,17 @@ app.prepare().then(async() => {
         // Check the shop is active
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
-        } else {}
+        } else {
+            const requestedData = ctx.query.request;
+            switch (requestedData) {
+                case "userProducts":
+                    const products = await dbConn.getUserProductsJSON(ctx.query.userID);
+                    ctx.res.write(`${products}`);
+                    break;
+            }
+            ctx.respond = false;
+            ctx.res.statusCode = 200;
+        }
     });
 
     router.get("(.*)", async(ctx) => {
