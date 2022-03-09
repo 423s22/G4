@@ -115,7 +115,8 @@ app.prepare().then(async() => {
                 case "userProducts":
                     const products = await dbConn.getUserProductsJSON(parseInt(ctx.query.userID));
                     console.log(products);
-                    ctx.res.body = `${products}`;
+                    ctx.res.write(`${products}`);
+                    ctx.res.end();
                     break;
             }
             ctx.res.statusCode = 200;
