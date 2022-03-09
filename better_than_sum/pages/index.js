@@ -1,14 +1,15 @@
 import { Heading, Page } from "@shopify/polaris";
+import { App } from "../AdminApp/App";
 
 export default function Index() {
-  return (
-    <Page>
-      <Heading>
-        Shopify app with Node and React{" "}
-        <span role="img" aria-label="tada emoji">
-          🎉
-        </span>
-      </Heading>
-    </Page>
-  );
+
+	if (typeof window === "object") {
+		let app = new App();
+		app.start();
+	}
+
+	return (
+		<Page>
+		</Page>
+	);
 }
