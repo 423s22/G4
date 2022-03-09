@@ -1,4 +1,4 @@
-export default class App {
+export default class AdminApp {
     constructor() {
         console.log("constructed");
     }
