@@ -10,6 +10,13 @@ export default class DatabaseConnection {
         });
     }
 
+    async getUserProductsJSON(userID) {
+        let results = await this._connection.query(
+            "SELECT Products.productID FROM Products INNER JOIN Users ON Users.userID = Products.owningUser WHERE Users.userID = ?;", [userID]);
+
+        console.log(results);
+    }
+
     async connect() {
         this._connection.connect(function(err) {
             if (err) {
@@ -22,13 +29,6 @@ export default class DatabaseConnection {
                 this.getUserProductsJSON();
             }
         });
-    }
-
-    async getUserProductsJSON(userID) {
-        let results = await this._connection.query(
-            "SELECT Products.productID FROM Products INNER JOIN Users ON Users.userID = Products.owningUser WHERE Users.userID = ?;", [userID]);
-
-        console.log(results);
     }
 
 }
