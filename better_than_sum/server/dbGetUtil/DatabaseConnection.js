@@ -14,6 +14,7 @@ export default class DatabaseConnection {
         let results = await this._connection.awaitQuery(
             "SELECT Products.productID FROM Products INNER JOIN Users ON Users.userID = Products.owningUser WHERE Users.userID = ?;", [userID]
         );
+        return results;
     }
 
     async connect() {
