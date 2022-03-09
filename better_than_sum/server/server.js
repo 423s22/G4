@@ -105,19 +105,19 @@ app.prepare().then(async() => {
 
     router.get("/database/get/", async(ctx) => {
         // Handle get request from database
-
         // Check the shop is active
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
+            ctx.respond = false;
             const requestedData = ctx.query.request;
             switch (requestedData) {
                 case "userProducts":
                     const products = await dbConn.getUserProductsJSON(ctx.query.userID);
-                    ctx.res.write(`${products}`);
+                    console.log(products);
+                    ctx.res.body = `${products}`;
                     break;
             }
-            ctx.respond = false;
             ctx.res.statusCode = 200;
         }
     });
