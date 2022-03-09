@@ -1,5 +1,5 @@
 import { Heading, Page } from "@shopify/polaris";
-import {AdminApp} from "./AdminApp.js";
+import AdminApp from "./AdminApp";
 
 export default function Index() {
 
