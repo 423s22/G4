@@ -1,5 +1,5 @@
 import { Heading, Page } from "@shopify/polaris";
-const App = require("./AdminApp");
+const App = require("./AdminApp/App");
 
 export default function Index() {
 
