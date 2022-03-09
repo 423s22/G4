@@ -10,7 +10,20 @@ export default class DatabaseConnection {
         });
     }
 
-    async getUserProductsJSON(userID) {
+    async handleRequest(ctx) {
+        ctx.respond = false;
+        const requestedData = ctx.query.request;
+        switch (requestedData) {
+            case "userProducts":
+                const products = await this._getUserProducts(parseInt(ctx.query.userID));
+                ctx.res.write(`${JSON.stringify(products)}`);
+                ctx.res.end();
+                break;
+        }
+        ctx.res.statusCode = 200;
+    }
+
+    async _getUserProducts(userID) {
         let results = await this._connection.awaitQuery(
             "SELECT Products.* FROM Products INNER JOIN Users ON Users.userID = Products.owningUser WHERE Users.userID = ?;", [userID]
         );

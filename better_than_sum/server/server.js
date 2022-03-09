@@ -109,16 +109,7 @@ app.prepare().then(async() => {
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
-            ctx.respond = false;
-            const requestedData = ctx.query.request;
-            switch (requestedData) {
-                case "userProducts":
-                    const products = await dbConn.getUserProductsJSON(parseInt(ctx.query.userID));
-                    ctx.res.write(`${JSON.stringify(products)}`);
-                    ctx.res.end();
-                    break;
-            }
-            ctx.res.statusCode = 200;
+            await dbConn.handleRequest(ctx);
         }
     });
 
