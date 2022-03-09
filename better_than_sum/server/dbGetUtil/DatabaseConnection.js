@@ -30,6 +30,13 @@ export default class DatabaseConnection {
         return results;
     }
 
+    async _getUserID(name) {
+        let results = await this._connection.awaitQuery(
+            "SELECT userID FROM Users WHERE name = ?", [name]
+        );
+        return results;
+    }
+
     async connect() {
         await this._connection.awaitConnect(async function(err) {
             if (err) {
