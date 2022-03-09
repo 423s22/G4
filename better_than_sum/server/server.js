@@ -113,7 +113,7 @@ app.prepare().then(async() => {
             const requestedData = ctx.query.request;
             switch (requestedData) {
                 case "userProducts":
-                    const products = await dbConn.getUserProductsJSON(ctx.query.userID);
+                    const products = await dbConn.getUserProductsJSON(parseInt(ctx.query.userID));
                     console.log(products);
                     ctx.res.body = `${products}`;
                     break;
