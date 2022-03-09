@@ -6,6 +6,7 @@ import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
+import DatabaseConnection from "dbGetUtil/DatabaseConnection";
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
@@ -93,6 +94,9 @@ app.prepare().then(async() => {
     router.get("(/_next/static/.*)", handleRequest); // Static content is clear
     router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
 
+    let dbConn = new DatabaseConnection("localhost", process.env.MYSQL_USER, process.env.MYSQL_PASS);
+    dbConn.getUserProductsJSON(4);
+
     router.get("/database/get/", async(ctx) => {
         // Handle get request from database
 
@@ -100,22 +104,7 @@ app.prepare().then(async() => {
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
-            // Create connection
-            const mysql = require("mysql");
 
-            let conn = mysql.createConnection({
-                host: "localhost",
-                user: process.env.MYSQL_USER,
-                password: process.env.MYSQL_PASS
-            });
-
-            conn.connect(function(err) {
-                if (err)
-                // Handle error
-                    console.log(err);
-                else
-                    console.log("Connected!");
-            });
         }
     });
 
@@ -126,7 +115,6 @@ app.prepare().then(async() => {
         if (ACTIVE_SHOPIFY_SHOPS[shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
-            console.log("typical request");
             await handleRequest(ctx);
         }
     });

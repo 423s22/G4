@@ -4,23 +4,6 @@ export default function Index() {
 
 	if (typeof window === "object") {
 		console.log("Runs in browser: " + window.location.href);
-	} else {
-		console.log("Runs on server");
-
-		const mysql = require("mysql");
-
-		let conn = mysql.createConnection({
-			host: "localhost",
-			user: process.env.MYSQL_USER,
-			password: process.env.MYSQL_PASS
-		});
-
-		conn.connect(function (err) {
-			if (err)
-				console.log(err);
-			else
-				console.log("Connected!");
-		});
 	}
 
 	return (
