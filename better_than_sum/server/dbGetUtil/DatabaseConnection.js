@@ -67,7 +67,7 @@ export default class DatabaseConnection {
 
     async _getVariationGroupsJSON(productID) {
         let results = await this._connection.awaitQuery(
-            `SELECT * FROM Variations WHERE owningGroup = ?`, [productID]
+            `SELECT * FROM VariationGroups WHERE owningProduct = ?`, [productID]
         );
         return JSON.stringify(results);
     }
