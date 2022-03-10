@@ -22,7 +22,13 @@ export default class DatabaseConnection {
                 results = await this._getUserIDJSON(ctx.query.userName);
                 break;
             case "productVariations":
-                results = await this._getProductVariations(parseInt(ctx.query.productID));
+                results = await this._getProductVariationsJSON(parseInt(ctx.query.productID));
+                break;
+            case "productVariationGroups":
+                results = await this._getVariationGroupsJSON(parseInt(ctx.query.productID));
+                break;
+            case "variationBlockers":
+                results = await this._getVariationBlockers(parseInt(ctx.query.variationID));
                 break;
         }
         ctx.res.write(`${results}`);
@@ -48,7 +54,7 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
-    async _getProductVariations(productID) {
+    async _getProductVariationsJSON(productID) {
         let results = await this._connection.awaitQuery(
             `SELECT Variations.* FROM Variations 
             INNER JOIN VariationGroups ON VariationGroups.groupID = Variations.owningGroup
@@ -57,6 +63,24 @@ export default class DatabaseConnection {
             `, [productID]
         );
         return JSON.stringify(results);
+    }
+
+    async _getVariationGroupsJSON(productID) {
+        let results = await this._connection.awaitQuery(
+            `SELECT * FROM Variations WHERE OwningProduct = ?`, [productID]
+        );
+        return JSON.stringify(results);
+    }
+
+    async _getVariationBlockers(variationID) {
+        let resultsA = await this._connection.awaitQuery(
+            `SELECT exludeVariationB FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
+        );
+        let resultsB = await this._connection.awaitQuery(
+            `SELECT exludeVariationA FROM VariationBlockers WHERE excludeVariationB = ?`, [variationID]
+        );
+        // TODO: Combine resultsA with resultsB
+        return JSON.stringify(resultsA.concat(resultsB));
     }
 
     async connect() {
