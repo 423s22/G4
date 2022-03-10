@@ -42,9 +42,6 @@ Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
 app.prepare().then(async() => {
     const server = new Koa();
     server.use(bodyParser());
-    server.use(async ctx => {
-        ctx.body = ctx.request.body;
-    });
     const router = new Router();
     server.keys = [Shopify.Context.API_SECRET_KEY];
     server.use(
