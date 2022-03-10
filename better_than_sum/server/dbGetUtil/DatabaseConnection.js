@@ -84,6 +84,7 @@ export default class DatabaseConnection {
     }
 
     async handlePostRequest(ctx) {
+        console.log(ctx.request.body);
         const post = JSON.parse(ctx.request.body);
 
         const requestedOperation = post["operation"];
