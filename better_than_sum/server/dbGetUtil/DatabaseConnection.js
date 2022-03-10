@@ -106,12 +106,12 @@ export default class DatabaseConnection {
     async _postProduct(id, baseCost, name, owningUser) {
         if (id == null) {
             let insertedID = await this._connection.awaitQuery(
-                `INSERT INTO Products (baseCost, name, owningUser) VALUES (? ? ?)`, [baseCost, name, owningUser]
+                `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?)`, [baseCost, name, owningUser]
             ).insertId;
             return JSON.stringify(insertedID);
         } else {
             await this._connection.awaitQuery(
-                `UPDATE Products SET (baseCost, name, owningUser) VALUES (? ? ?) WHERE productID = ?`, [baseCost, name, owningUser, id]
+                `UPDATE Products SET (baseCost, name, owningUser) VALUES (?, ?, ?) WHERE productID = ?`, [baseCost, name, owningUser, id]
             );
             return JSON.stringify({});
         }
