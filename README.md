@@ -21,7 +21,8 @@ Shopify App
 
 2. Create a Shopify partner account and development store to deploy the app to
 
-2. Install the Shopify CLI, Node.js, npm, and Ruby
+2. [Install the Shopify CLI, Node.js, npm, and Ruby](https://shopify.dev/apps/tools/cli/installation)
+
 
 3. Run `shopify login` to login to your Shopify partner account
 
