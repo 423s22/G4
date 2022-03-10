@@ -104,6 +104,7 @@ export default class DatabaseConnection {
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
+        console.log(id);
         if (id == null || id == NaN || id == undefined || id == "NaN") {
             let insertedID = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
