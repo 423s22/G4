@@ -74,10 +74,10 @@ export default class DatabaseConnection {
 
     async _getVariationBlockers(variationID) {
         let resultsA = await this._connection.awaitQuery(
-            `SELECT excludeVariationB FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
+            `SELECT excludeVariationB AS exclude FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
         );
         let resultsB = await this._connection.awaitQuery(
-            `SELECT excludeVariationA FROM VariationBlockers WHERE excludeVariationB = ?`, [variationID]
+            `SELECT excludeVariationA AS exclude FROM VariationBlockers WHERE excludeVariationB = ?`, [variationID]
         );
         // TODO: Combine resultsA with resultsB
         return JSON.stringify(resultsA.concat(resultsB));
