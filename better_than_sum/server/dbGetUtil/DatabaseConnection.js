@@ -10,7 +10,7 @@ export default class DatabaseConnection {
         });
     }
 
-    async handleRequest(ctx) {
+    async handleGetRequest(ctx) {
         ctx.respond = false;
         const requestedData = ctx.query.request;
         let results;

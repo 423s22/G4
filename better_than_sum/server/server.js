@@ -109,8 +109,12 @@ app.prepare().then(async() => {
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
-            await dbConn.handleRequest(ctx);
+            await dbConn.handleGetRequest(ctx);
         }
+    });
+
+    router.post("/database/post/", async(ctx) => {
+        console.log(ctx.request.body);
     });
 
     router.get("(.*)", async(ctx) => {
