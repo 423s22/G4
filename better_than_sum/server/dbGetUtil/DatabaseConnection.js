@@ -67,17 +67,17 @@ export default class DatabaseConnection {
 
     async _getVariationGroupsJSON(productID) {
         let results = await this._connection.awaitQuery(
-            `SELECT * FROM Variations WHERE OwningProduct = ?`, [productID]
+            `SELECT * FROM Variations WHERE owningProduct = ?`, [productID]
         );
         return JSON.stringify(results);
     }
 
     async _getVariationBlockers(variationID) {
         let resultsA = await this._connection.awaitQuery(
-            `SELECT exludeVariationB FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
+            `SELECT exlcudeVariationB FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
         );
         let resultsB = await this._connection.awaitQuery(
-            `SELECT exludeVariationA FROM VariationBlockers WHERE excludeVariationB = ?`, [variationID]
+            `SELECT exlcudeVariationA FROM VariationBlockers WHERE excludeVariationB = ?`, [variationID]
         );
         // TODO: Combine resultsA with resultsB
         return JSON.stringify(resultsA.concat(resultsB));
