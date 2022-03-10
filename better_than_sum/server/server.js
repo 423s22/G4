@@ -4,9 +4,11 @@ import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
 import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
+import bodyParser from "koa-bodyparser";
 import next from "next";
 import Router from "koa-router";
 import DatabaseConnection from "./dbGetUtil/DatabaseConnection";
+
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
@@ -39,6 +41,10 @@ Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
 
 app.prepare().then(async() => {
     const server = new Koa();
+    server.use(bodyParser());
+    server.use(async ctx => {
+        ctx.body = ctx.request.body;
+    });
     const router = new Router();
     server.keys = [Shopify.Context.API_SECRET_KEY];
     server.use(
@@ -113,8 +119,8 @@ app.prepare().then(async() => {
         }
     });
 
-    router.post("/database/post/", async(ctx) => {
-        console.log(ctx);
+    router.post("/database/post/", bodyParser, async(ctx) => {
+        console.log(ctx.request.body);
     });
 
     router.get("(.*)", async(ctx) => {
