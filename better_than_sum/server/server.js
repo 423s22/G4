@@ -116,7 +116,7 @@ app.prepare().then(async() => {
         }
     });
 
-    router.post("/database/post/", bodyParser, async(ctx) => {
+    router.post("/database/post/", async(ctx) => {
         console.log(ctx.request.body);
     });
 
