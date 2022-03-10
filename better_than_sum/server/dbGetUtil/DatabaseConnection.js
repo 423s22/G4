@@ -83,6 +83,40 @@ export default class DatabaseConnection {
         return JSON.stringify(resultsA.concat(resultsB));
     }
 
+    async handlePostRequest(ctx) {
+        const post = JSON.parse(ctx.request.body);
+
+        const requestedOperation = post["operation"];
+        let results;
+        switch (requestedOperation) {
+            case "product":
+                let id = parseInt(post["productID"]);
+                let baseCost = parseInt(post["baseCost"]);
+                let name = post["name"];
+                let owningUser = parseInt(post["owningUser"]);
+                results = await this._postProduct(id != NaN ? id : null, baseCost, name, owningUser);
+                break;
+        }
+        ctx.respond = false;
+        ctx.res.write(`${results}`);
+        ctx.res.end();
+        ctx.res.statusCode = 200;
+    }
+
+    async _postProduct(id, baseCost, name, owningUser) {
+        if (id == null) {
+            let insertedID = await this._connection.awaitQuery(
+                `INSERT INTO Products (baseCost, name, owningUser) VALUES (? ? ?)`, [baseCost, name, owningUser]
+            ).insertId;
+            return JSON.stringify(insertedID);
+        } else {
+            await this._connection.awaitQuery(
+                `UPDATE Products SET (baseCost, name, owningUser) VALUES (? ? ?) WHERE productID = ?`, [baseCost, name, owningUser, id]
+            );
+            return JSON.stringify({});
+        }
+    }
+
     async connect() {
         await this._connection.awaitConnect(async function(err) {
             if (err) {

@@ -117,7 +117,7 @@ app.prepare().then(async() => {
     });
 
     router.post("/database/post/", async(ctx) => {
-        console.log(ctx.request.body);
+        dbConn.handlePostRequest(ctx);
     });
 
     router.get("(.*)", async(ctx) => {
