@@ -177,7 +177,7 @@ export default class DatabaseConnection {
     async _postVariationBlocker(blockerAId, blockerBId, isAdding) {
 
         if (isAdding) {
-            let curBlockers = JSON.parse(await _getVariationBlockersJSON(blockerAId));
+            let curBlockers = JSON.parse(await this._getVariationBlockersJSON(blockerAId));
             let blockerExists = false;
             for (let i = 0; i < curBlockers.length; i++) {
                 if (curBlockers[i]["exclude"] == blockerBId) {
