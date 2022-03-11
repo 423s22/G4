@@ -41,7 +41,7 @@ jobs:
             sleep 1
           done
     - name: Create databases
-      run: mysql --user="testUser" --password="testPassword" --database="G4db" < "dbMain.sql"
+      run: mysql -u root" --password="rootPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
     - run: npm ci
       working-directory: ./better_than_sum
@@ -50,5 +50,5 @@ jobs:
     - run: npm test --passWithNoTests
       working-directory: ./better_than_sum
     - name: Delete databases
-      run: mysql --user="testUser" --password="testPassword" --database="G4db" < "resetDB.sql"
+      run: mysql -u root" --password="rootPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
