@@ -23,7 +23,7 @@ export default class BetaState extends AppState {
 
         let req = new XMLHttpRequest();
         req.open("GET", url.toString());
-        req.onload() = function(e) {
+        req.onload = function(e) {
             console.log(req.responseText);
         }
         req.send();
