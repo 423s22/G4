@@ -108,11 +108,11 @@ export default class DatabaseConnection {
 
     async _postProduct(id, baseCost, name, owningUser) {
         if (isNaN(id)) {
-            let insertedID = await this._connection.awaitQuery(
+            let result = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
             );
-            console.log(insertedID);
-            return { "insertedID": insertedID };
+            console.log(result.insertId);
+            return { "insertedID": result.insertId };
         } else {
             await this._connection.awaitQuery(
                 `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
