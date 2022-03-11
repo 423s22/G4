@@ -97,13 +97,10 @@ export default class DatabaseConnection {
                 results = await this._postProduct(id, baseCost, name, owningUser);
                 break;
         }
-        console.log(results);
         ctx.respond = false;
         ctx.res.write(`${results}`);
         ctx.res.end();
         ctx.res.statusCode = 200;
-        ctx.body = results;
-        ctx.status = 200;
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
@@ -111,7 +108,6 @@ export default class DatabaseConnection {
             let result = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
             );
-            console.log(result.insertId);
             return { "insertedID": result.insertId };
         } else {
             await this._connection.awaitQuery(
