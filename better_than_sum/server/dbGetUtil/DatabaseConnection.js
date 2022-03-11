@@ -99,7 +99,7 @@ export default class DatabaseConnection {
         }
         console.log(results);
         ctx.respond = false;
-        ctx.res.write(results);
+        ctx.res.write(`${results}`);
         ctx.res.end();
         ctx.res.statusCode = 200;
         ctx.body = results;
@@ -110,7 +110,8 @@ export default class DatabaseConnection {
         if (isNaN(id)) {
             let insertedID = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
-            )["insertId"];
+            );
+            console.log(insertedID);
             return { "insertedID": insertedID };
         } else {
             await this._connection.awaitQuery(
