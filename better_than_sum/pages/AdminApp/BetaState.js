@@ -24,12 +24,20 @@ export default class BetaState extends AppState {
         let req = new XMLHttpRequest();
         req.open("GET", url.toString());
         req.onload = function(e) {
-            console.log(req.responseText);
+            let responseJSON = JSON.parse(req.responseText);
+            let innerHTML = "";
+            for (let i = 0; i < responseJSON.length; i++) {
+                let id = responseJSON[i]["productID"];
+                let baseCost = responseJSON[i]["baseCost"];
+                let name = responseJSON[i]["name"];
+                innerHTML += "<h1>Id: " + id + " | Name: " + name + " | Base Cost: " + baseCost + "</h1>";
+            }
+            appDiv.innerHTML = innerHTML;
         }
         req.send();
 
         appDiv.innerHTML = `
-        <h1>${url.toString()}</h1>
+        <h1>Loading Data...</h1>
         `;
     }
 }
