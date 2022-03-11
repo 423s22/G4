@@ -1,4 +1,4 @@
-const DatabaseConnection = require("./DatabaseConnection");
+import DatabaseConnection from "./DatabaseConnection";
 
 test("Tests database connection", () => {
     let dbConn = new DatabaseConnection("localhost", "testUser", "testPassword", "G4db");
