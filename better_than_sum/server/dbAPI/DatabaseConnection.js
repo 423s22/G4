@@ -191,35 +191,32 @@ export default class DatabaseConnection {
     }
 
     async handleDeleteRequest(ctx) {
-        const post = ctx.request.body;
 
-        console.log(ctx);
-
-        const requestedOperation = post["operation"];
+        const requestedOperation = ctx.query.operation;
         let results;
         switch (requestedOperation) {
             case "product":
                 {
-                    let id = parseInt(post["productID"]);
+                    let id = parseInt(ctx.query.productID);
                     results = await this._deleteProduct(id);
                     break;
                 }
             case "variationGroup":
                 {
-                    let id = parseInt(post["groupID"]);
+                    let id = parseInt(ctx.query.groupID);
                     results = await this._deleteVariationGroup(id);
                     break;
                 }
             case "variation":
                 {
-                    let id = parseInt(post["variationID"]);
+                    let id = parseInt(ctx.query.variationID);
                     results = await this._deleteVariation(id);
                     break;
                 }
             case "variationBlocker":
                 {
-                    let blockerAID = parseInt(post["blockerAID"]);
-                    let blockerBID = parseInt(post["blockerBID"]);
+                    let blockerAID = parseInt(ctx.query.blockerAID);
+                    let blockerBID = parseInt(ctx.query.blockerBID);
                     results = await this._deleteVariationBlocker(blockerAID, blockerBID);
                     break;
                 }
