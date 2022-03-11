@@ -35,7 +35,7 @@ jobs:
         mysql user: 'testUser'
         mysql password: 'testPassword'
     - name: Create databases
-      run: mysql -u testUser -p testPassword G4db < dbMain.sql
+      run: mysql --user="testUser" --password="testPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
     - run: npm ci
       working-directory: ./better_than_sum
