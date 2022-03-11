@@ -193,6 +193,8 @@ export default class DatabaseConnection {
     async handleDeleteRequest(ctx) {
         const post = ctx.request.body;
 
+        console.log(ctx);
+
         const requestedOperation = post["operation"];
         let results;
         switch (requestedOperation) {
