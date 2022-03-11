@@ -34,8 +34,8 @@ jobs:
         mysql database: 'G4db'
         mysql user: 'testUser'
         mysql password: 'testPassword'
-    - name: Start MySQL (SUDO)
-      run: sudo service mysql start
+    - name: Restart MySQL (SUDO)
+      run: sudo service mysql restart
     - name: Create databases
       run: mysql --user="testUser" --password="testPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
