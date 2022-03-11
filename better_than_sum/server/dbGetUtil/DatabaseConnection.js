@@ -28,7 +28,7 @@ export default class DatabaseConnection {
                 results = await this._getVariationGroupsJSON(parseInt(ctx.query.productID));
                 break;
             case "variationBlockers":
-                results = await this._getVariationBlockers(parseInt(ctx.query.variationID));
+                results = await this._getVariationBlockersJSON(parseInt(ctx.query.variationID));
                 break;
         }
         ctx.res.write(`${results}`);
@@ -72,7 +72,7 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
-    async _getVariationBlockers(variationID) {
+    async _getVariationBlockersJSON(variationID) {
         let resultsA = await this._connection.awaitQuery(
             `SELECT excludeVariationB AS exclude FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
         );
@@ -90,12 +90,40 @@ export default class DatabaseConnection {
         let results;
         switch (requestedOperation) {
             case "product":
-                let id = parseInt(post["productID"]);
-                let baseCost = parseInt(post["baseCost"]);
-                let name = post["name"];
-                let owningUser = parseInt(post["owningUser"]);
-                results = await this._postProduct(id, baseCost, name, owningUser);
-                break;
+                {
+                    let id = parseInt(post["productID"]);
+                    let baseCost = parseInt(post["baseCost"]);
+                    let name = post["name"];
+                    let owningUser = parseInt(post["owningUser"]);
+                    results = await this._postProduct(id, baseCost, name, owningUser);
+                    break;
+                }
+            case "variationGroup":
+                {
+                    let id = parseInt(post["groupID"]);
+                    let name = post["name"];
+                    let owningProduct = parseInt(post["owningProduct"]);
+                    results = await this._postVariationGroup(id, name, owningProduct);
+                    break;
+                }
+            case "variation":
+                {
+                    let id = parseInt(post["variationID"]);
+                    let addedCost = parseInt(post["addedCost"]);
+                    let name = post["name"];
+                    let owningGroup = parseInt(post["owningGroup"]);
+                    results = await this._postVariation(id, addedCost, name, owningGroup);
+                    break;
+                }
+            case "variationBlocker":
+                {
+                    let blockerAID = parseInt(post["blockerAID"]);
+                    let blockerBID = parseInt(post["blockerBID"]);
+                    let isAdding = post["isAdding"];
+                    if (isAdding == null) isAdding = true;
+                    results = await this._postVariationBlocker(blockerAID, blockerBID, isAdding);
+                    break;
+                }
         }
         ctx.respond = false;
         ctx.res.statusCode = 200;
@@ -114,6 +142,62 @@ export default class DatabaseConnection {
             await this._connection.awaitQuery(
                 `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
             );
+            return JSON.stringify({});
+        }
+    }
+
+    async _postVariationGroup(id, name, owningProduct) {
+        if (isNaN(id)) {
+            let result = await this._connection.awaitQuery(
+                `INSERT INTO ProductVariations (name, owningProduct) VALUES (?, ?);`, [name, owningProduct]
+            );
+            return JSON.stringify({ "insertedID": result.insertId });
+        } else {
+            await this._connection.awaitQuery(
+                `UPDATE ProductVariations SET name = ?, owningProduct = ? WHERE groupID = ?;`, [baseCost, name, owningUser, id]
+            );
+            return JSON.stringify({});
+        }
+    }
+
+    async _postVariation(id, addedCost, name, owningGroup) {
+        if (isNaN(id)) {
+            let result = await this._connection.awaitQuery(
+                `INSERT INTO Variations (addedCost, name, owningGroup) VALUES (?, ?, ?);`, [addedCost, name, owningGroup]
+            );
+            return JSON.stringify({ "insertedID": result.insertId });
+        } else {
+            await this._connection.awaitQuery(
+                `UPDATE Variations SET addedCost = ?, name = ?, owningGroup = ? WHERE variationID = ?;`, [addedCost, name, owningGroup, id]
+            );
+            return JSON.stringify({});
+        }
+    }
+
+    async _postVariationBlocker(blockerAId, blockerBId, isAdding) {
+
+        if (isAdding) {
+            let curBlockers = JSON.parse(await _getVariationBlockers(blockerAId));
+            let blockerExists = false;
+            for (let i = 0; i < curBlockers.length; i++) {
+                if (curBlockers[i]["exclude"] == blockerBId) {
+                    blockerExists = true;
+                    break;
+                }
+            }
+            if (blockerExists) return JSON.stringify({});
+
+            let result = await this._connection.awaitQuery(
+                `INSERT INTO VariationBlockers (excludeVariationA, excludeVariationB) VALUES (?, ?);`, [blockerAId, blockerBId]
+            );
+            return JSON.stringify({ "insertedID": result.insertId });
+
+        } else {
+            // Removing blocker
+            await this._connection.awaitQuery(
+                `DELETE FROM VariationBlockers WHERE 
+                    (excludeVariationA = ? AND excludeVariationB = ?) OR 
+                    (excludeVariationA = ? AND excludeVariationB = ?)`, [blockerAId, blockerBId, blockerBId, blockerAId]);
             return JSON.stringify({});
         }
     }
