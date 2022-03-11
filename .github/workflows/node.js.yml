@@ -1,0 +1,54 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Shutdown Ubuntu MySQL (SUDO)
+      run: sudo service mysql stop
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache-dependency-path: ./better_than_sum/package-lock.json
+    - name: Set up MySQL 5.7
+      uses: mirromutth/mysql-action@master
+      with:
+        mysql version: 5.7
+        mysql database: 'G4db'
+        mysql user: 'testUser'
+        mysql password: 'testPassword'
+        mysql root password: 'rootPassword'
+    - name: Wait for MySQL
+      run: |
+          while ! mysqladmin ping --host=127.0.0.1 --password="rootPassword" --silent; do
+            sleep 1
+          done
+    - name: Create databases
+      run: mysql -u root --host=127.0.0.1 --password="rootPassword" --database="G4db" < "dbMain.sql"
+      working-directory: ./better_than_sum/SQL
+    - run: npm ci
+      working-directory: ./better_than_sum
+    - run: npm run build --if-present
+      working-directory: ./better_than_sum
+    - run: npm test --passWithNoTests
+      working-directory: ./better_than_sum
+    - name: Delete databases
+      run: mysql -u root --host=127.0.0.1 --password="rootPassword" --database="G4db" < "resetDB.sql"
+      working-directory: ./better_than_sum/SQL
