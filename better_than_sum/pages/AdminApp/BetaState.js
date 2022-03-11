@@ -4,6 +4,7 @@ export default class BetaState extends AppState {
     constructor(app) {
         super(app);
         this._productDiv = null;
+        this._lastInsertedID = null;
     }
 
     onEnable() {
@@ -34,6 +35,10 @@ export default class BetaState extends AppState {
         }
         appDiv.appendChild(newProductBtn);
 
+        this._lastInsertedID = document.createElement("h1");
+        this._lastInsertedID.innerHTML = "No Prior Insertions";
+        appDiv.appendChild(this._lastInsertedID)
+
     }
 
     async _addRandomProduct() {
@@ -44,14 +49,14 @@ export default class BetaState extends AppState {
         req.open("POST", url.toString());
         req.setRequestHeader("Content-type", "application/json");
         req.onload = () => {
-            console.log(req.responseText);
+            this._lastInsertedID.innerHTML = "Last Inserted ID: " + JSON.parse(req.responseText)["insertedID"];
             return true;
         }
 
         req.send(JSON.stringify({
             "operation": "product",
             "baseCost": Math.floor(Math.random() * 100),
-            "name": "Random Product: " + Math.floor(Math.random * 1000),
+            "name": "Random Product " + (Math.floor(Math.random * 1000)),
             "owningUser": 1
         }));
     }
