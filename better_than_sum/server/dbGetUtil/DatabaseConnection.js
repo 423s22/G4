@@ -97,10 +97,8 @@ export default class DatabaseConnection {
                 results = await this._postProduct(id, baseCost, name, owningUser);
                 break;
         }
-        ctx.respond = false;
-        ctx.res.write(`${results}`);
-        ctx.res.end();
-        ctx.res.statusCode = 200;
+        ctx.body = `${results}`;
+        ctx.status = 200;
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
