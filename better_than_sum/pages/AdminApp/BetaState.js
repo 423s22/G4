@@ -3,6 +3,7 @@ import AppState from "./AppState";
 export default class BetaState extends AppState {
     constructor(app) {
         super(app);
+        this._productDiv = null;
     }
 
     onEnable() {
@@ -44,7 +45,7 @@ export default class BetaState extends AppState {
 
         let req = new XMLHttpRequest();
         req.open("GET", url.toString());
-        req.onload = function(e) {
+        req.onload = () => {
             let responseJSON = JSON.parse(req.responseText);
             let innerHTML = "";
             for (let i = 0; i < responseJSON.length; i++) {
