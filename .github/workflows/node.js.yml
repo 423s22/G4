@@ -8,7 +8,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+defaults:
+  run:
+    working-directory: ./better_than_sum
 jobs:
   build:
 
@@ -21,17 +23,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        working-directory: ./better_than_sum
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        working-directory: ./better_than_sum
     - run: npm ci
-      working-directory: ./better_than_sum
     - run: npm run build --if-present
-      working-directory: ./better_than_sum
     - run: npm test
-      working-directory: ./better_than_sum
