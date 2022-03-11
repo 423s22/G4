@@ -91,6 +91,8 @@ export default class DatabaseConnection {
         switch (requestedOperation) {
             case "product":
                 let id = parseInt(post["productID"]);
+                console.log(id === NaN);
+                console.log(id == NaN);
                 if (post["productID"] == null || post["productID"] == undefined) id = null;
                 let baseCost = parseInt(post["baseCost"]);
                 let name = post["name"];
@@ -105,12 +107,12 @@ export default class DatabaseConnection {
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
-        console.log(id);
         if (id === null || id === NaN || id === undefined || id === "NaN") {
-            let insertedID = await this._connection.awaitQuery(
+            let results = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
-            ).insertId;
-            return JSON.stringify(insertedID);
+            );
+            console.log(results);
+            return JSON.stringify(results);
         } else {
             await this._connection.awaitQuery(
                 `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
