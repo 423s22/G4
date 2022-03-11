@@ -34,8 +34,12 @@ jobs:
         mysql database: 'G4db'
         mysql user: 'testUser'
         mysql password: 'testPassword'
+        mysql root password: 'rootPassword'
     - name: Wait for MySQL
-      run: sleep 15
+      run: |
+          while ! mysqladmin ping --host=127.0.0.1 --password="rootPassword" --silent; do
+            sleep 1
+          done
     - name: Create databases
       run: mysql --user="testUser" --password="testPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
