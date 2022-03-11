@@ -97,7 +97,7 @@ export default class DatabaseConnection {
                 results = await this._postProduct(id, baseCost, name, owningUser);
                 break;
         }
-        ctx.body = `${results}`;
+        ctx.body = results;
         ctx.status = 200;
     }
 
@@ -106,12 +106,12 @@ export default class DatabaseConnection {
             let insertedID = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
             ).insertId;
-            return JSON.stringify({ "insertedID": insertedID });
+            return { "insertedID": insertedID };
         } else {
             await this._connection.awaitQuery(
                 `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
             );
-            return JSON.stringify({});
+            return {};
         }
     }
 
