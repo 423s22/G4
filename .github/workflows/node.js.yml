@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -34,6 +34,8 @@ jobs:
         mysql database: 'G4db'
         mysql user: 'testUser'
         mysql password: 'testPassword'
+    - name: Start MySQL (SUDO)
+      run: sudo service mysql start
     - name: Create databases
       run: mysql --user="testUser" --password="testPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
@@ -44,5 +46,5 @@ jobs:
     - run: npm test --passWithNoTests
       working-directory: ./better_than_sum
     - name: Delete databases
-      run: mysql -u testUser -p testPassword G4db < resetDB.sql
+      run: mysql --user="testUser" --password="testPassword" --database="G4db" < "resetDB.sql"
       working-directory: ./better_than_sum/SQL
