@@ -154,7 +154,7 @@ export default class DatabaseConnection {
             return JSON.stringify({ "insertedID": result.insertId });
         } else {
             await this._connection.awaitQuery(
-                `UPDATE VariationGroups SET name = ?, owningProduct = ? WHERE groupID = ?;`, [baseCost, name, owningUser, id]
+                `UPDATE VariationGroups SET name = ?, owningProduct = ? WHERE groupID = ?;`, [name, owningProduct, id]
             );
             return JSON.stringify({});
         }
