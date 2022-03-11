@@ -79,7 +79,6 @@ export default class DatabaseConnection {
         let resultsB = await this._connection.awaitQuery(
             `SELECT excludeVariationA AS exclude FROM VariationBlockers WHERE excludeVariationB = ?`, [variationID]
         );
-        // TODO: Combine resultsA with resultsB
         return JSON.stringify(resultsA.concat(resultsB));
     }
 
@@ -119,9 +118,7 @@ export default class DatabaseConnection {
                 {
                     let blockerAID = parseInt(post["blockerAID"]);
                     let blockerBID = parseInt(post["blockerBID"]);
-                    let isAdding = post["isAdding"];
-                    if (isAdding == null) isAdding = true;
-                    results = await this._postVariationBlocker(blockerAID, blockerBID, isAdding);
+                    results = await this._postVariationBlocker(blockerAID, blockerBID);
                     break;
                 }
         }
@@ -174,31 +171,107 @@ export default class DatabaseConnection {
         }
     }
 
-    async _postVariationBlocker(blockerAId, blockerBId, isAdding) {
+    async _postVariationBlocker(blockerAId, blockerBId) {
 
-        if (isAdding) {
-            let curBlockers = JSON.parse(await this._getVariationBlockersJSON(blockerAId));
-            let blockerExists = false;
-            for (let i = 0; i < curBlockers.length; i++) {
-                if (curBlockers[i]["exclude"] == blockerBId) {
-                    blockerExists = true;
+        let curBlockers = JSON.parse(await this._getVariationBlockersJSON(blockerAId));
+        let blockerExists = false;
+        for (let i = 0; i < curBlockers.length; i++) {
+            if (curBlockers[i]["exclude"] == blockerBId) {
+                blockerExists = true;
+                break;
+            }
+        }
+        if (blockerExists) return JSON.stringify({});
+
+        await this._connection.awaitQuery(
+            `INSERT INTO VariationBlockers (excludeVariationA, excludeVariationB) VALUES (?, ?);`, [blockerAId, blockerBId]
+        );
+        return JSON.stringify({ "inserted": true });
+
+    }
+
+    async handleDeleteRequest(ctx) {
+        const post = ctx.request.body;
+
+        const requestedOperation = post["operation"];
+        let results;
+        switch (requestedOperation) {
+            case "product":
+                {
+                    let id = parseInt(post["productID"]);
+                    results = await this._deleteProduct(id);
                     break;
                 }
-            }
-            if (blockerExists) return JSON.stringify({});
+            case "variationGroup":
+                {
+                    let id = parseInt(post["groupID"]);
+                    results = await this._deleteVariationGroup(id);
+                    break;
+                }
+            case "variation":
+                {
+                    let id = parseInt(post["variationID"]);
+                    results = await this._deleteVariation(id);
+                    break;
+                }
+            case "variationBlocker":
+                {
+                    let blockerAID = parseInt(post["blockerAID"]);
+                    let blockerBID = parseInt(post["blockerBID"]);
+                    results = await this._deleteVariationBlocker(blockerAID, blockerBID);
+                    break;
+                }
+        }
+        ctx.respond = false;
+        ctx.res.statusCode = 200;
+        ctx.status = 200;
+        ctx.res.write(`${results}`);
+        ctx.res.end();
+    }
 
-            let result = await this._connection.awaitQuery(
-                `INSERT INTO VariationBlockers (excludeVariationA, excludeVariationB) VALUES (?, ?);`, [blockerAId, blockerBId]
-            );
-            return JSON.stringify({ "insertedID": result.insertId });
-
+    async _deleteProduct(id) {
+        if (isNaN(id)) {
+            return JSON.stringify({ "message": "Invalid ID" });
         } else {
-            // Removing blocker
+            await this._connection.awaitQuery(
+                `DELETE FROM Products WHERE productID = ?;`, [id]
+            );
+            return JSON.stringify({ "message": "Successfully deleted" });
+        }
+    }
+
+    async _deleteVariationGroup(id) {
+        if (isNaN(id)) {
+            return JSON.stringify({ "message": "Invalid ID" });
+        } else {
+            await this._connection.awaitQuery(
+                `DELETE FROM VariationGroups WHERE groupID = ?;`, [id]
+            );
+            return JSON.stringify({ "message": "Successfully deleted" });
+        }
+    }
+
+    async _deleteVariation(id) {
+        if (isNaN(id)) {
+            return JSON.stringify({ "message": "Invalid ID" });
+        } else {
+            await this._connection.awaitQuery(
+                `DELETE FROM Variations WHERE variationID = ?;`, [id]
+            );
+            return JSON.stringify({ "message": "Successfully deleted" });
+        }
+    }
+
+    async _deleteVariationBlocker(blockerAID, blockerBID) {
+        if (isNaN(blockerAID) || isNaN(blockerBID)) {
+            return JSON.stringify({ "message": "Invalid ID" });
+        } else {
             await this._connection.awaitQuery(
                 `DELETE FROM VariationBlockers WHERE 
-                    (excludeVariationA = ? AND excludeVariationB = ?) OR 
-                    (excludeVariationA = ? AND excludeVariationB = ?)`, [blockerAId, blockerBId, blockerBId, blockerAId]);
-            return JSON.stringify({});
+                (excludeVariationA = ? AND excludeVariationB = ?) OR 
+                (excludeVariationA = ? AND excludeVariationB = ?);`, [blockerAID, blockerBID, blockerBID, blockerAID]
+            );
+            return JSON.stringify({ "message": "Successfully deleted" });
         }
     }
 

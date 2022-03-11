@@ -7,7 +7,7 @@ import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import next from "next";
 import Router from "koa-router";
-import DatabaseConnection from "./dbGetUtil/DatabaseConnection";
+import DatabaseConnection from "./dbAPI/DatabaseConnection";
 
 
 dotenv.config();
@@ -118,6 +118,10 @@ app.prepare().then(async() => {
 
     router.post("/database/post/", async(ctx) => {
         await dbConn.handlePostRequest(ctx);
+    });
+
+    router.delete("/database/delete/", async(ctx) => {
+        await dbConn.handleDeleteRequest(ctx);
     });
 
     router.get("(.*)", async(ctx) => {
