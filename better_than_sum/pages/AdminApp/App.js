@@ -5,11 +5,16 @@ export default class App {
         console.log("constructed");
         this._state = new BetaState(this);
         this._state.onEnable();
+        this._running = false;
     }
 
     start() {
-        console.log("Started!");
+        this._running = true;
         this._state.onRender("appDiv");
+    }
+
+    isRunning() {
+        return this._running;
     }
 }
 // TODO: Implement

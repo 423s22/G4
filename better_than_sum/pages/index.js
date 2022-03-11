@@ -10,7 +10,7 @@ export default function Index() {
 	}
 
 	useEffect(() => {
-		if (typeof window === "object")
+		if (typeof window === "object" && !app.isRunning())
 			app.start();
 	}, []);
 

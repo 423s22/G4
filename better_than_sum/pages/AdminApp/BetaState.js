@@ -34,6 +34,7 @@ export default class BetaState extends AppState {
             }
             appDiv.innerHTML = innerHTML;
         }
+        req.send();
 
         appDiv.innerHTML = `
         <h1>Loading Data...</h1>
