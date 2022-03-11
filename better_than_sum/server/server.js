@@ -106,7 +106,7 @@ app.prepare().then(async() => {
 
     dbConn.connect();
 
-    router.get("/database/get/", async(ctx) => {
+    router.get("/database/", async(ctx) => {
         // Handle get request from database
         // Check the shop is active
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
@@ -116,11 +116,11 @@ app.prepare().then(async() => {
         }
     });
 
-    router.post("/database/post/", async(ctx) => {
+    router.post("/database/", async(ctx) => {
         await dbConn.handlePostRequest(ctx);
     });
 
-    router.delete("/database/delete/", async(ctx) => {
+    router.delete("/database/", async(ctx) => {
         await dbConn.handleDeleteRequest(ctx);
     });
 
