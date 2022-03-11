@@ -101,6 +101,7 @@ export default class DatabaseConnection {
         ctx.res.write(`${results}`);
         ctx.res.end();
         ctx.res.statusCode = 200;
+        ctx.status = 200;
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
@@ -108,12 +109,12 @@ export default class DatabaseConnection {
             let result = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
             );
-            return { "insertedID": result.insertId };
+            return JSON.stringify({ "insertedID": result.insertId });
         } else {
             await this._connection.awaitQuery(
                 `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
             );
-            return {};
+            return JSON.stringify({});
         }
     }
 
