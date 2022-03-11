@@ -50,5 +50,5 @@ jobs:
     - run: npm test --passWithNoTests
       working-directory: ./better_than_sum
     - name: Delete databases
-      run: mysql -u root --host=127.0.0.1 --password="rootPassword" --database="G4db" < "dbMain.sql"
+      run: mysql -u root --host=127.0.0.1 --password="rootPassword" --database="G4db" < "resetDB.sql"
       working-directory: ./better_than_sum/SQL
