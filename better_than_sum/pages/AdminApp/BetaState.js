@@ -50,7 +50,6 @@ export default class BetaState extends AppState {
         req.setRequestHeader("Content-type", "application/json");
         req.onload = () => {
             this._lastInsertedID.innerHTML = "Last Inserted ID: " + JSON.parse(req.responseText)["insertedID"];
-            return true;
         }
 
         req.send(JSON.stringify({
@@ -59,6 +58,7 @@ export default class BetaState extends AppState {
             "name": "Random Product " + (Math.floor(Math.random() * 1000)),
             "owningUser": 1
         }));
+
     }
 
     _updateProductDiv() {
