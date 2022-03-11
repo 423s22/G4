@@ -28,14 +28,15 @@ export default class BetaState extends AppState {
         newProductBtn.innerHTML = "Generate Random Product";
         newProductBtn.onclick = () => {
             // TODO: Generate random product
-            this._addRandomProduct();
-            this._updateProductDiv();
+            this._addRandomProduct().then(() => {
+                this._updateProductDiv();
+            });
         }
         appDiv.appendChild(newProductBtn);
 
     }
 
-    _addRandomProduct() {
+    async _addRandomProduct() {
         let url = new URL(window.location.href);
         url.pathname += "database/";
 
@@ -43,16 +44,16 @@ export default class BetaState extends AppState {
         req.open("POST", url.toString());
         req.setRequestHeader("Content-type", "application/json");
         req.onload = () => {
-            let responseJSON = JSON.parse(req.responseText);
-            console.log(responseJSON);
+            console.log(req.responseText);
+            return true;
         }
 
-        req.send({
+        req.send(JSON.stringify({
             "operation": "product",
             "baseCost": Math.floor(Math.random() * 100),
             "name": "Random Product: " + Math.floor(Math.random * 1000),
             "owningUser": 1
-        });
+        }));
     }
 
     _updateProductDiv() {
