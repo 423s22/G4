@@ -6,7 +6,7 @@ export default function Index() {
 
 	if (typeof window === "object") {
 		let app = new App();
-		app.start();
+		document.addEventListener("DOMContentLoaded", (event) => { app.start() });
 	}
 
 	return (
