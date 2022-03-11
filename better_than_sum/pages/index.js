@@ -1,5 +1,6 @@
 import { Heading, Page } from "@shopify/polaris";
 import App from "./AdminApp/App";
+import React, { useState, useEffect } from 'react';
 
 export default function Index() {
 
