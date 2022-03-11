@@ -5,10 +5,10 @@ export default class AppState {
         this._app = app;
     }
 
-    onEnable();
+    onEnable() {}
 
-    onDisable();
+    onDisable() {}
 
-    onRender(divID);
+    onRender(divID) {}
 
 }
