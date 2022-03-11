@@ -110,6 +110,7 @@ app.prepare().then(async() => {
         // Handle get request from database
         // Check the shop is active
         if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
+            const shop = ctx.query.shop;
             ctx.redirect(`/auth?shop=${shop}`);
         } else {
             await dbConn.handleGetRequest(ctx);
