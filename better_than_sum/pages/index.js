@@ -4,13 +4,15 @@ import React, { useState, useEffect } from 'react';
 
 export default function Index() {
 
-
+	let app;
 	if (typeof window === "object") {
-		let app = new App();
-		useEffect(() => {
-			app.start();
-		}, []);
+		app = new App();
 	}
+
+	useEffect(() => {
+		if (typeof window === "object")
+			app.start();
+	}, []);
 
 	return (
 		<Page>
