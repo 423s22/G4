@@ -97,6 +97,9 @@ export default class DatabaseConnection {
                 results = await this._postProduct(id, baseCost, name, owningUser);
                 break;
         }
+        ctx.respond = false;
+        ctx.response.body = results;
+        ctx.response.status = 200;
         ctx.body = results;
         ctx.status = 200;
     }
