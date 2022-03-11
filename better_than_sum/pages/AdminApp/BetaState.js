@@ -56,7 +56,7 @@ export default class BetaState extends AppState {
         req.send(JSON.stringify({
             "operation": "product",
             "baseCost": Math.floor(Math.random() * 100),
-            "name": "Random Product " + (Math.floor(Math.random * 1000)),
+            "name": "Random Product " + (Math.floor(Math.random() * 1000)),
             "owningUser": 1
         }));
     }
