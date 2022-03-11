@@ -149,12 +149,12 @@ export default class DatabaseConnection {
     async _postVariationGroup(id, name, owningProduct) {
         if (isNaN(id)) {
             let result = await this._connection.awaitQuery(
-                `INSERT INTO ProductVariations (name, owningProduct) VALUES (?, ?);`, [name, owningProduct]
+                `INSERT INTO VariationGroups (name, owningProduct) VALUES (?, ?);`, [name, owningProduct]
             );
             return JSON.stringify({ "insertedID": result.insertId });
         } else {
             await this._connection.awaitQuery(
-                `UPDATE ProductVariations SET name = ?, owningProduct = ? WHERE groupID = ?;`, [baseCost, name, owningUser, id]
+                `UPDATE VariationGroups SET name = ?, owningProduct = ? WHERE groupID = ?;`, [baseCost, name, owningUser, id]
             );
             return JSON.stringify({});
         }
