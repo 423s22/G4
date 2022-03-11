@@ -18,9 +18,15 @@ export default class BetaState extends AppState {
 
         let url = new URL(window.location.href);
         url.pathname += "database/";
+        url.searchParams.append("request", "userProducts");
+        url.searchParams.append("userID", "1");
 
-        //let req = new XMLHttpRequest();
-        //req.open("GET")
+        let req = new XMLHttpRequest();
+        req.open("GET", url.toString());
+        req.onload() = function(e) {
+            console.log(req.responseText);
+        }
+        req.send();
 
         appDiv.innerHTML = `
         <h1>${url.toString()}</h1>
