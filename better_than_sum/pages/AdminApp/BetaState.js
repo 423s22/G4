@@ -16,11 +16,16 @@ export default class BetaState extends AppState {
     onRender(divID) {
         let appDiv = document.getElementById(divID);
 
+        let url = new URL(window.location.href);
+        url.pathname += "/database/";
+
+        console.log(url.pathname);
+
         //let req = new XMLHttpRequest();
         //req.open("GET")
 
         appDiv.innerHTML = `
-        <h1>${window.location.href}</h1>
+        <h1>${url.pathname}</h1>
         `;
     }
 }
