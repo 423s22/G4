@@ -10,13 +10,13 @@ Gather tools ahead and be able to have some help prior to the end of the sprint.
 
 # Jacob Hofer
 ## What went well?
-Dividing up different parts of the project equally so everyone had a different part of the project to work on that suited their strengths.
+Getting the actual development loop started and creating functionality. Each core part of our software is there, so now we are able to focus on writing all of the actual logic.
 
 ## What failed?
-Accidental miscommunication about what the "developer architecture" actually meant. This caused Faith and I to work on the same diagram. In the end this worked out well though, as we both gained a better understanding of how best to design our app.
+As a whole documentation about Shopify, React, etc. is lacking a decent amount. This meant we had a lot of trial and error on our part, which ate up a ton of time. Small nuances in things like GET/POST requests, or the order of events in React added extra difficulty.
 
 ## What to do differently?
-Increase cohesion between different tasks. The tasks were a bit too discrete, and this caused integration issues when bringing all of them together.
+Focus much more on research and sharing information between all three of us. Setting up better workflows for personal development will also help immensely, instead of all three of us attempting to develop on the same server and the same store.
 
 # Megan Fehres
 ## What went Well?
