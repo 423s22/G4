@@ -1,12 +1,12 @@
 # Faith Nelson
 ## What went well?
-We communicated that we were having difficulties, and we helped each other through. The review process also allowed us to make sure we were all on the same page and not get too confused for the entire project.
+We communicated that we were having difficulties, and we helped each other through. We also meet throughout the week allowing for a little bit of a longer block of time giving more access to communication and work. 
 
 ## What failed?
-I was a little confused about what we were wanting to do and that made it difficult to get started and to create content that was acceptable.
+I felt like I was not helping, and that I maybe didn't have the tools to complete the task given, in the time I had. 
 
 ## What to do differently?
-Define a little more of how we want to design things together as a group before separating off to do the designing. Because if we are each designing things differently they may not all mesh together.
+Gather tools ahead and be able to have some help prior to the end of the sprint. 
 
 # Jacob Hofer
 ## What went well?
