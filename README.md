@@ -21,18 +21,29 @@ Shopify App
 
 2. Create a Shopify partner account and development store to deploy the app to
 
-2. [Install the Shopify CLI, Node.js, npm, and Ruby](https://shopify.dev/apps/tools/cli/installation)
+3. [Install the Shopify CLI, Node.js, npm, and Ruby](https://shopify.dev/apps/tools/cli/installation)
 
 
-3. Run `shopify login` to login to your Shopify partner account
+4. Run `shopify login` to login to your Shopify partner account
 
-4. Create an account on ngrok to obtain an auth token
+5. Create an account on ngrok to obtain an auth token
 
-5. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
+6. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
 
-6. `cd` into the `better_that_sum` and run `shopify app serve`
+7. Setup a MySQL server on the same machine running the app.
 
-7. Open the URL provided by the terminal to install the app on your development store
+8. Run the SQL files located in `better_than_sum/SQL`. Create a database named `G4db` and a user that can access it
+
+9. Add the following to the `better_than_sum/.env` file:
+  ```js
+  MYSQL_USER=
+  MYSQL_PASS=
+  ```
+  Fill in the fields with the username and password of the previously created MySQL user.
+
+10. `cd` into the `better_that_sum` and run `shopify app serve`
+
+11. Open the URL provided by the terminal to install the app on your development store
 
 
 ## Contributions
