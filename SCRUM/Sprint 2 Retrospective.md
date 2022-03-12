@@ -20,10 +20,10 @@ Increase cohesion between different tasks. The tasks were a bit too discrete, an
 
 # Megan Fehres
 ## What went Well?
-We found a candidate solution to one of our post major questions and client demands, and the structure of the app is begginig to have a solid formation. We all have a solid picture of the structure of the application after considering its basic architecture.
+We got a large part of the Architecture of our app done, and our database is solid. We communicated more than previous sprint, and asked other memebers for help when needed. Each member knew what the other was working on, how it was going, and what difficulties they may have. 
 
 ## What failed?
-Many blockers this week, not-ideal comunication of how each of our tasks works together and how we can all come together to find a solution.
+It was a very busy 2 weeks in my personal life which made me push things father off than I anticipated. I struggled with the command line portion of the app development, making it hard to truly contribute the work i knew I could do. There were minimal resources on how to fix the issues i was having online and I spent most of my time fiddling wth the command line. 
 
 ## What to do differently?
-Involing group members in all components of the project, be it planning, back end development, and front end design and development.
+Detect personal software issues early on, find ways to contrubute work more even if I cannot work around them. 
