@@ -1,0 +1,18 @@
+{% for block in section.blocks %}  
+    {% case block.type %}
+  
+       {% when 'title' %} 	
+        <h2>{{ product.title | escape }}</h2>
+  
+      {% when 'price' %}
+        {{ product.price }}
+  
+      {% when 'vendor' %}
+        {%- if product.vendor -%}
+          <p>{{ product.vendor }}</p>
+        {%- endif -%}
+
+      {% when 'description' %}
+        <p>{{ product.description }}</p>
+    {% endcase %}
+  {% endfor %}
