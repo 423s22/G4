@@ -1,13 +1,32 @@
+# User Documentation
+
+## Table of Contents
+- [Shopify Page](#shopify-page)
+- [Requesting an Install Link](#requesting-an-install-link)
+- [Using the Install Link](#using-the-install-link)
+- [Using the Application](#using-the-application)
+- [Future Functionality](#future-functionality)
+  * [Variations and Variation Groups](#variations-and-variation-groups)
+  * [Variation Blockers](#variation-blockers)
+<br><br><br>
+
 ## Shopify Page
+An example of a store using Better Than Sum can be accessed here:
+
 [https://jacob-esof423.myshopify.com/](https://jacob-esof423.myshopify.com/)
+
+Currently the store is in development, so a password is required to access it. 
+<br><br><br>
 
 ## Requesting an Install Link
 In order to install Better Than Sum, request an install link via the [Contact Us](https://jacob-esof423.myshopify.com/pages/contact) page. 
 Include the URL of your Shopify store, and we will send the install link as soon as possible.
+<br><br><br>
 
 ## Using the Install Link
 Follow the provided link and the instructions displayed to install the app onto your own store. 
 Once installed, it will be available in your store's dashboard under the "Apps" section. 
+<br><br><br>
 
 ## Using the Application
 All of the settings are managed via the App within the Admin Page of your store.
@@ -15,6 +34,7 @@ All of the settings are managed via the App within the Admin Page of your store.
 Currently, when the app is opened, a list of all the products appears, with a button that can be clicked to add a new random product to the list.
 Clicking this button will dynamically update the list in real-time with the newly added product. 
 A note also appears below the button indicating the id of the newly created product.
+<br><br><br>
 
 ## Future Functionality
 More functionality is planned to allow for creating fully custom variations for products loaded from Shopify's base list of products.
