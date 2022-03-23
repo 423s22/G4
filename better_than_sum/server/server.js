@@ -108,12 +108,7 @@ app.prepare().then(async() => {
 
     router.get("/database/", async(ctx) => {
         // Handle get request from database
-        // Check the shop is active
-        if (ACTIVE_SHOPIFY_SHOPS[ctx.query.shop] === undefined) {
-            ctx.redirect(`/auth?shop=${shop}`);
-        } else {
-            await dbConn.handleGetRequest(ctx);
-        }
+        await dbConn.handleGetRequest(ctx);
     });
 
     router.post("/database/", async(ctx) => {
