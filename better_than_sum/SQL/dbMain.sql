@@ -49,3 +49,5 @@ CREATE TABLE VariationBlockers (
     CONSTRAINT FK_VarA FOREIGN KEY (excludeVariationA) REFERENCES Variations(variationID) ON DELETE CASCADE,
     CONSTRAINT FK_VarB FOREIGN KEY (excludeVariationB) REFERENCES Variations(variationID) ON DELETE CASCADE
 );
+
+INSERT INTO Users (name) VALUES ("Test User");

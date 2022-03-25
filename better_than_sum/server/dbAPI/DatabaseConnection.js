@@ -275,14 +275,21 @@ export default class DatabaseConnection {
     }
 
     async connect() {
-        await this._connection.awaitConnect(async function(err) {
-            if (err) {
-                this._lastError = err;
-                this._isConnected = false;
-            } else {
-                this._lastError = null;
-                this._isConnected = true;
-            }
-        });
+        if (this._isConnected) return true;
+        let err = await this._connection.awaitConnect();
+
+        if (err) {
+            this._lastError = err;
+            this._isConnected = false;
+        } else {
+            this._lastError = null;
+            this._isConnected = true;
+        }
+        return this._isConnected;
+    }
+
+    async disconnect() {
+        await this._connection.awaitEnd();
+        this._isConnected = false;
     }
 }
