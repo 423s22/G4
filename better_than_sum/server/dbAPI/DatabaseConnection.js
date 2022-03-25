@@ -275,8 +275,9 @@ export default class DatabaseConnection {
     }
 
     async connect() {
+        if (this._isConnected) return true;
         let err = await this._connection.awaitConnect();
-        console.log(err);
+
         if (err) {
             this._lastError = err;
             this._isConnected = false;
