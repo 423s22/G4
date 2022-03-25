@@ -285,4 +285,9 @@ export default class DatabaseConnection {
             }
         });
     }
+
+    async disconnect() {
+        await this._connection.awaitEnd();
+        this._isConnected = false;
+    }
 }
