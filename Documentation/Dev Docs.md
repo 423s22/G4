@@ -38,7 +38,7 @@
 
 7. Setup a MySQL server on the same machine running the app.
 
-8. Run the SQL files located in `better_than_sum/SQL`. Create a database named `G4db` and a user that can access it
+8. Create a database named `G4db` and a user that can access it. Run the SQL files located in `better_than_sum/SQL`.
 
 9. Copy the `better_than_sum/.env.example` file to `better_than-sum/.env`
 10. Fill in the following fields in `better_than_sum/.env` with the proper information
