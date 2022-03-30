@@ -52,9 +52,11 @@
   MYSQL_PASS=// Enter the password for your MySQL database here
   ```
 
-11. `cd` into the `better_than_sum` and run `shopify app serve`
+11. `cd` into the `better_than_sum`
+12. run `npm install`
+13. run `shopify app serve`
 
-12. Open the URL provided by the terminal to install the app on your development store
+14. Open the URL provided by the terminal to install the app on your development store
 <br><br><br>
 
 ## Contributions
