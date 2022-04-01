@@ -2,7 +2,7 @@ import "@babel/polyfill";
 import dotenv from "dotenv";
 import "isomorphic-fetch";
 import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
-import Shopify, { ApiVersion } from "@shopify/shopify-api";
+import Shopify, { ApiVersion, DataType } from "@shopify/shopify-api";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import next from "next";
@@ -66,8 +66,40 @@ app.prepare().then(async() => {
                 }
 
                 // Set the shop api url metafield to allow storefront to access the api
-                const adminAPIClient = new Shopify.Clients.Graphql(shop, accessToken);
-                console.log(ctx.href);
+                const restClient = new Shopify.Clients.Rest(shop, accessToken);
+                restClient.post({
+                    path: "metafields",
+                    data: {
+                        "metafield": {
+                            "namespace": "better_than_sum",
+                            "key": "apiUrl",
+                            "value": ctx.URL.host,
+                            "type": "single_line_text_field"
+                        }
+                    },
+                    type: DataType.JSON
+                });
+
+                // Expose the metafield to the storefront
+                const graphQLClient = new Shopify.Clients.Graphql(shop, accessToken);
+                const exposeQuery = `
+                mutation {
+                    metafieldStorefrontVisibilityCreate(
+                        input: {
+                            namespace: "better_than_sum"
+                            key: "apiUrl"
+                            ownerType: SHOP
+                        }
+                    ) {
+                        metafieldStorefrontVisibility {
+                            id
+                        }
+                        userErrors {
+                            field
+                            message
+                        }
+                    }
+                }`;
 
                 // Redirect to app with shop parameter upon auth
                 ctx.redirect(`/?shop=${shop}&host=${host}`);
