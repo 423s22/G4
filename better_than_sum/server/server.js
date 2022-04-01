@@ -65,6 +65,10 @@ app.prepare().then(async() => {
                     );
                 }
 
+                // Set the shop api url metafield to allow storefront to access the api
+                const adminAPIClient = new Shopify.Clients.Graphql(shop, accessToken);
+                console.log(ctx.href);
+
                 // Redirect to app with shop parameter upon auth
                 ctx.redirect(`/?shop=${shop}&host=${host}`);
             },
