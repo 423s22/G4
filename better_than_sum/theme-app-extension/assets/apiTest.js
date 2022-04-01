@@ -1,1 +1,3 @@
-console.log("Test run from apiTest.js");
+fetch("/database?request=userProducts&userID=1").then((response) => {
+    console.log(response);
+});
