@@ -102,7 +102,7 @@ app.prepare().then(async() => {
                         }
                     }
                 }`;
-                const exposeResponse = graphQLClient.query({ data: exposeQuery });
+                const exposeResponse = await graphQLClient.query({ data: exposeQuery });
                 console.log(exposeResponse);
 
                 // Redirect to app with shop parameter upon auth
