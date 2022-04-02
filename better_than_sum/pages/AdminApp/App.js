@@ -1,4 +1,5 @@
 import AppState from "./AppState";
+import navBar from "./navBar";
 import Product from "./Product";
 
 export default class App {
@@ -14,32 +15,8 @@ export default class App {
 
   start() {
     this._running = true;
-    // Created 2 divs, 1) navDiv = navBar &
-    // 2) stateDiv - going to populate information
-    // make sure to clear all childs of this in order to re-onRender()
-    let appDiv = document.getElementById("appDiv");
-    let navDiv = document.createElement("div");
-    appDiv.appendChild(navDiv);
-    navBar.id = "navDiv";
-
-    let stateDiv = document.createElement("div");
-    appDiv.appendChild(stateDiv);
-    stateDiv.id = "stateDiv";
-
-    // Adding the nav bar to
-
-    navItem = document.createElement("li");
-    navLink = document.createElement("a");
-
-    // Set properties on anchor
-    navLink.href = "DashboardState.js";
-    navLink.innerHTML = "Dashboard";
-
-    // add to div
-
-    navDiv.appendChild(navItem);
-    navDiv.appendChild(navLink);
-
+    this._navBar = new navBar();
+    this._navBar.createNavigationBar();
     this._state.onRender("appDiv");
   }
 
