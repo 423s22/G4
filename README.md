@@ -26,3 +26,5 @@ for information about setting up your local development environment and contribu
 
 [User Documentation](https://github.com/423s22/G4/blob/main/Documentation/User%20Docs.md)
 for information about installing and using the app on your own store.
+
+Added for testing CI
