@@ -26,24 +26,24 @@ export default class NavBar {
 
         // Set all the anchors and labels
         linkDashboard.innerHTML = "Dashboard";
-        linkDashboard.onclick((event) => {
+        linkDashboard.onclick = (event) => {
             this._app.setState(AppStateType.DashboardState);
-        });
+        };
 
         linkProduct.innerHTML = "Product";
-        linkProduct.onclick((event) => {
+        linkProduct.onclick = (event) => {
             this._app.setState(AppStateType.ProductState);
-        });
+        };
 
 
-        linkHelp.onclick((event) => {
+        linkHelp.onclick = (event) => {
             this._app.setState(AppStateType.HelpState);
-        });
+        };
         linkHelp.innerHTML = "Help";
 
-        linkSettings.onclick((event) => {
+        linkSettings.onclick = (event) => {
             this._app.setState(AppStateType.SettingState);
-        });
+        };
         linkSettings.innerHTML = "Settings";
 
         // Add all the links to the list
