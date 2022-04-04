@@ -1,48 +1,58 @@
-export default class navBar {
-  createNavigationBar() {
-    // Created 2 divs, 1) navDiv = navBar &
-    // 2) stateDiv - going to populate information
-    // make sure to clear all childs of this in order to re-onRender()
-    let appDiv = document.getElementById("appDiv");
-    let navDiv = document.createElement("div");
-    appDiv.appendChild(navDiv);
-    navDiv.id = "navDiv";
+import AppStateType from "./AppStateType";
 
-    let stateDiv = document.createElement("div");
-    appDiv.appendChild(stateDiv);
-    stateDiv.id = "stateDiv";
+export default class NavBar {
+    createNavigationBar(app) {
+        // Created 2 divs, 1) navDiv = navBar &
+        // 2) stateDiv - going to populate information
+        // make sure to clear all childs of this in order to re-onRender()
 
-    // Creating links for the nav bar and adding padding to each element
-    let navItems = document.createElement("li");
-    navItems.style = "list-style: none";
-    let linkDashboard = document.createElement("a");
-    linkDashboard.style = "padding-right: 20px";
-    let linkProduct = document.createElement("a");
-    linkProduct.style = "padding-right: 20px";
-    let linkHelp = document.createElement("a");
-    linkHelp.style = "padding-right: 20px";
-    let linkSettings = document.createElement("a");
+        this._app = app;
 
-    // Set all the anchors and labels
-    linkDashboard.href = "DashboardState.js";
-    linkDashboard.innerHTML = "Dashboard";
+        let appDiv = document.getElementById("appDiv");
+        let navDiv = document.createElement("div");
+        appDiv.appendChild(navDiv);
+        navDiv.id = "navDiv";
 
-    linkProduct.href = "ProductState.js";
-    linkProduct.innerHTML = "Product";
+        // Creating links for the nav bar and adding padding to each element
+        let navItems = document.createElement("li");
+        navItems.style = "list-style: none";
+        let linkDashboard = document.createElement("a");
+        linkDashboard.style = "padding-right: 20px";
+        let linkProduct = document.createElement("a");
+        linkProduct.style = "padding-right: 20px";
+        let linkHelp = document.createElement("a");
+        linkHelp.style = "padding-right: 20px";
+        let linkSettings = document.createElement("a");
 
-    linkHelp.href = "HelpState.js";
-    linkHelp.innerHTML = "Help";
+        // Set all the anchors and labels
+        linkDashboard.innerHTML = "Dashboard";
+        linkDashboard.onclick((event) => {
+            this._app.setState(AppStateType.DashboardState);
+        });
 
-    linkSettings.href = "SettingState.js";
-    linkSettings.innerHTML = "Settings";
+        linkProduct.innerHTML = "Product";
+        linkProduct.onclick((event) => {
+            this._app.setState(AppStateType.ProductState);
+        });
 
-    // Add all the links to the list
-    navItems.appendChild(linkDashboard);
-    navItems.appendChild(linkProduct);
-    navItems.appendChild(linkHelp);
-    navItems.appendChild(linkSettings);
 
-    // add to navDiv
-    navDiv.appendChild(navItems);
-  }
+        linkHelp.onclick((event) => {
+            this._app.setState(AppStateType.HelpState);
+        });
+        linkHelp.innerHTML = "Help";
+
+        linkSettings.onclick((event) => {
+            this._app.setState(AppStateType.SettingState);
+        });
+        linkSettings.innerHTML = "Settings";
+
+        // Add all the links to the list
+        navItems.appendChild(linkDashboard);
+        navItems.appendChild(linkProduct);
+        navItems.appendChild(linkHelp);
+        navItems.appendChild(linkSettings);
+
+        // add to navDiv
+        navDiv.appendChild(navItems);
+    }
 }

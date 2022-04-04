@@ -16,7 +16,8 @@ export default function Index() {
 
 	return (
 		<Page>
-			<div id="appDiv"></div>
+			<div id="appDiv">
+			</div>
 		</Page>
 	);
 }

@@ -1,31 +1,61 @@
 import AppState from "./AppState";
-import navBar from "./navBar";
+import NavBar from "./NavBar";
 import Product from "./Product";
+import AppStateType from "./AppStateType";
+import DashboardState from "./DashboardState";
+import ProductState from "./ProductState";
+import HelpState from "./HelpState";
+import SettingState from "./SettingState";
 
 export default class App {
-  constructor() {
-    console.log("constructed");
-    this._state = new AppState(this); // This will run the AppState class that will contain
-    //this._allStates = Map<AppStateType, _state>;
-    this._state.onEnable();
-    this._running = false;
-  }
+    constructor() {
+        console.log("constructed");
 
-  // TODO: Create setState() - Change state of app
+        this._allStates = new Map();
 
-  start() {
-    this._running = true;
-    this._navBar = new navBar();
-    this._navBar.createNavigationBar();
-    this._state.onRender("appDiv");
-  }
+        // Create states
+        this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
+        this._allStates.set(AppStateType.ProductState, new ProductState(this));
+        this._allStates.set(AppStateType.HelpState, new HelpState(this));
+        this._allStates.set(AppStateType.SettingState, new SettingState(this));
 
-  isRunning() {
-    return this._running;
-  }
+        this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
+        this._running = false;
+    }
 
-  // TODO: Add in call to database
+    // TODO: Create setState() - Change state of app
 
-  //TODO: Add in the call to products as a list
+    start() {
+        this._running = true;
+        this._navBar = new NavBar(this);
+        this._navBar.createNavigationBar();
+
+        let stateDiv = document.createElement("div");
+        appDiv.appendChild(stateDiv);
+        stateDiv.id = "stateDiv";
+        this._state.onRender("stateDiv");
+
+        this._state.onEnable();
+    }
+
+    isRunning() {
+        return this._running;
+    }
+
+    setState(stateType) {
+        let oldState = this._state;
+        oldState.onDisable();
+
+        let newState = this._allStates.get(stateType);
+        this._state = newState;
+        newState.onEnable();
+
+        newState.onRender("stateDiv");
+
+    }
+
+    // TODO: Add in call to database
+
+    //TODO: Add in the call to products as a list
 }
 // TODO: Implement
