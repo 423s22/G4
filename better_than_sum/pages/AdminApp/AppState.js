@@ -1,4 +1,3 @@
-import App from "./App";
 export default class AppState {
 
     constructor(app) {

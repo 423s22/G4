@@ -1,6 +1,5 @@
 import AppState from "./AppState";
 import NavBar from "./NavBar";
-import Product from "./Product";
 import AppStateType from "./AppStateType";
 import DashboardState from "./DashboardState";
 import ProductState from "./ProductState";
