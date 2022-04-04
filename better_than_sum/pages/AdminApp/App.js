@@ -27,8 +27,8 @@ export default class App {
 
     start() {
         this._running = true;
-        this._navBar = new NavBar(this);
-        this._navBar.createNavigationBar();
+        this._navBar = new NavBar();
+        this._navBar.createNavigationBar(this);
 
         let stateDiv = document.createElement("div");
         appDiv.appendChild(stateDiv);
