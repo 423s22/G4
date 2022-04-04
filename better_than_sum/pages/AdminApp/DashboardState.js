@@ -2,6 +2,10 @@ import AppState from "./AppState";
 
 export default class DashboardState extends AppState {
 
+    constructor(app) {
+        super(app);
+    }
+
     onEnable() {}
 
     onDisable() {}

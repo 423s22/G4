@@ -1,6 +1,13 @@
 import AppState from "./AppState";
 export default class ProductState extends AppState {
 
+    constructor(app) {
+        super(app);
+    }
+
+    onEnable() {}
+
+    onDisable() {}
 
     onRender(divID) {
 
