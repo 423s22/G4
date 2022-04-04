@@ -1,2 +1,14 @@
 import AppState from "./AppState";
-export default class SettingState extends AppState {}
+export default class SettingState extends AppState {
+
+
+    onRender(divID) {
+
+        let div = document.getElementById(divID);
+        div.innerHTML = "";
+
+
+        div.innerHTML = "<h1>Settings!</h1>";
+
+    }
+}
