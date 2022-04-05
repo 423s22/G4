@@ -1,6 +1,10 @@
-function start(dbAPIURL) {
+function start() {
 
-    fetch(dbAPIURL + "/database?request=userProducts&userID=1").then((response) => {
+    dbURL = document.getElementById("dbURL").value;
+
+    fetch(dbURL + "/database?request=userProducts&userID=1").then((response) => {
         console.log(response);
     });
 }
+
+start();
