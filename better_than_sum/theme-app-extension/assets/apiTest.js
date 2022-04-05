@@ -4,7 +4,7 @@ function start() {
 
 
     let url = new URL("https://" + dbURL);
-    url.pathname += "/database/";
+    url.pathname += "database/";
     url.searchParams.append("request", "userProducts");
     url.searchParams.append("userID", "1");
 
