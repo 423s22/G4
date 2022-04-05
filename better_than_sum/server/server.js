@@ -67,7 +67,7 @@ app.prepare().then(async() => {
 
                 // Set the shop api url metafield to allow storefront to access the api
                 const restClient = new Shopify.Clients.Rest(shop, accessToken);
-                const metafieldResp = await restClient.post({
+                await restClient.post({
                     path: "metafields",
                     data: {
                         "metafield": {
@@ -79,8 +79,6 @@ app.prepare().then(async() => {
                     },
                     type: DataType.JSON
                 });
-
-                console.log(metafieldResp);
 
                 // Expose the metafield to the storefront
                 const graphQLClient = new Shopify.Clients.Graphql(shop, accessToken);
@@ -102,8 +100,7 @@ app.prepare().then(async() => {
                         }
                     }
                 }`;
-                const exposeResponse = await graphQLClient.query({ data: exposeQuery });
-                console.log(exposeResponse);
+                await graphQLClient.query({ data: exposeQuery });
 
                 // Redirect to app with shop parameter upon auth
                 ctx.redirect(`/?shop=${shop}&host=${host}`);

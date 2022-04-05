@@ -5,11 +5,16 @@
 }
 {% endschema %}
 
+<script src="{{ 'apiTest.js' | asset_url }}" defer></script>
+
+<script>
+
+  start({{ shop.metafields.better_than_sum.apiUrl.value }});
+
+</script>
+
 <div class="better-than-sum-block">
 
   <h1>Hello from Better Than Sum!</h1>
-  <h2>{{ shop.metafields.better_than_sum.apiUrl.value }}</h2>
 
 </div>
-
-<script src="{{ 'apiTest.js' | asset_url }}" defer></script>
