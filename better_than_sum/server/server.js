@@ -146,16 +146,22 @@ app.prepare().then(async() => {
     router.get("/database/", async(ctx) => {
         // Handle get request from database
         ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+        ctx.res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE");
+        ctx.res.setHeader("Access-Control-Allow-Headers", "*");
         await dbConn.handleGetRequest(ctx);
     });
 
     router.post("/database/", async(ctx) => {
         ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+        ctx.res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE");
+        ctx.res.setHeader("Access-Control-Allow-Headers", "*");
         await dbConn.handlePostRequest(ctx);
     });
 
     router.delete("/database/", async(ctx) => {
         ctx.res.setHeader("Access-Control-Allow-Origin", "*");
+        ctx.res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE");
+        ctx.res.setHeader("Access-Control-Allow-Headers", "*");
         await dbConn.handleDeleteRequest(ctx);
     });
 
