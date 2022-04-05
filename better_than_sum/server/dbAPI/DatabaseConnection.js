@@ -32,6 +32,7 @@ export default class DatabaseConnection {
                 break;
         }
         ctx.res.write(`${results}`);
+        ctx.res.setHeader("Access-Control-Allow-Origin", "*");
         ctx.res.end();
         ctx.res.statusCode = 200;
     }
@@ -126,6 +127,7 @@ export default class DatabaseConnection {
         ctx.res.statusCode = 200;
         ctx.status = 200;
         ctx.res.write(`${results}`);
+        ctx.res.setHeader("Access-Control-Allow-Origin", "*");
         ctx.res.end();
     }
 
@@ -225,6 +227,7 @@ export default class DatabaseConnection {
         ctx.res.statusCode = 200;
         ctx.status = 200;
         ctx.res.write(`${results}`);
+        ctx.res.setHeader("Access-Control-Allow-Origin", "*");
         ctx.res.end();
     }
 
