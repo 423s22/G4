@@ -17,7 +17,7 @@ export default class DatabaseConnection {
      */
     async handleGetRequest(ctx) {
         const requestedData = ctx.query.request;
-        let results;
+        let results = null;
         switch (requestedData) {
             case "userProducts":
                 results = await this._getUserProductsJSON(parseInt(ctx.query.userID));
@@ -37,6 +37,9 @@ export default class DatabaseConnection {
         }
         ctx.response.body = results;
         ctx.response.status = 200;
+        if (results == null) {
+            ctx.response.status = 400;
+        }
     }
 
     async _getUserProductsJSON(userID) {
@@ -88,7 +91,7 @@ export default class DatabaseConnection {
     async handlePostRequest(ctx) {
         const post = ctx.request.body;
         const requestedOperation = post["operation"];
-        let results;
+        let results = null;
         switch (requestedOperation) {
             case "product":
                 {
@@ -126,6 +129,9 @@ export default class DatabaseConnection {
         }
         ctx.response.body = results;
         ctx.response.status = 200;
+        if (results == null) {
+            ctx.response.status = 400;
+        }
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
@@ -192,7 +198,7 @@ export default class DatabaseConnection {
     async handleDeleteRequest(ctx) {
 
         const requestedOperation = ctx.query.operation;
-        let results;
+        let results = null;
         switch (requestedOperation) {
             case "product":
                 {
@@ -222,6 +228,9 @@ export default class DatabaseConnection {
         }
         ctx.response.body = results;
         ctx.response.status = 200;
+        if (results == null) {
+            ctx.response.status = 400;
+        }
     }
 
     async _deleteProduct(id) {
