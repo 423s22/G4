@@ -1,4 +1,5 @@
 const mysql = require("mysql-await");
+import Koa from "koa";
 
 export default class DatabaseConnection {
     constructor(host, username, password, database) {
@@ -10,8 +11,11 @@ export default class DatabaseConnection {
         });
     }
 
+    /**
+     * 
+     * @param {Koa.ParameterizedContext} ctx 
+     */
     async handleGetRequest(ctx) {
-        ctx.respond = false;
         const requestedData = ctx.query.request;
         let results;
         switch (requestedData) {
@@ -31,9 +35,8 @@ export default class DatabaseConnection {
                 results = await this._getVariationBlockersJSON(parseInt(ctx.query.variationID));
                 break;
         }
-        ctx.res.write(`${results}`);
-        ctx.res.end();
-        ctx.res.statusCode = 200;
+        ctx.response.body = results;
+        ctx.response.status = 200;
     }
 
     async _getUserProductsJSON(userID) {
@@ -84,7 +87,6 @@ export default class DatabaseConnection {
 
     async handlePostRequest(ctx) {
         const post = ctx.request.body;
-
         const requestedOperation = post["operation"];
         let results;
         switch (requestedOperation) {
@@ -122,11 +124,8 @@ export default class DatabaseConnection {
                     break;
                 }
         }
-        ctx.respond = false;
-        ctx.res.statusCode = 200;
-        ctx.status = 200;
-        ctx.res.write(`${results}`);
-        ctx.res.end();
+        ctx.response.body = results;
+        ctx.response.status = 200;
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
@@ -221,11 +220,8 @@ export default class DatabaseConnection {
                     break;
                 }
         }
-        ctx.respond = false;
-        ctx.res.statusCode = 200;
-        ctx.status = 200;
-        ctx.res.write(`${results}`);
-        ctx.res.end();
+        ctx.response.body = results;
+        ctx.response.status = 200;
     }
 
     async _deleteProduct(id) {
