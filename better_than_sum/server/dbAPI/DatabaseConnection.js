@@ -35,10 +35,12 @@ export default class DatabaseConnection {
                 results = await this._getVariationBlockersJSON(parseInt(ctx.query.variationID));
                 break;
         }
-        ctx.response.body = results;
-        ctx.response.status = 200;
+
         if (results == null) {
             ctx.response.status = 400;
+        } else {
+            ctx.response.body = results;
+            ctx.response.status = 200;
         }
     }
 
@@ -127,10 +129,12 @@ export default class DatabaseConnection {
                     break;
                 }
         }
-        ctx.response.body = results;
-        ctx.response.status = 200;
+
         if (results == null) {
             ctx.response.status = 400;
+        } else {
+            ctx.response.body = results;
+            ctx.response.status = 200;
         }
     }
 
@@ -226,10 +230,12 @@ export default class DatabaseConnection {
                     break;
                 }
         }
-        ctx.response.body = results;
-        ctx.response.status = 200;
+
         if (results == null) {
             ctx.response.status = 400;
+        } else {
+            ctx.response.body = results;
+            ctx.response.status = 200;
         }
     }
 
