@@ -1,6 +1,6 @@
 import DatabaseConnection from "./DatabaseConnection";
 
-test("Tests database connection", () => {
+test("Tests Database API", () => {
     let dbConn = new DatabaseConnection("127.0.0.1", "root", "rootPassword", "G4db");
     return dbConn.connect().then(() => {
         return dbConn._getUserIDJSON("Test User").then((results) => {
