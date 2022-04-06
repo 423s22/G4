@@ -1,25 +1,19 @@
-import ServerDatabase from "../../server/dbAPI/DatabaseConnection";
 import BTSDatabase from "./DatabaseConnection";
 
 test("Tests BTS App Database Connection", () => {
 
-    let serverDB = new ServerDatabase("127.0.0.1", "root", "rootPassword", "G4db");
-    return serverDB.connect().then(async() => {
+    require("../../server/index");
 
-        let appDB = new BTSDatabase("127.0.0.1");
-        let product = await appDB.createNewProduct(1);
-        await appDB.createNewProduct(1);
-
-        let newGroup = await product.addVariationGroup();
-        await newGroup.addVariation();
-        await newGroup.addVariation();
-        await newGroup.addVariation();
-
-        let products = await appDB.getUserProducts(1);
-        expect(products.length).toBe(2);
-
-        return serverDB.disconnect();
-
+    let appDB = new BTSDatabase("127.0.0.1");
+    let product = appDB.createNewProduct(1);
+    product.then((product) => {
+        appDB.createNewProduct(1).then(() => {
+            product.addVariationGroup().then((newGroup) => {
+                appDB.getUserProducts(1).then((products) => {
+                    expect(products.length).toBe(2);
+                    return;
+                });
+            });
+        });
     });
-
 });
