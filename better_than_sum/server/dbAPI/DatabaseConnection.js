@@ -1,7 +1,19 @@
 const mysql = require("mysql-await");
 import Koa from "koa";
 
+
+/**
+ * Represents a connection to a database, allowing for handeling get, post, and delete requests
+ */
 export default class DatabaseConnection {
+
+    /**
+     * Creates a new MySQL based connection
+     * @param {string} host the IP of the host MySQL server
+     * @param {string} username the username to login to MySQL with
+     * @param {string} password the password to login to MySQL with
+     * @param {string} database the name of the database to USE
+     */
     constructor(host, username, password, database) {
         this._connection = mysql.createConnection({
             host: host,
@@ -12,8 +24,8 @@ export default class DatabaseConnection {
     }
 
     /**
-     * 
-     * @param {Koa.ParameterizedContext} ctx 
+     * Handles an HTTP GET request and returns the relevant data
+     * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
      */
     async handleGetRequest(ctx) {
         const requestedData = ctx.query.request;
@@ -90,6 +102,10 @@ export default class DatabaseConnection {
         return JSON.stringify(resultsA.concat(resultsB));
     }
 
+    /**
+     * Handles an HTTP POST request and returns the relevant data about the added object
+     * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
+     */
     async handlePostRequest(ctx) {
         const post = ctx.request.body;
         const requestedOperation = post["operation"];
@@ -199,6 +215,10 @@ export default class DatabaseConnection {
 
     }
 
+    /**
+     * Handles an HTTP DELETE request and returns if the requested object was deleted
+     * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
+     */
     async handleDeleteRequest(ctx) {
 
         const requestedOperation = ctx.query.operation;
@@ -285,6 +305,10 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Attempts to connect to the database
+     * @returns true when successfully connected, or false if an error occurred
+     */
     async connect() {
         if (this._isConnected) return true;
         let err = await this._connection.awaitConnect();
@@ -299,6 +323,9 @@ export default class DatabaseConnection {
         return this._isConnected;
     }
 
+    /**
+     * Disconnects from the database
+     */
     async disconnect() {
         await this._connection.awaitEnd();
         this._isConnected = false;
