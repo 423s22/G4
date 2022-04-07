@@ -1,58 +1,65 @@
 import AppStateType from "./AppStateType";
 
 export default class NavBar {
-    createNavigationBar(app) {
-        // Created 2 divs, 1) navDiv = navBar &
-        // 2) stateDiv - going to populate information
-        // make sure to clear all childs of this in order to re-onRender()
+  createNavigationBar(app) {
+    // Created 2 divs, 1) navDiv = navBar &
+    // 2) stateDiv - going to populate information
+    // make sure to clear all childs of this in order to re-onRender()
 
-        this._app = app;
+    this._app = app;
 
-        let appDiv = document.getElementById("appDiv");
-        let navDiv = document.createElement("div");
-        appDiv.appendChild(navDiv);
-        navDiv.id = "navDiv";
+    let appDiv = document.getElementById("appDiv");
+    let navDiv = document.createElement("div");
+    appDiv.appendChild(navDiv);
+    navDiv.id = "navDiv";
 
-        // Creating links for the nav bar and adding padding to each element
-        let navItems = document.createElement("li");
-        navItems.style = "list-style: none";
-        let linkDashboard = document.createElement("a");
-        linkDashboard.style = "padding-right: 20px";
-        let linkProduct = document.createElement("a");
-        linkProduct.style = "padding-right: 20px";
-        let linkHelp = document.createElement("a");
-        linkHelp.style = "padding-right: 20px";
-        let linkSettings = document.createElement("a");
+    // Creating links for the nav bar and adding padding to each element
+    let navItems = document.createElement("ul");
 
-        // Set all the anchors and labels
-        linkDashboard.innerHTML = "Dashboard";
-        linkDashboard.addEventListener("click", (event) => {
-            this._app.setState(AppStateType.DashboardState);
-        });
+    let navItemDB = document.createElement("li");
+    let navItemP = document.createElement("li");
+    let navItemH = document.createElement("li");
+    let navItemS = document.createElement("li");
 
-        linkProduct.innerHTML = "Product";
-        linkProduct.addEventListener("click", (event) => {
-            this._app.setState(AppStateType.ProductState);
-        });
+    let linkDashboard = document.createElement("a");
+    let linkProduct = document.createElement("a");
+    let linkHelp = document.createElement("a");
+    let linkSettings = document.createElement("a");
 
+    // Set all the anchors and labels
+    linkDashboard.innerHTML = "Dashboard";
+    linkDashboard.addEventListener("click", (event) => {
+      this._app.setState(AppStateType.DashboardState);
+    });
 
-        linkHelp.addEventListener("click", (event) => {
-            this._app.setState(AppStateType.HelpState);
-        });
-        linkHelp.innerHTML = "Help";
+    linkProduct.innerHTML = "Product";
+    linkProduct.addEventListener("click", (event) => {
+      this._app.setState(AppStateType.ProductState);
+    });
 
-        linkSettings.addEventListener("click", (event) => {
-            this._app.setState(AppStateType.SettingState);
-        });
-        linkSettings.innerHTML = "Settings";
+    linkHelp.addEventListener("click", (event) => {
+      this._app.setState(AppStateType.HelpState);
+    });
+    linkHelp.innerHTML = "Help";
 
-        // Add all the links to the list
-        navItems.appendChild(linkDashboard);
-        navItems.appendChild(linkProduct);
-        navItems.appendChild(linkHelp);
-        navItems.appendChild(linkSettings);
+    linkSettings.addEventListener("click", (event) => {
+      this._app.setState(AppStateType.SettingState);
+    });
+    linkSettings.innerHTML = "Settings";
 
-        // add to navDiv
-        navDiv.appendChild(navItems);
-    }
+    // Add all the links to a list item
+    navItemDB.appendChild(linkDashboard);
+    navItemP.appendChild(linkProduct);
+    navItemH.appendChild(linkHelp);
+    navItemS.appendChild(linkSettings);
+
+    // add to unorder list
+    navItems.appendChild(navItemDB);
+    navItems.appendChild(navItemP);
+    navItems.appendChild(navItemH);
+    navItems.appendChild(navItemS);
+
+    // add to navBar
+    navDiv.appendChild(navItems);
+  }
 }
