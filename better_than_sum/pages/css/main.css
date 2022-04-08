@@ -1,6 +1,18 @@
+#navDiv {
+  width: 100%;
+  height: 50%;
+}
+
 #navDiv li {
-  padding: 20px;
-  margin: 0px;
+  border-style: solid;
+  border-color: #000000;
+  list-style: none;
   float: left;
-  list-style-type: none;
+  width: 15%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#navDiv li:hover {
+  background-color: darkgrey;
 }
