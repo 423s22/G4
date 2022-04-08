@@ -1,4 +1,3 @@
-import { Heading, Page } from "@shopify/polaris";
 import App from "../AdminApp/App";
 import React, { useState, useEffect } from 'react';
 
@@ -15,9 +14,7 @@ export default function Index() {
 	}, []);
 
 	return (
-		<Page>
-			<div id="appDiv">
-			</div>
-		</Page>
+		<div id="appDiv">
+		</div>
 	);
 }
