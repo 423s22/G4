@@ -1,21 +1,17 @@
 import AppState from "./AppState";
+import "./../../Documentation/User Docs.md";
 export default class HelpState extends AppState {
+  constructor(app) {
+    super(app);
+  }
+  onEnable() {}
 
-    constructor(app) {
-        super(app);
-    }
+  onDisable() {}
 
-    onEnable() {}
+  onRender(divID) {
+    let div = document.getElementById(divID);
+    div.innerHTML = "";
 
-    onDisable() {}
-
-    onRender(divID) {
-
-        let div = document.getElementById(divID);
-        div.innerHTML = "";
-
-
-        div.innerHTML = "<h1>Help!</h1>";
-
-    }
+    div.innerHTML = "<h1>Help!</h1>";
+  }
 }
