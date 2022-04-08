@@ -8,7 +8,7 @@
   height: 50%;
 }
 
-#navDiv > ul {
+#navDiv ul {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -16,17 +16,16 @@
   margin: 0;
 }
 
-#navDiv > li {
+#navDiv li {
   border-style: solid;
   border-color: #000000;
   list-style: none;
   float: left;
   width: 15%;
-  margin: 0 auto;
   text-align: center;
 }
 
-#navDiv > a {
+#navDiv a {
   display: block;
   width: 100%;
 }
@@ -39,7 +38,7 @@
   float: left;
   width: 100%;
   height: 100%;
-  padding-top: 5%;
+  padding-top: 1%;
 }
 
 #stateDiv h1 {
