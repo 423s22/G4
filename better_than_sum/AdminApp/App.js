@@ -30,6 +30,10 @@ export default class App {
     let appDiv = document.getElementById("appDiv");
     this._navBar = new NavBar();
     this._navBar.createNavigationBar(this);
+    let lineBreak = document.createElement("br");
+
+    appDiv.appendChild(lineBreak);
+
     let stateDiv = document.createElement("div");
 
     appDiv.appendChild(stateDiv);
