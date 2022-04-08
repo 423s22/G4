@@ -1,9 +1,22 @@
+#appDiv {
+  display: flex;
+  flex-direction: column;
+}
+
 #navDiv {
   width: 100%;
   height: 50%;
 }
 
-#navDiv li {
+#navDiv > ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+#navDiv > li {
   border-style: solid;
   border-color: #000000;
   list-style: none;
@@ -13,6 +26,22 @@
   text-align: center;
 }
 
+#navDiv > a {
+  display: block;
+  width: 100%;
+}
+
 #navDiv li:hover {
   background-color: darkgrey;
+}
+
+#stateDiv {
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding-top: 5%;
+}
+
+#stateDiv h1 {
+  text-size-adjust: 22px;
 }
