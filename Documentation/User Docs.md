@@ -26,7 +26,7 @@ Include the URL of your Shopify store, and we will send the install link as soon
 ## Using the Install Link
 Follow the provided link and the instructions displayed to install the app onto your own store. 
 Once installed, it will be available in your store's dashboard under the "Apps" section. 
-<br><br><br>
+
 
 ## Using the Application
 All of the settings are managed via the App within the Admin Page of your store.
