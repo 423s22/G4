@@ -8,7 +8,6 @@
 - [Future Functionality](#future-functionality)
   * [Variations and Variation Groups](#variations-and-variation-groups)
   * [Variation Blockers](#variation-blockers)
-<br><br><br>
 
 ## Shopify Page
 An example of a store using Better Than Sum can be accessed here:
