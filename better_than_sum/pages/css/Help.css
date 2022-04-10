@@ -1,0 +1,25 @@
+#stateDiv h1 {
+  padding-bottom: 0.3em;
+  font-size: 2em;
+  border-bottom: 1px solid;
+  padding-top: 5%;
+}
+
+#stateDiv h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.5em;
+  border-bottom: 1px solid;
+  padding-top: 5%;
+}
+
+#stateDiv h3 {
+  font-size: 1.25em;
+  padding-top: 5%;
+}
+
+#stateDiv h4 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}

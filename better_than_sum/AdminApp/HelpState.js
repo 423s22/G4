@@ -1,4 +1,6 @@
 import AppState from "./AppState";
+//import styles from "./../pages/css/Help.css"
+
 export default class HelpState extends AppState {
   constructor(app) {
     super(app);
@@ -10,6 +12,7 @@ export default class HelpState extends AppState {
 
   onRender(divID) {
     let div = document.getElementById(divID);
+
     div.innerHTML = "";
     div.innerHTML = "<h1>Help!</h1>";
 
@@ -17,7 +20,6 @@ export default class HelpState extends AppState {
     xmlHttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         // Typical action to be performed when the document is ready:
-        //div.innerHTML = xmlHttp.responseText;
         const { Remarkable } = require("remarkable");
         this._md = new Remarkable();
         div.innerHTML = this._md.render(xmlHttp.responseText);
@@ -29,5 +31,6 @@ export default class HelpState extends AppState {
       true
     );
     xmlHttp.send();
+    //div.className = styles;
   }
 }
