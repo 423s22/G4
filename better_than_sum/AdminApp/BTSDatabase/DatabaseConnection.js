@@ -4,7 +4,7 @@ import VariationGroup from "./VariationGroup";
 
 export default class DatabaseConnection {
 
-    constructor(baseURL = null, userID) {
+    constructor(userID, baseURL = null) {
         if (baseURL == null)
             this._baseURL = new URL(window.location.href);
         else
