@@ -264,6 +264,7 @@ export default class DatabaseConnection {
     async _executePostRequest(data) {
 
         let promise = new Promise((resolve, reject) => {
+            let url = new URL(this._baseURL);
             let req = new XMLHttpRequest();
             req.onreadystatechange = () => {
                 if (req.readyState == 4) {
