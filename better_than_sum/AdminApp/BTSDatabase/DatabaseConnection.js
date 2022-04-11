@@ -31,7 +31,7 @@ export default class DatabaseConnection {
 
         // TODO: Add loading variation stuff for each product
         for (let i = 0; i < products.length; i++) {
-            this._getProductVariationGroups(products[i]);
+            this._generateVariationGroups(products[i]);
         }
         return products;
     }
@@ -40,13 +40,17 @@ export default class DatabaseConnection {
      * 
      * @param {Product} product 
      */
-    async _getProductVariationGroups(product) {
+    async _generateVariationGroups(product) {
 
-        this._executeGetRequest("productVariationGroups", { "productID": product.getID() }).then(
-            (result) => {
-                console.log(result);
-            }
-        );
+        let groups = await this._executeGetRequest("productVariationGroups", { "productID": product.getID() });
+
+        for (let i = 0; i < groups.length; i++) {
+            let group = groups[i];
+            product.loadVariationGroup(new VariationGroup(group.groupID, product, group.name, this));
+        }
+    }
+
+    async _generateVariations(product) {
 
     }
 

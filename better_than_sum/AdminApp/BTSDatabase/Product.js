@@ -58,4 +58,8 @@ export default class Product {
         return newGroup;
     }
 
+    loadVariationGroup(group) {
+        this._variationGroups.push(group);
+    }
+
 }
