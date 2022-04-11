@@ -262,21 +262,16 @@ export default class DatabaseConnection {
      * @returns the JSON data of the response
      */
     async _executePostRequest(data) {
-        let url = new URL(this._baseURL);
-        let req = new XMLHttpRequest();
-        req.open("POST", url.toString());
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify(data));
 
         let promise = new Promise((resolve, reject) => {
             let req = new XMLHttpRequest();
-            req.setRequestHeader("Content-Type", "application/json");
             req.onreadystatechange = () => {
                 if (req.readyState == 4) {
                     resolve(JSON.parse(req.responseText));
                 }
             };
             req.open("POST", url.toString());
+            req.setRequestHeader("Content-Type", "application/json");
             req.send(JSON.stringify(data));
         });
 
