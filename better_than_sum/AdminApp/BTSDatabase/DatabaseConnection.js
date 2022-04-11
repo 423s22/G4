@@ -42,8 +42,11 @@ export default class DatabaseConnection {
      */
     async _getProductVariationGroups(product) {
 
-        let responseJSON = await this._executeGetRequest("productVariationGroups", { "productID": product.getID() });
-        console.log(responseJSON);
+        this._executeGetRequest("productVariationGroups", { "productID": product.getID() }).then(
+            (result) => {
+                console.log(JSON.parse(result));
+            }
+        );
 
     }
 
@@ -125,17 +128,20 @@ export default class DatabaseConnection {
             url.searchParams.append(key, data[key]);
         }
 
-        let req = new XMLHttpRequest();
+        let promise = new Promise((resolve, reject) => {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = () => {
+                if (req.readyState == 4) {
 
-        req.onreadystatechange = () => {
-            if (req.readyState == 4) {
-                return JSON.parse(req.responseText);
-            }
-        };
+                    resolve(JSON.parse(req.responseText));
+                }
+            };
 
-        req.open("GET", url.toString());
-        req.send();
+            req.open("GET", url.toString());
+            req.send();
+        });
 
+        return promise;
     }
 
     /**
@@ -146,11 +152,23 @@ export default class DatabaseConnection {
     async _executePostRequest(data) {
         let url = new URL(this._baseURL);
         let req = new XMLHttpRequest();
-        req.open("POST", url.toString(), false);
+        req.open("POST", url.toString());
         req.setRequestHeader("Content-Type", "application/json");
         req.send(JSON.stringify(data));
 
-        return JSON.parse(req.responseText);
+        let promise = new Promise((resolve, reject) => {
+            let req = new XMLHttpRequest();
+            req.setRequestHeader("Content-Type", "application/json");
+            req.onreadystatechange = () => {
+                if (req.readyState == 4) {
+                    resolve(JSON.parse(req.responseText));
+                }
+            };
+            req.open("POST", url.toString());
+            req.send(JSON.stringify(data));
+        });
+
+        return promise;
     }
 
 }
