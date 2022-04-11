@@ -20,15 +20,7 @@ export default class DatabaseConnection {
      */
     async getUserProducts(userID) {
 
-        let url = new URL(this._baseURL);
-        url.searchParams.append("request", "userProducts");
-        url.searchParams.append("userID", userID);
-
-        let req = new XMLHttpRequest();
-        req.open("GET", url.toString(), false);
-        req.send();
-
-        let responseJSON = JSON.parse(req.responseText);
+        let responseJSON = await this._executeGetRequest("userProducts", { "userID": userID });
         let products = [];
         for (let i = 0; i < responseJSON.length; i++) {
             let id = responseJSON[i]["productID"];
@@ -38,7 +30,23 @@ export default class DatabaseConnection {
         }
 
         // TODO: Add loading variation stuff for each product
+        for (let product in products) {
+            this._getProductVariationGroups(product);
+        }
+
+
         return products;
+    }
+
+    /**
+     * 
+     * @param {Product} product 
+     */
+    async _getProductVariationGroups(product) {
+
+        let responseJSON = await this._executeGetRequest("productVariationGroups", { "productID": product.getID() });
+        console.log(responseJSON);
+
     }
 
     /**
@@ -48,21 +56,14 @@ export default class DatabaseConnection {
      */
     async createNewProduct(userID) {
 
-        let url = new URL(this._baseURL);
-
-        let req = new XMLHttpRequest();
-        req.open("POST", url.toString(), false);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify({
+        let productID = (await this._executePostRequest({
             "operation": "product",
             "baseCost": 0,
             "name": "",
             "owningUser": userID
-        }));
+        }))["insertedID"];
 
-        let productID = JSON.parse(req.responseText)["insertedID"];
         return new Product(productID, 0, "", this);
-
     }
 
     /**
@@ -71,18 +72,13 @@ export default class DatabaseConnection {
      * @returns the created VariationGroup
      */
     async createNewVariationGroup(product) {
-        let url = new URL(this._baseURL);
 
-        let req = new XMLHttpRequest();
-        req.open("POST", url.toString(), false);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify({
+        let groupID = (await this._executePostRequest({
             "operation": "variationGroup",
             "name": "",
             "owningProduct": product.getID()
-        }));
+        }))["insertedID"];
 
-        let groupID = JSON.parse(req.responseText)["insertedID"];
         return new VariationGroup(groupID, product, "", this);
     }
 
@@ -92,19 +88,14 @@ export default class DatabaseConnection {
      * @returns the new Variation
      */
     async createNewVariation(variationGroup) {
-        let url = new URL(this._baseURL);
 
-        let req = new XMLHttpRequest();
-        req.open("POST", url.toString(), false);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify({
+        let variationID = (await this._executePostRequest({
             "operation": "variation",
             "name": "",
             "addedCost": 0,
             "owningGroup": variationGroup.getID()
-        }));
+        }))["insertedID"];
 
-        let variationID = JSON.parse(req.responseText)["insertedID"];
         return new Variation(variationID, variationGroup, 0, "", this);
     }
 
@@ -114,16 +105,48 @@ export default class DatabaseConnection {
      * @param {Variation} variationB 
      */
     async createNewBlocker(variationA, variationB) {
-        let url = new URL(this._baseURL);
 
-        let req = new XMLHttpRequest();
-        req.open("POST", url.toString(), false);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify({
+        await this._executePostRequest({
             "operation": "variationBlocker",
             "blockerAID": variationA.getID(),
             "blockerBID": variationB.getID()
-        }));
+        });
+
+    }
+
+    /**
+     * Executes a GET request to the BTS API with the given request type and data
+     * @param {string} request the request type
+     * @param {JSON} data the data used to fill in the remaining query parameters
+     * @returns the JSON data of the response
+     */
+    async _executeGetRequest(request, data = {}) {
+        let url = new URL(this._baseURL);
+        url.searchParams.append("request", request);
+        for (const key in data) {
+            url.searchParams.append(key, data[key]);
+        }
+
+        let req = new XMLHttpRequest();
+        req.open("GET", url.toString(), false);
+        req.send();
+
+        return JSON.parse(req.responseText);
+    }
+
+    /**
+     * Executes a POST request to the BTS API with the given data
+     * @param {JSON} data the data sent to the API
+     * @returns the JSON data of the response
+     */
+    async _executePostRequest(data) {
+        let url = new URL(this._baseURL);
+        let req = new XMLHttpRequest();
+        req.open("POST", url.toString(), false);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.send(JSON.stringify(data));
+
+        return JSON.parse(req.responseText);
     }
 
 }
