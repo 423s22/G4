@@ -4,6 +4,11 @@ import VariationGroup from "./VariationGroup";
 
 export default class DatabaseConnection {
 
+    /**
+     * Creates a new connection to the BTS Database API
+     * @param {number} userID the ID of the user managing the products
+     * @param {string} baseURL the URL to make the http requests to
+     */
     constructor(userID, baseURL = null) {
         if (baseURL == null)
             this._baseURL = new URL(window.location.href);
@@ -57,8 +62,8 @@ export default class DatabaseConnection {
     }
 
     /**
-     * 
-     * @param {Product} product 
+     * Generates the variation groups for a product by loading them from the database
+     * @param {Product} product the product to generate the groups for
      */
     async _generateVariationGroups(product) {
 
@@ -71,8 +76,8 @@ export default class DatabaseConnection {
     }
 
     /**
-     * 
-     * @param {Product} product 
+     * Generates the variations for a product by loading them from the database
+     * @param {Product} product the product to generate the groups for
      */
     async _generateVariations(product) {
         let variations = await this._executeGetRequest("productVariations", { "productID": product.getID() });
@@ -93,8 +98,8 @@ export default class DatabaseConnection {
     }
 
     /**
-     *      
-     * @param {Product} product 
+     * Generates the variation blockers for a product by loading them from the database
+     * @param {Product} product the product to generate the groups for
      */
     async _generateBlockers(product) {
 
@@ -181,7 +186,8 @@ export default class DatabaseConnection {
     /**
      * Saves an existing product to the database.
      * Should not be called directly, but via Product::save
-     * @param {Product} product 
+     * @param {Product} product the product to be saved
+     * @returns a promise that completes when the product is saved
      */
     async saveProduct(product) {
 
