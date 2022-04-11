@@ -52,6 +52,18 @@ export default class Variation {
         if (!this._blockers.includes(variation)) {
             await this._dbConn.createNewBlocker(this, variation);
             this._blockers.push(variation);
+            variation._blockers.push(this);
+        }
+    }
+
+    /**
+     * 
+     * @param {Variation} variation 
+     */
+    loadBlocker(variation) {
+        if (!this._blockers.includes(variation)) {
+            this._blockers.push(variation);
+            variation._blockers.push(this);
         }
     }
 

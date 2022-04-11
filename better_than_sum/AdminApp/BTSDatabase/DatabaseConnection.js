@@ -33,7 +33,9 @@ export default class DatabaseConnection {
         for (let i = 0; i < products.length; i++) {
             this._generateVariationGroups(products[i]).then(() => {
                 this._generateVariations(products[i]).then(() => {
-                    this._generateBlockers(products[i]);
+                    this._generateBlockers(products[i]).then(() => {
+                        console.log(products[i]);
+                    });
                 });
             });
         }
@@ -87,8 +89,12 @@ export default class DatabaseConnection {
             for (let j = 0; j < curGroup.getVariations().length; j++) {
                 let curVariation = curGroup.getVariations()[j];
                 this._executeGetRequest("variationBlockers", { "variationID": curVariation.getID() }).then((result) => {
-                    console.log(curVariation.getID() + ": ");
-                    console.log(result);
+                    for (let k = 0; k < result.length; k++) {
+                        let curBlocker = product.getVariationByID(result[k]["exclude"]);
+                        if (curBlocker != null) {
+                            curVariation.loadBlocker(curBlocker);
+                        }
+                    }
                 });
             }
         }

@@ -71,6 +71,22 @@ export default class Product {
         return null;
     }
 
+    /**
+     * 
+     * @param {number} variationID 
+     */
+    getVariationByID(variationID) {
+        for (let i = 0; i < this._variationGroups.length; i++) {
+            let curGroupVars = this._variationGroups[i].getVariations();
+            for (let j = 0; j < curGroupVars.length; j++) {
+                if (curGroupVars[j].getID() == variationID) {
+                    return curGroupVars[j];
+                }
+            }
+        }
+        return null;
+    }
+
     async addVariationGroup() {
         let newGroup = await this._dbConn.createNewVariationGroup(this);
         this._variationGroups.push(newGroup);
