@@ -33,8 +33,6 @@ export default class DatabaseConnection {
         for (let i = 0; i < products.length; i++) {
             this._getProductVariationGroups(products[i]);
         }
-
-
         return products;
     }
 
@@ -128,10 +126,16 @@ export default class DatabaseConnection {
         }
 
         let req = new XMLHttpRequest();
-        req.open("GET", url.toString(), false);
+
+        req.onreadystatechange = () => {
+            if (req.readyState == 4) {
+                return JSON.parse(req.responseText);
+            }
+        };
+
+        req.open("GET", url.toString());
         req.send();
 
-        return JSON.parse(req.responseText);
     }
 
     /**
