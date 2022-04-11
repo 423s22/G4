@@ -87,7 +87,8 @@ export default class DatabaseConnection {
             for (let j = 0; j < curGroup.getVariations().length; j++) {
                 let curVariation = curGroup.getVariations()[j];
                 this._executeGetRequest("variationBlockers", { "variationID": curVariation.getID() }).then((result) => {
-                    console.log(curVariation.getID() + ": " + result);
+                    console.log(curVariation.getID() + ": ");
+                    console.log(result);
                 });
             }
         }
