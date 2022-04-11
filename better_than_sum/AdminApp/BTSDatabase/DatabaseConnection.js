@@ -29,7 +29,6 @@ export default class DatabaseConnection {
             products.push(new Product(id, baseCost, name, this));
         }
 
-        // TODO: Add loading variation stuff for each product
         for (let i = 0; i < products.length; i++) {
             this._generateVariationGroups(products[i]).then(() => {
                 this._generateVariations(products[i]).then(() => {
