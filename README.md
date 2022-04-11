@@ -21,8 +21,8 @@ Shopify App
 Currently in development mode and requires a login password. Contact us for access.
 
 ## Documentation Quick Access
-[Developer Documentation](https://github.com/423s22/G4/blob/codeax2-dev-docs/Documentation/Dev%20Docs.md) 
+[Developer Documentation](https://github.com/423s22/G4/blob/main/Documentation/Dev%20Docs.md) 
 for information about setting up your local development environment and contributing to this repository.
 
-[User Documentation](https://github.com/423s22/G4/blob/codeax2-dev-docs/Documentation/User%20Docs.md)
+[User Documentation](https://github.com/423s22/G4/blob/main/Documentation/User%20Docs.md)
 for information about installing and using the app on your own store.
