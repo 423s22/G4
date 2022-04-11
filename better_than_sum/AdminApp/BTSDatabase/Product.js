@@ -1,4 +1,5 @@
 import DatabaseConnection from "./DatabaseConnection";
+import VariationGroup from "./VariationGroup";
 
 export default class Product {
 
@@ -48,8 +49,26 @@ export default class Product {
         this._name = newName;
     }
 
+    /**
+     * 
+     * @returns {VariationGroup[]}
+     */
     getVariationGroups() {
         return this._variationGroups;
+    }
+
+    /**
+     * 
+     * @param {number} groupID 
+     * @returns {VariationGroup}
+     */
+    getVariationGroupByID(groupID) {
+        for (let i = 0; i < this._variationGroups.length; i++) {
+            if (this._variationGroups[i].getID() == groupID) {
+                return this._variationGroups[i];
+            }
+        }
+        return null;
     }
 
     async addVariationGroup() {

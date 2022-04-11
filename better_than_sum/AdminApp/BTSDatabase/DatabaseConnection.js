@@ -31,8 +31,11 @@ export default class DatabaseConnection {
 
         // TODO: Add loading variation stuff for each product
         for (let i = 0; i < products.length; i++) {
-            this._generateVariationGroups(products[i]);
-            this._generateVariations(products[i]);
+            this._generateVariationGroups(products[i]).then(() => {
+                this._generateVariations(products[i]).then(() => {
+                    this._generateBlockers(products[i]);
+                });
+            });
         }
         return products;
     }
@@ -60,7 +63,33 @@ export default class DatabaseConnection {
 
         for (let i = 0; i < variations.length; i++) {
             let variation = variations[i];
-            console.log(variation);
+            let varGroup = product.getVariationGroupByID(variation.owningGroup);
+            varGroup.loadVariation(
+                new Variation(
+                    variation.variationID,
+                    varGroup,
+                    variation.addedCost,
+                    variation.name,
+                    this
+                )
+            );
+        }
+    }
+
+    /**
+     *      
+     * @param {Product} product 
+     */
+    async _generateBlockers(product) {
+
+        for (let i = 0; i < product.getVariationGroups().length; i++) {
+            let curGroup = product.getVariationGroups()[i];
+            for (let j = 0; j < curGroup.getVariations().length; j++) {
+                let curVariation = curGroup.getVariations()[j];
+                this._executeGetRequest("variationBlockers", { "variationID": curVariation.getID() }).then((result) => {
+                    console.log(curVariation.getID() + ": " + result);
+                });
+            }
         }
     }
 

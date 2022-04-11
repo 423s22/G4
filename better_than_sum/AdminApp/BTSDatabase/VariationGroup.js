@@ -1,5 +1,6 @@
 import DatabaseConnection from "./DatabaseConnection";
 import Product from "./Product";
+import Variation from "./Variation";
 
 export default class VariationGroup {
 
@@ -34,6 +35,10 @@ export default class VariationGroup {
         this._name = newName;
     }
 
+    /**
+     * 
+     * @returns {Variation[]}
+     */
     getVariations() {
         return this._variations;
     }
