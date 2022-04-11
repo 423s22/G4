@@ -44,7 +44,7 @@ export default class DatabaseConnection {
 
         this._executeGetRequest("productVariationGroups", { "productID": product.getID() }).then(
             (result) => {
-                console.log(JSON.parse(result));
+                console.log(result);
             }
         );
 
