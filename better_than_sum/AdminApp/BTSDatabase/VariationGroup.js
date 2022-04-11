@@ -44,4 +44,8 @@ export default class VariationGroup {
         return newVariation;
     }
 
+    loadVariation(variation) {
+        this._variations.push(variation);
+    }
+
 }
