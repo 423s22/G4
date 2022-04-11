@@ -11,13 +11,16 @@ export default class ProductState extends AppState {
   }
 
   onRender(divID) {
+    // Temporary for testing db conn
+    let dbConn = this._app.getDatabaseConnection();
+
     let div = document.getElementById(divID);
     div.innerHTML = "";
     div.innerHTML = "<h1>Products!</h1>";
 
-    // Temporary for testing db conn
-    let dbConn = this._app.getDatabaseConnection();
-
-    dbConn.getUserProducts(1);
+    dbConn.getUserProducts(1).then((products) => {
+      products[0].setName("Updated via code");
+      products[0].save();
+    });
   }
 }

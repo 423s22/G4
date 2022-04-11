@@ -20,7 +20,7 @@ export default class App {
     this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
     this._running = false;
 
-    this._dbConn = new DatabaseConnection();
+    this._dbConn = new DatabaseConnection(1);
   }
 
   // TODO: Create setState() - Change state of    app

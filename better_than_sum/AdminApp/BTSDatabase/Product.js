@@ -1,100 +1,161 @@
 import DatabaseConnection from "./DatabaseConnection";
+import Variation from "./Variation";
 import VariationGroup from "./VariationGroup";
 
 export default class Product {
+  /**
+   * Creates a new in-memory product. This method is to be used by DatabaseConnection
+   * @param {number} id the database id of the product
+   * @param {number} baseCost the base cost, in cents, of the product
+   * @param {string} name the name of the product
+   * @param {DatabaseConnection} dbConn a connection to the BTS API
+   */
+  constructor(id, baseCost, name, dbConn) {
+    this._id = id;
+    this._baseCost = baseCost;
+    this._name = name;
+    this._dbConn = dbConn;
+    this._variationGroups = [];
+    this._saved = true;
+  }
 
-    /**
-     * 
-     * @param {number} id 
-     * @param {number} baseCost 
-     * @param {string} name 
-     * @param {DatabaseConnection} dbConn 
-     */
-    constructor(id, baseCost, name, dbConn) {
-        this._id = id;
-        this._baseCost = baseCost;
-        this._name = name;
-        this._dbConn = dbConn;
-        this._variationGroups = [];
+  /**
+   * Saves the product to the database
+   * @returns a promise that completes once saving is done
+   */
+  async save() {
+    await this._dbConn.saveProduct(this);
+    this._saved = true;
+  }
+
+  /**
+   * Determines if the product has been saved to the database with no changes since last save
+   * @returns true if the product has been saved
+   */
+  isSaved() {
+    return this._saved;
+  }
+
+  /**
+   * Marks the product as unsaved
+   */
+  markUnsaved() {
+    this._saved = false;
+  }
+
+  /**
+   * Refreshes the product from the database
+   * @returns a promise that completes once refreshing is done
+   */
+  async refresh() {
+    this._variationGroups = [];
+    await this._dbConn.reloadProduct(this);
+  }
+
+  /**
+   *
+   * @returns the id of the product
+   */
+  getID() {
+    return this._id;
+  }
+
+  /**
+   *
+   * @returns the base cost, in cents, of the product
+   */
+  getBaseCost() {
+    return this._baseCost;
+  }
+
+  /**
+   * Updates the base cost of the product
+   * @param {number} newCost the new cost, in cents
+   */
+  setBaseCost(newCost) {
+    this._baseCost = newCost;
+    this._saved = false;
+  }
+
+  /**
+   *
+   * @returns the name of the product
+   */
+  getName() {
+    return this._name;
+  }
+
+  /**
+   * Updates the products name
+   * @param {string} newName the new name of the product
+   */
+  setName(newName) {
+    this._name = newName;
+    this._saved = false;
+  }
+
+  /**
+   * Gets all of the variation groups belonging to this product
+   * @returns {VariationGroup[]} an array containing the variation groups
+   */
+  getVariationGroups() {
+    return this._variationGroups;
+  }
+
+  /**
+   * Gets a specific variation group via an ID
+   * @param {number} groupID the ID of the requested group
+   * @returns {VariationGroup} the desired group, or null if it does not belong to this product
+   */
+  getVariationGroupByID(groupID) {
+    for (let i = 0; i < this._variationGroups.length; i++) {
+      if (this._variationGroups[i].getID() == groupID) {
+        return this._variationGroups[i];
+      }
     }
+    return null;
+  }
 
-    // TODO: Save product to database. Optimistic concurrency?
-    // Should save the product and all variation stuff
-    saveProduct() {
-
-    }
-
-    // TODO: Reload product from database
-    refresh() {
-
-    }
-
-    getID() {
-        return this._id;
-    }
-
-    getBaseCost() {
-        return this._baseCost;
-    }
-
-    setBaseCost(newCost) {
-        this._baseCost = newCost;
-    }
-
-    getName() {
-        return this._name;
-    }
-
-    setName(newName) {
-        this._name = newName;
-    }
-
-    /**
-     * 
-     * @returns {VariationGroup[]}
-     */
-    getVariationGroups() {
-        return this._variationGroups;
-    }
-
-    /**
-     * 
-     * @param {number} groupID 
-     * @returns {VariationGroup}
-     */
-    getVariationGroupByID(groupID) {
-        for (let i = 0; i < this._variationGroups.length; i++) {
-            if (this._variationGroups[i].getID() == groupID) {
-                return this._variationGroups[i];
-            }
+  /**
+   * Gets a specific variation via an ID
+   * @param {number} variationID the ID of the requested variation
+   * @returns {Variation} the desired variation, or null if it does not belong to this product
+   */
+  getVariationByID(variationID) {
+    for (let i = 0; i < this._variationGroups.length; i++) {
+      let curGroupVars = this._variationGroups[i].getVariations();
+      for (let j = 0; j < curGroupVars.length; j++) {
+        if (curGroupVars[j].getID() == variationID) {
+          return curGroupVars[j];
         }
-        return null;
+      }
     }
+    return null;
+  }
 
-    /**
-     * 
-     * @param {number} variationID 
-     */
-    getVariationByID(variationID) {
-        for (let i = 0; i < this._variationGroups.length; i++) {
-            let curGroupVars = this._variationGroups[i].getVariations();
-            for (let j = 0; j < curGroupVars.length; j++) {
-                if (curGroupVars[j].getID() == variationID) {
-                    return curGroupVars[j];
-                }
-            }
-        }
-        return null;
-    }
+  /**
+   * Creates a new empty variation group belonging to this product
+   * @returns {VariationGroup} the newly created group
+   */
+  async addVariationGroup() {
+    let newGroup = await this._dbConn.createNewVariationGroup(this);
+    this._variationGroups.push(newGroup);
+    return newGroup;
+  }
 
-    async addVariationGroup() {
-        let newGroup = await this._dbConn.createNewVariationGroup(this);
-        this._variationGroups.push(newGroup);
-        return newGroup;
-    }
+  /**
+   * Loads a new variation group that belongs to this product
+   * @param {VariationGroup} group the group to load
+   */
+  loadVariationGroup(group) {
+    this._variationGroups.push(group);
+  }
 
-    loadVariationGroup(group) {
-        this._variationGroups.push(group);
-    }
-
+  /**
+   * Removes a variation group from the product and database
+   * @param {number} groupID the id of the group to remove
+   */
+  async deleteVariationGroup(groupID) {
+    // TODO: Implement
+  }
 }
