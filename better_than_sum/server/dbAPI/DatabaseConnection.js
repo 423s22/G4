@@ -1,6 +1,19 @@
 const mysql = require("mysql-await");
+import Koa from "koa";
 
+
+/**
+ * Represents a connection to a database, allowing for handeling get, post, and delete requests
+ */
 export default class DatabaseConnection {
+
+    /**
+     * Creates a new MySQL based connection
+     * @param {string} host the IP of the host MySQL server
+     * @param {string} username the username to login to MySQL with
+     * @param {string} password the password to login to MySQL with
+     * @param {string} database the name of the database to USE
+     */
     constructor(host, username, password, database) {
         this._connection = mysql.createConnection({
             host: host,
@@ -10,10 +23,13 @@ export default class DatabaseConnection {
         });
     }
 
+    /**
+     * Handles an HTTP GET request and returns the relevant data
+     * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
+     */
     async handleGetRequest(ctx) {
-        ctx.respond = false;
         const requestedData = ctx.query.request;
-        let results;
+        let results = null;
         switch (requestedData) {
             case "userProducts":
                 results = await this._getUserProductsJSON(parseInt(ctx.query.userID));
@@ -31,9 +47,13 @@ export default class DatabaseConnection {
                 results = await this._getVariationBlockersJSON(parseInt(ctx.query.variationID));
                 break;
         }
-        ctx.res.write(`${results}`);
-        ctx.res.end();
-        ctx.res.statusCode = 200;
+
+        if (results == null) {
+            ctx.response.status = 400;
+        } else {
+            ctx.response.body = results;
+            ctx.response.status = 200;
+        }
     }
 
     async _getUserProductsJSON(userID) {
@@ -82,11 +102,14 @@ export default class DatabaseConnection {
         return JSON.stringify(resultsA.concat(resultsB));
     }
 
+    /**
+     * Handles an HTTP POST request and returns the relevant data about the added object
+     * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
+     */
     async handlePostRequest(ctx) {
         const post = ctx.request.body;
-
         const requestedOperation = post["operation"];
-        let results;
+        let results = null;
         switch (requestedOperation) {
             case "product":
                 {
@@ -122,11 +145,13 @@ export default class DatabaseConnection {
                     break;
                 }
         }
-        ctx.respond = false;
-        ctx.res.statusCode = 200;
-        ctx.status = 200;
-        ctx.res.write(`${results}`);
-        ctx.res.end();
+
+        if (results == null) {
+            ctx.response.status = 400;
+        } else {
+            ctx.response.body = results;
+            ctx.response.status = 200;
+        }
     }
 
     async _postProduct(id, baseCost, name, owningUser) {
@@ -190,10 +215,14 @@ export default class DatabaseConnection {
 
     }
 
+    /**
+     * Handles an HTTP DELETE request and returns if the requested object was deleted
+     * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
+     */
     async handleDeleteRequest(ctx) {
 
         const requestedOperation = ctx.query.operation;
-        let results;
+        let results = null;
         switch (requestedOperation) {
             case "product":
                 {
@@ -221,11 +250,13 @@ export default class DatabaseConnection {
                     break;
                 }
         }
-        ctx.respond = false;
-        ctx.res.statusCode = 200;
-        ctx.status = 200;
-        ctx.res.write(`${results}`);
-        ctx.res.end();
+
+        if (results == null) {
+            ctx.response.status = 400;
+        } else {
+            ctx.response.body = results;
+            ctx.response.status = 200;
+        }
     }
 
     async _deleteProduct(id) {
@@ -274,6 +305,10 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Attempts to connect to the database
+     * @returns true when successfully connected, or false if an error occurred
+     */
     async connect() {
         if (this._isConnected) return true;
         let err = await this._connection.awaitConnect();
@@ -288,6 +323,9 @@ export default class DatabaseConnection {
         return this._isConnected;
     }
 
+    /**
+     * Disconnects from the database
+     */
     async disconnect() {
         await this._connection.awaitEnd();
         this._isConnected = false;
