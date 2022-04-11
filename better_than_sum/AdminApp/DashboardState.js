@@ -7,9 +7,7 @@ export default class DashboardState extends AppState {
 
   onEnable() {}
 
-  onDisable(divID) {
-    let div = document.getElementById(divID);
-  }
+  onDisable() {}
 
   onRender(divID) {
     let div = document.getElementById(divID);

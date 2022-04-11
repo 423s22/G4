@@ -47,7 +47,7 @@ export default class App {
 
   setState(stateType) {
     let oldState = this._state;
-    oldState.onDisable("stateDiv");
+    oldState.onDisable();
 
     let newState = this._allStates.get(stateType);
     this._state = newState;

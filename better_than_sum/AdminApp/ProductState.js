@@ -6,9 +6,7 @@ export default class ProductState extends AppState {
 
   onEnable() {}
 
-  onDisable(divID) {
-    let div = document.getElementById(divID);
-  }
+  onDisable() {}
 
   onRender(divID) {
     // Temporary for testing db conn
