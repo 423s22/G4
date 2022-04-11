@@ -2,22 +2,6 @@ import DatabaseConnection from "./DatabaseConnection";
 import VariationGroup from "./VariationGroup";
 
 export default class Variation {
-    /**
-     *
-     * @param {number} id
-     * @param {VariationGroup} variationGroup
-     * @param {number} addedCost
-     * @param {string} name
-     * @param {DatabaseConnection} dbConn
-     */
-    constructor(id, variationGroup, addedCost, name, dbConn) {
-        this._id = id;
-        this._variationGroup = variationGroup;
-        this._addedCost = addedCost;
-        this._name = name;
-        this._dbConn = dbConn;
-        this._blockers = [];
-    }
 
     /**
      * Creates a new in-memory variation. This method is to be used by DatabaseConnection
