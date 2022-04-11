@@ -16,17 +16,25 @@ export default class Product {
         this._name = name;
         this._dbConn = dbConn;
         this._variationGroups = [];
+        this._saved = true;
     }
 
-    // TODO: Save product to database. Optimistic concurrency?
-    // Should save the product and all variation stuff
-    saveProduct() {
-
+    async save() {
+        await this._dbConn.saveProduct(this);
+        this._saved = true;
     }
 
-    // TODO: Reload product from database
-    refresh() {
+    isSaved() {
+        return this._saved;
+    }
 
+    markUnsaved() {
+        this._saved = false;
+    }
+
+    async refresh() {
+        this._variationGroups = [];
+        await this._dbConn.reloadProduct(this);
     }
 
     getID() {
@@ -39,6 +47,7 @@ export default class Product {
 
     setBaseCost(newCost) {
         this._baseCost = newCost;
+        this._saved = false;
     }
 
     getName() {
@@ -47,6 +56,7 @@ export default class Product {
 
     setName(newName) {
         this._name = newName;
+        this._saved = false;
     }
 
     /**
@@ -95,6 +105,10 @@ export default class Product {
 
     loadVariationGroup(group) {
         this._variationGroups.push(group);
+    }
+
+    async deleteVariationGroup(groupID) {
+
     }
 
 }

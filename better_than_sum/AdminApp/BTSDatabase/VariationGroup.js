@@ -33,6 +33,7 @@ export default class VariationGroup {
 
     setName(newName) {
         this._name = newName;
+        this._product.markUnsaved();
     }
 
     /**
@@ -51,6 +52,10 @@ export default class VariationGroup {
 
     loadVariation(variation) {
         this._variations.push(variation);
+    }
+
+    async deleteVariation(variationID) {
+
     }
 
 }

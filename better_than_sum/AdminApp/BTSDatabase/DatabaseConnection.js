@@ -4,23 +4,23 @@ import VariationGroup from "./VariationGroup";
 
 export default class DatabaseConnection {
 
-    constructor(baseURL = null) {
+    constructor(baseURL = null, userID) {
         if (baseURL == null)
             this._baseURL = new URL(window.location.href);
         else
             this._baseURL = new URL(baseURL);
 
         this._baseURL.pathname += "database/";
+        this._userID = userID;
     }
 
     /**
      * Retrieves all the products owned by a user
-     * @param {number} userID the ID of the user
      * @returns an array of Products
      */
-    async getUserProducts(userID) {
+    async getUserProducts() {
 
-        let responseJSON = await this._executeGetRequest("userProducts", { "userID": userID });
+        let responseJSON = await this._executeGetRequest("userProducts", { "userID": this._userID });
         let products = [];
         for (let i = 0; i < responseJSON.length; i++) {
             let id = responseJSON[i]["productID"];
@@ -32,13 +32,28 @@ export default class DatabaseConnection {
         for (let i = 0; i < products.length; i++) {
             this._generateVariationGroups(products[i]).then(() => {
                 this._generateVariations(products[i]).then(() => {
-                    this._generateBlockers(products[i]).then(() => {
-                        console.log(products[i]);
-                    });
+                    this._generateBlockers(products[i]);
                 });
             });
         }
         return products;
+    }
+
+    /**
+     * Reloads a product. This should not be called directly, but is called via Product::refresh
+     * @param {Product} product 
+     */
+    async reloadProduct(product) {
+
+        let responseJSON = await this._executeGetRequest("product", { "productID": product.getID() });
+
+        product.setBaseCost(responseJSON["baseCost"]);
+        product.setName(responseJSON["name"]);
+
+        await this._generateVariationGroups(product);
+        await this._generateVariations(product);
+        await this._generateBlockers(product);
+
     }
 
     /**
@@ -101,16 +116,15 @@ export default class DatabaseConnection {
 
     /**
      * Creates a new empty product
-     * @param {number} userID the ID of the user
      * @returns the created Product
      */
-    async createNewProduct(userID) {
+    async createNewProduct() {
 
         let productID = (await this._executePostRequest({
             "operation": "product",
             "baseCost": 0,
             "name": "",
-            "owningUser": userID
+            "owningUser": this._userID
         }))["insertedID"];
 
         return new Product(productID, 0, "", this);
@@ -162,6 +176,55 @@ export default class DatabaseConnection {
             "blockerBID": variationB.getID()
         });
 
+    }
+
+    /**
+     * Saves an existing product to the database.
+     * Should not be called directly, but via Product::save
+     * @param {Product} product 
+     */
+    async saveProduct(product) {
+
+        let promises = [];
+
+        if (!product.isSaved()) {
+            promises.push(this._executePostRequest({
+                "operation": "product",
+                "productID": product.getID(),
+                "baseCost": product.getBaseCost(),
+                "name": product.getName(),
+                "owningUser": this._userID
+            }));
+
+            let varGroups = product.getVariationGroups();
+            for (let i = 0; i < varGroups.length; i++) {
+                let curGroup = varGroups[i];
+
+                promises.push(this._executePostRequest({
+                    "operation": "variationGroup",
+                    "groupID": curGroup.getID(),
+                    "name": curGroup.getName(),
+                    "owningProduct": product.getID()
+                }));
+
+                let variations = curGroup.getVariations();
+
+                for (let j = 0; j < variations.length; j++) {
+                    let curVariation = variations[j];
+
+                    promises.push(this._executePostRequest({
+                        "operation": "variation",
+                        "variationID": curVariation.getID(),
+                        "name": curVariation.getName(),
+                        "addedCost": curVariation.getAddedCost(),
+                        "owningGroup": curGroup.getID()
+                    }));
+                }
+
+            }
+
+        }
+        await Promise.all(promises);
     }
 
     /**

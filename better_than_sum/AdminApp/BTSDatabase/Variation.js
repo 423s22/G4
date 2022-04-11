@@ -34,6 +34,7 @@ export default class Variation {
 
     setAddedCost(newCost) {
         this._addedCost = newCost;
+        this._variationGroup._product.markUnsaved();
     }
 
     getName() {
@@ -42,6 +43,7 @@ export default class Variation {
 
     setName(newName) {
         this._name = newName;
+        this._variationGroup._product.markUnsaved();
     }
 
     getBlockers() {
@@ -65,6 +67,10 @@ export default class Variation {
             this._blockers.push(variation);
             variation._blockers.push(this);
         }
+    }
+
+    async deleteBlocker(variation) {
+
     }
 
 }

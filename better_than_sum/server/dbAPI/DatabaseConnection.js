@@ -37,6 +37,9 @@ export default class DatabaseConnection {
             case "userID":
                 results = await this._getUserIDJSON(ctx.query.userName);
                 break;
+            case "product":
+                results = await this._getProductJSON(ctx.query.productID);
+                break;
             case "productVariations":
                 results = await this._getProductVariationsJSON(parseInt(ctx.query.productID));
                 break;
@@ -54,6 +57,16 @@ export default class DatabaseConnection {
             ctx.response.body = results;
             ctx.response.status = 200;
         }
+    }
+
+    async _getProductJSON(productID) {
+        let results = await this._connection.awaitQuery(
+            `
+            SELECT * FROM Products 
+            WHERE productID = ?;
+            `, [productID]
+        );
+        return JSON.stringify(results);
     }
 
     async _getUserProductsJSON(userID) {
