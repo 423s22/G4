@@ -31,7 +31,7 @@ export default class DatabaseConnection {
 
         // TODO: Add loading variation stuff for each product
         for (let i = 0; i < products.length; i++) {
-            this._getProductVariationGroups(product[i]);
+            this._getProductVariationGroups(products[i]);
         }
 
 
