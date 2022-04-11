@@ -1,26 +1,23 @@
 import AppState from "./AppState";
 export default class ProductState extends AppState {
+  constructor(app) {
+    super(app);
+  }
 
-    constructor(app) {
-        super(app);
-    }
+  onEnable() {}
 
-    onEnable() {}
+  onDisable(divID) {
+    let div = document.getElementById(divID);
+  }
 
-    onDisable() {}
+  onRender(divID) {
+    let div = document.getElementById(divID);
+    div.innerHTML = "";
+    div.innerHTML = "<h1>Products!</h1>";
 
-    onRender(divID) {
+    // Temporary for testing db conn
+    let dbConn = this._app.getDatabaseConnection();
 
-        let div = document.getElementById(divID);
-        div.innerHTML = "";
-        div.innerHTML = "<h1>Products!</h1>";
-
-
-        // Temporary for testing db conn
-        let dbConn = this._app.getDatabaseConnection();
-
-        dbConn.getUserProducts(1);
-
-    }
-
+    dbConn.getUserProducts(1);
+  }
 }

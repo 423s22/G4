@@ -4,17 +4,21 @@ import AppState from "./AppState";
 export default class HelpState extends AppState {
   constructor(app) {
     super(app);
+    this._renderDiv = null;
   }
 
   onEnable() {}
 
-  onDisable() {}
+  onDisable(divID) {
+    let div = document.getElementById(divID);
+    div.classList.remove("helpState");
+  }
 
   onRender(divID) {
     let div = document.getElementById(divID);
 
     div.innerHTML = "";
-    div.innerHTML = "<h1>Help!</h1>";
+    div.classList.add("helpState");
 
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
@@ -27,10 +31,9 @@ export default class HelpState extends AppState {
     };
     xmlHttp.open(
       "GET",
-      "https://raw.githubusercontent.com/423s22/G4/main/Documentation/Dev%20Docs.md",
+      "https://raw.githubusercontent.com/423s22/G4/main/Documentation/User%20Docs.md",
       true
     );
     xmlHttp.send();
-    //div.className = styles;
   }
 }

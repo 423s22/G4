@@ -19,12 +19,10 @@ export default class NavBar {
     let navItemDB = document.createElement("li");
     let navItemP = document.createElement("li");
     let navItemH = document.createElement("li");
-    let navItemS = document.createElement("li");
 
     let linkDashboard = document.createElement("a");
     let linkProduct = document.createElement("a");
     let linkHelp = document.createElement("a");
-    let linkSettings = document.createElement("a");
 
     // Set all the anchors and labels
     linkDashboard.innerHTML = "Dashboard";
@@ -42,22 +40,15 @@ export default class NavBar {
     });
     linkHelp.innerHTML = "Help";
 
-    linkSettings.addEventListener("click", (event) => {
-      this._app.setState(AppStateType.SettingState);
-    });
-    linkSettings.innerHTML = "Settings";
-
     // Add all the links to a list item
     navItemDB.appendChild(linkDashboard);
     navItemP.appendChild(linkProduct);
     navItemH.appendChild(linkHelp);
-    navItemS.appendChild(linkSettings);
 
     // add to unorder list
     navItems.appendChild(navItemDB);
     navItems.appendChild(navItemP);
     navItems.appendChild(navItemH);
-    navItems.appendChild(navItemS);
 
     // add to navBar
     navDiv.appendChild(navItems);

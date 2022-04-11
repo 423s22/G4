@@ -4,66 +4,64 @@ import AppStateType from "./AppStateType";
 import DashboardState from "./DashboardState";
 import ProductState from "./ProductState";
 import HelpState from "./HelpState";
-import SettingState from "./SettingState";
 import DatabaseConnection from "./BTSDatabase/DatabaseConnection";
 
 export default class App {
-    constructor() {
-        console.log("constructed");
+  constructor() {
+    console.log("constructed");
 
-        this._allStates = new Map();
+    this._allStates = new Map();
 
-        // Create states
-        this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
-        this._allStates.set(AppStateType.ProductState, new ProductState(this));
-        this._allStates.set(AppStateType.HelpState, new HelpState(this));
-        this._allStates.set(AppStateType.SettingState, new SettingState(this));
+    // Create states
+    this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
+    this._allStates.set(AppStateType.ProductState, new ProductState(this));
+    this._allStates.set(AppStateType.HelpState, new HelpState(this));
 
-        this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
-        this._running = false;
+    this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
+    this._running = false;
 
-        this._dbConn = new DatabaseConnection();
-    }
+    this._dbConn = new DatabaseConnection();
+  }
 
-    // TODO: Create setState() - Change state of    app
+  // TODO: Create setState() - Change state of    app
 
-    start() {
-        this._running = true;
+  start() {
+    this._running = true;
 
-        let appDiv = document.getElementById("appDiv");
-        this._navBar = new NavBar();
-        this._navBar.createNavigationBar(this);
+    let appDiv = document.getElementById("appDiv");
+    this._navBar = new NavBar();
+    this._navBar.createNavigationBar(this);
 
-        let stateDiv = document.createElement("div");
+    let stateDiv = document.createElement("div");
 
-        appDiv.appendChild(stateDiv);
-        stateDiv.id = "stateDiv";
-        this._state.onRender("stateDiv");
+    appDiv.appendChild(stateDiv);
+    stateDiv.id = "stateDiv";
+    this._state.onRender("stateDiv");
 
-        this._state.onEnable();
-    }
+    this._state.onEnable();
+  }
 
-    isRunning() {
-        return this._running;
-    }
+  isRunning() {
+    return this._running;
+  }
 
-    setState(stateType) {
-        let oldState = this._state;
-        oldState.onDisable();
+  setState(stateType) {
+    let oldState = this._state;
+    oldState.onDisable("stateDiv");
 
-        let newState = this._allStates.get(stateType);
-        this._state = newState;
-        newState.onEnable();
+    let newState = this._allStates.get(stateType);
+    this._state = newState;
+    newState.onEnable();
 
-        newState.onRender("stateDiv");
-    }
+    newState.onRender("stateDiv");
+  }
 
-    getDatabaseConnection() {
-        return this._dbConn;
-    }
+  getDatabaseConnection() {
+    return this._dbConn;
+  }
 
-    // TODO: Add in call to database
+  // TODO: Add in call to database
 
-    //TODO: Add in the call to products as a list
+  //TODO: Add in the call to products as a list
 }
 // TODO: Implement
