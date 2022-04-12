@@ -33,14 +33,20 @@ export default class DatabaseConnection {
 			products.push(new Product(id, baseCost, name, this));
 		}
 
+		// Clusters the generation of products, and waits for them all to complete
+		let toComplete = [];
 		for (let i = 0; i < products.length; i++) {
-			this._generateVariationGroups(products[i]).then(() => {
-				this._generateVariations(products[i]).then(() => {
-					this._generateBlockers(products[i]);
-				});
-			});
+
+			let cluster = async function () {
+				await this._generateVariationGroups(products[i]);
+				await this._generateVariations(products[i]);
+				await this._generateBlockers(products[i]);
+			};
+			toComplete.push(cluster());
 		}
-		
+
+		await Promise.all(toComplete);
+
 		return new ProductList(products, this);
 	}
 
