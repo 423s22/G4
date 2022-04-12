@@ -37,12 +37,12 @@ export default class DatabaseConnection {
 		let toComplete = [];
 		for (let i = 0; i < products.length; i++) {
 
-			let cluster = async function () {
-				await this._generateVariationGroups(products[i]);
-				await this._generateVariations(products[i]);
-				await this._generateBlockers(products[i]);
+			let cluster = async function (obj) {
+				await obj._generateVariationGroups(products[i]);
+				await obj._generateVariations(products[i]);
+				await thobjis._generateBlockers(products[i]);
 			};
-			toComplete.push(cluster());
+			toComplete.push(cluster(this));
 		}
 
 		await Promise.all(toComplete);
