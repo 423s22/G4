@@ -40,7 +40,7 @@ export default class DatabaseConnection {
 			let cluster = async function (obj) {
 				await obj._generateVariationGroups(products[i]);
 				await obj._generateVariations(products[i]);
-				await thobjis._generateBlockers(products[i]);
+				await obj._generateBlockers(products[i]);
 			};
 			toComplete.push(cluster(this));
 		}
