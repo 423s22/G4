@@ -15,7 +15,7 @@ export default class ProductState extends AppState {
 		div.innerHTML = "";
 		div.innerHTML = "<h1>Products!</h1>";
 
-		this.testDB();
+		//this.testDB();
 
 	}
 
