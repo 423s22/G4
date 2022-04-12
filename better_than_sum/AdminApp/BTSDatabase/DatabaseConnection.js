@@ -1,293 +1,359 @@
 import Product from "./Product";
+import ProductList from "./ProductList";
 import Variation from "./Variation";
 import VariationGroup from "./VariationGroup";
 
 export default class DatabaseConnection {
-  /**
-   * Creates a new connection to the BTS Database API
-   * @param {number} userID the ID of the user managing the products
-   * @param {string} baseURL the URL to make the http requests to
-   */
-  constructor(userID, baseURL = null) {
-    if (baseURL == null) this._baseURL = new URL(window.location.href);
-    else this._baseURL = new URL(baseURL);
+	/**
+	 * Creates a new connection to the BTS Database API
+	 * @param {number} userID the ID of the user managing the products
+	 * @param {string} baseURL the URL to make the http requests to
+	 */
+	constructor(userID, baseURL = null) {
+		if (baseURL == null) this._baseURL = new URL(window.location.href);
+		else this._baseURL = new URL(baseURL);
 
-    this._baseURL.pathname += "database/";
-    this._userID = userID;
-  }
+		this._baseURL.pathname += "database/";
+		this._userID = userID;
+	}
 
-  /**
-   * Retrieves all the products owned by a user
-   * @returns an array of Products
-   */
-  async getUserProducts() {
-    let responseJSON = await this._executeGetRequest("userProducts", {
-      userID: this._userID,
-    });
-    let products = [];
-    for (let i = 0; i < responseJSON.length; i++) {
-      let id = responseJSON[i]["productID"];
-      let baseCost = responseJSON[i]["baseCost"];
-      let name = responseJSON[i]["name"];
-      products.push(new Product(id, baseCost, name, this));
-    }
+	/**
+	 * Retrieves all the products owned by a user
+	 * @returns an array of Products
+	 */
+	async getUserProducts() {
+		let responseJSON = await this._executeGetRequest("userProducts", {
+			userID: this._userID,
+		});
+		let products = [];
+		for (let i = 0; i < responseJSON.length; i++) {
+			let id = responseJSON[i]["productID"];
+			let baseCost = responseJSON[i]["baseCost"];
+			let name = responseJSON[i]["name"];
+			products.push(new Product(id, baseCost, name, this));
+		}
 
-    for (let i = 0; i < products.length; i++) {
-      this._generateVariationGroups(products[i]).then(() => {
-        this._generateVariations(products[i]).then(() => {
-          this._generateBlockers(products[i]);
-        });
-      });
-    }
-    return products;
-  }
+		for (let i = 0; i < products.length; i++) {
+			this._generateVariationGroups(products[i]).then(() => {
+				this._generateVariations(products[i]).then(() => {
+					this._generateBlockers(products[i]);
+				});
+			});
+		}
+		
+		return new ProductList(products, this);
+	}
 
-  /**
-   * Reloads a product. This should not be called directly, but is called via Product::refresh
-   * @param {Product} product
-   */
-  async reloadProduct(product) {
-    let responseJSON = await this._executeGetRequest("product", {
-      productID: product.getID(),
-    });
+	/**
+	 * Reloads a product. This should not be called directly, but is called via Product::refresh
+	 * @param {Product} product
+	 */
+	async reloadProduct(product) {
+		let responseJSON = await this._executeGetRequest("product", {
+			productID: product.getID(),
+		});
 
-    product.setBaseCost(responseJSON["baseCost"]);
-    product.setName(responseJSON["name"]);
+		product.setBaseCost(responseJSON["baseCost"]);
+		product.setName(responseJSON["name"]);
 
-    await this._generateVariationGroups(product);
-    await this._generateVariations(product);
-    await this._generateBlockers(product);
-  }
+		await this._generateVariationGroups(product);
+		await this._generateVariations(product);
+		await this._generateBlockers(product);
+	}
 
-  /**
-   * Generates the variation groups for a product by loading them from the database
-   * @param {Product} product the product to generate the groups for
-   */
-  async _generateVariationGroups(product) {
-    let groups = await this._executeGetRequest("productVariationGroups", {
-      productID: product.getID(),
-    });
+	/**
+	 * Generates the variation groups for a product by loading them from the database
+	 * @param {Product} product the product to generate the groups for
+	 */
+	async _generateVariationGroups(product) {
+		let groups = await this._executeGetRequest("productVariationGroups", {
+			productID: product.getID(),
+		});
 
-    for (let i = 0; i < groups.length; i++) {
-      let group = groups[i];
-      product.loadVariationGroup(
-        new VariationGroup(group.groupID, product, group.name, this)
-      );
-    }
-  }
+		for (let i = 0; i < groups.length; i++) {
+			let group = groups[i];
+			product.loadVariationGroup(
+				new VariationGroup(group.groupID, product, group.name, this)
+			);
+		}
+	}
 
-  /**
-   * Generates the variations for a product by loading them from the database
-   * @param {Product} product the product to generate the groups for
-   */
-  async _generateVariations(product) {
-    let variations = await this._executeGetRequest("productVariations", {
-      productID: product.getID(),
-    });
+	/**
+	 * Generates the variations for a product by loading them from the database
+	 * @param {Product} product the product to generate the groups for
+	 */
+	async _generateVariations(product) {
+		let variations = await this._executeGetRequest("productVariations", {
+			productID: product.getID(),
+		});
 
-    for (let i = 0; i < variations.length; i++) {
-      let variation = variations[i];
-      let varGroup = product.getVariationGroupByID(variation.owningGroup);
-      varGroup.loadVariation(
-        new Variation(
-          variation.variationID,
-          varGroup,
-          variation.addedCost,
-          variation.name,
-          this
-        )
-      );
-    }
-  }
+		for (let i = 0; i < variations.length; i++) {
+			let variation = variations[i];
+			let varGroup = product.getVariationGroupByID(variation.owningGroup);
+			varGroup.loadVariation(
+				new Variation(
+					variation.variationID,
+					varGroup,
+					variation.addedCost,
+					variation.name,
+					this
+				)
+			);
+		}
+	}
 
-  /**
-   * Generates the variation blockers for a product by loading them from the database
-   * @param {Product} product the product to generate the groups for
-   */
-  async _generateBlockers(product) {
-    for (let i = 0; i < product.getVariationGroups().length; i++) {
-      let curGroup = product.getVariationGroups()[i];
-      for (let j = 0; j < curGroup.getVariations().length; j++) {
-        let curVariation = curGroup.getVariations()[j];
-        this._executeGetRequest("variationBlockers", {
-          variationID: curVariation.getID(),
-        }).then((result) => {
-          for (let k = 0; k < result.length; k++) {
-            let curBlocker = product.getVariationByID(result[k]["exclude"]);
-            if (curBlocker != null) {
-              curVariation.loadBlocker(curBlocker);
-            }
-          }
-        });
-      }
-    }
-  }
+	/**
+	 * Generates the variation blockers for a product by loading them from the database
+	 * @param {Product} product the product to generate the groups for
+	 */
+	async _generateBlockers(product) {
+		for (let i = 0; i < product.getVariationGroups().length; i++) {
+			let curGroup = product.getVariationGroups()[i];
+			for (let j = 0; j < curGroup.getVariations().length; j++) {
+				let curVariation = curGroup.getVariations()[j];
+				this._executeGetRequest("variationBlockers", {
+					variationID: curVariation.getID(),
+				}).then((result) => {
+					for (let k = 0; k < result.length; k++) {
+						let curBlocker = product.getVariationByID(result[k]["exclude"]);
+						if (curBlocker != null) {
+							curVariation.loadBlocker(curBlocker);
+						}
+					}
+				});
+			}
+		}
+	}
 
-  /**
-   * Creates a new empty product
-   * @returns the created Product
-   */
-  async createNewProduct() {
-    let productID = (
-      await this._executePostRequest({
-        operation: "product",
-        baseCost: 0,
-        name: "",
-        owningUser: this._userID,
-      })
-    )["insertedID"];
+	/**
+	 * Creates a new empty product
+	 * @returns the created Product
+	 */
+	async createNewProduct() {
+		let productID = (
+			await this._executePostRequest({
+				operation: "product",
+				baseCost: 0,
+				name: "",
+				owningUser: this._userID,
+			})
+		)["insertedID"];
 
-    return new Product(productID, 0, "", this);
-  }
+		return new Product(productID, 0, "", this);
+	}
 
-  /**
-   * Creates a new empty variation group
-   * @param {Product} product the product that owns the group
-   * @returns the created VariationGroup
-   */
-  async createNewVariationGroup(product) {
-    let groupID = (
-      await this._executePostRequest({
-        operation: "variationGroup",
-        name: "",
-        owningProduct: product.getID(),
-      })
-    )["insertedID"];
+	/**
+	 * Creates a new empty variation group
+	 * @param {Product} product the product that owns the group
+	 * @returns the created VariationGroup
+	 */
+	async createNewVariationGroup(product) {
+		let groupID = (
+			await this._executePostRequest({
+				operation: "variationGroup",
+				name: "",
+				owningProduct: product.getID(),
+			})
+		)["insertedID"];
 
-    return new VariationGroup(groupID, product, "", this);
-  }
+		return new VariationGroup(groupID, product, "", this);
+	}
 
-  /**
-   * Creates a new empty variation
-   * @param {VariationGroup} variationGroup the group that owns the variation
-   * @returns the new Variation
-   */
-  async createNewVariation(variationGroup) {
-    let variationID = (
-      await this._executePostRequest({
-        operation: "variation",
-        name: "",
-        addedCost: 0,
-        owningGroup: variationGroup.getID(),
-      })
-    )["insertedID"];
+	/**
+	 * Creates a new empty variation
+	 * @param {VariationGroup} variationGroup the group that owns the variation
+	 * @returns the new Variation
+	 */
+	async createNewVariation(variationGroup) {
+		let variationID = (
+			await this._executePostRequest({
+				operation: "variation",
+				name: "",
+				addedCost: 0,
+				owningGroup: variationGroup.getID(),
+			})
+		)["insertedID"];
 
-    return new Variation(variationID, variationGroup, 0, "", this);
-  }
+		return new Variation(variationID, variationGroup, 0, "", this);
+	}
 
-  /**
-   * Adds a new variation blocker between A and B
-   * @param {Variation} variationA
-   * @param {Variation} variationB
-   */
-  async createNewBlocker(variationA, variationB) {
-    await this._executePostRequest({
-      operation: "variationBlocker",
-      blockerAID: variationA.getID(),
-      blockerBID: variationB.getID(),
-    });
-  }
+	/**
+	 * Adds a new variation blocker between A and B
+	 * @param {Variation} variationA
+	 * @param {Variation} variationB
+	 */
+	async createNewBlocker(variationA, variationB) {
+		await this._executePostRequest({
+			operation: "variationBlocker",
+			blockerAID: variationA.getID(),
+			blockerBID: variationB.getID(),
+		});
+	}
 
-  /**
-   * Saves an existing product to the database.
-   * Should not be called directly, but via Product::save
-   * @param {Product} product the product to be saved
-   * @returns a promise that completes when the product is saved
-   */
-  async saveProduct(product) {
-    let promises = [];
+	/**
+	 * Saves an existing product to the database.
+	 * Should not be called directly, but via Product::save
+	 * @param {Product} product the product to be saved
+	 * @returns a promise that completes when the product is saved
+	 */
+	async saveProduct(product) {
+		let promises = [];
 
-    if (!product.isSaved()) {
-      promises.push(
-        this._executePostRequest({
-          operation: "product",
-          productID: product.getID(),
-          baseCost: product.getBaseCost(),
-          name: product.getName(),
-          owningUser: this._userID,
-        })
-      );
+		if (!product.isSaved()) {
+			promises.push(
+				this._executePostRequest({
+					operation: "product",
+					productID: product.getID(),
+					baseCost: product.getBaseCost(),
+					name: product.getName(),
+					owningUser: this._userID,
+				})
+			);
 
-      let varGroups = product.getVariationGroups();
-      for (let i = 0; i < varGroups.length; i++) {
-        let curGroup = varGroups[i];
+			let varGroups = product.getVariationGroups();
+			for (let i = 0; i < varGroups.length; i++) {
+				let curGroup = varGroups[i];
 
-        promises.push(
-          this._executePostRequest({
-            operation: "variationGroup",
-            groupID: curGroup.getID(),
-            name: curGroup.getName(),
-            owningProduct: product.getID(),
-          })
-        );
+				promises.push(
+					this._executePostRequest({
+						operation: "variationGroup",
+						groupID: curGroup.getID(),
+						name: curGroup.getName(),
+						owningProduct: product.getID(),
+					})
+				);
 
-        let variations = curGroup.getVariations();
+				let variations = curGroup.getVariations();
 
-        for (let j = 0; j < variations.length; j++) {
-          let curVariation = variations[j];
+				for (let j = 0; j < variations.length; j++) {
+					let curVariation = variations[j];
 
-          promises.push(
-            this._executePostRequest({
-              operation: "variation",
-              variationID: curVariation.getID(),
-              name: curVariation.getName(),
-              addedCost: curVariation.getAddedCost(),
-              owningGroup: curGroup.getID(),
-            })
-          );
-        }
-      }
-    }
-    await Promise.all(promises);
-  }
+					promises.push(
+						this._executePostRequest({
+							operation: "variation",
+							variationID: curVariation.getID(),
+							name: curVariation.getName(),
+							addedCost: curVariation.getAddedCost(),
+							owningGroup: curGroup.getID(),
+						})
+					);
+				}
+			}
+		}
+		await Promise.all(promises);
+	}
 
-  /**
-   * Executes a GET request to the BTS API with the given request type and data
-   * @param {string} request the request type
-   * @param {JSON} data the data used to fill in the remaining query parameters
-   * @returns the JSON data of the response
-   */
-  async _executeGetRequest(request, data = {}) {
-    let url = new URL(this._baseURL);
-    url.searchParams.append("request", request);
-    for (const key in data) {
-      url.searchParams.append(key, data[key]);
-    }
+	/**
+	 * Deletes a product from the database, and therefore all associated data.
+	 * Ensure any references to the product are also removed once this call is finished.
+	 * @param {Product} product the product to be removed
+	 */
+	async deleteProduct(product) {
+		await this._executeDeleteRequest("product", { "productID": product.getID() });
+	}
 
-    let promise = new Promise((resolve, reject) => {
-      let req = new XMLHttpRequest();
-      req.onreadystatechange = () => {
-        if (req.readyState == 4) {
-          resolve(JSON.parse(req.responseText));
-        }
-      };
+	/**
+	 * Deletes a variation group from the database, and therefore all associated variations
+	 * @param {VariationGroup} variationGroup the variation group to be removed
+	 */
+	async deleteVariationGroup(variationGroup) {
+		await this._executeDeleteRequest("variationGroup", { "groupID": variationGroup.getID() });
+	}
 
-      req.open("GET", url.toString());
-      req.send();
-    });
+	/**
+	 * Deletes a variation from the database, and therefore any blockers that reference it
+	 * @param {Variation} variation the variation to be removed
+	 */
+	async deleteVariation(variation) {
+		await this._executeDeleteRequest("variation", { "variationID": variation.getID() });
+	}
 
-    return promise;
-  }
+	/**
+	 * Deletes a variation blocker from the database between the two provided variations.
+	 * The order of the variations does not matter
+	 * @param {Variation} variationA one variation
+	 * @param {Variation} variationB the other variation
+	 */
+	async deleteBlocker(variationA, variationB) {
+		await this._executeDeleteRequest("variationBlocker", { "blockerAID": variationA.getID(), "blockerBID": variationB.getID() });
+	}
 
-  /**
-   * Executes a POST request to the BTS API with the given data
-   * @param {JSON} data the data sent to the API
-   * @returns the JSON data of the response
-   */
-  async _executePostRequest(data) {
-    let promise = new Promise((resolve, reject) => {
-      let url = new URL(this._baseURL);
-      let req = new XMLHttpRequest();
-      req.onreadystatechange = () => {
-        if (req.readyState == 4) {
-          resolve(JSON.parse(req.responseText));
-        }
-      };
-      req.open("POST", url.toString());
-      req.setRequestHeader("Content-Type", "application/json");
-      req.send(JSON.stringify(data));
-    });
+	/**
+	 * Executes a GET request to the BTS API with the given request type and data
+	 * @param {string} request the request type
+	 * @param {JSON} data the data used to fill in the remaining query parameters
+	 * @returns the JSON data of the response
+	 */
+	async _executeGetRequest(request, data = {}) {
+		let url = new URL(this._baseURL);
+		url.searchParams.append("request", request);
+		for (const key in data) {
+			url.searchParams.append(key, data[key]);
+		}
 
-    return promise;
-  }
+		let promise = new Promise((resolve, reject) => {
+			let req = new XMLHttpRequest();
+			req.onreadystatechange = () => {
+				if (req.readyState == 4) {
+					resolve(JSON.parse(req.responseText));
+				}
+			};
+
+			req.open("GET", url.toString());
+			req.send();
+		});
+
+		return promise;
+	}
+
+	/**
+	 * Executes a POST request to the BTS API with the given data
+	 * @param {JSON} data the data sent to the API
+	 * @returns the JSON data of the response
+	 */
+	async _executePostRequest(data) {
+		let promise = new Promise((resolve, reject) => {
+			let url = new URL(this._baseURL);
+			let req = new XMLHttpRequest();
+			req.onreadystatechange = () => {
+				if (req.readyState == 4) {
+					resolve(JSON.parse(req.responseText));
+				}
+			};
+			req.open("POST", url.toString());
+			req.setRequestHeader("Content-Type", "application/json");
+			req.send(JSON.stringify(data));
+		});
+
+		return promise;
+	}
+
+	/**
+	 * Executes a DELETE request to the BTS API with the given request type and data
+	 * @param {string} operation the operation type for deleting
+	 * @param {JSON} data the data used to fill in the remaining query parameters
+	 * @returns the JSON data of the response
+	 */
+	async _executeDeleteRequest(operation, data = {}) {
+		let url = new URL(this._baseURL);
+		url.searchParams.append("operation", operation);
+		for (const key in data) {
+			url.searchParams.append(key, data[key]);
+		}
+
+		let promise = new Promise((resolve, reject) => {
+			let req = new XMLHttpRequest();
+			req.onreadystatechange = () => {
+				if (req.readyState == 4) {
+					resolve(JSON.parse(req.responseText));
+				}
+			};
+
+			req.open("DELETE", url.toString());
+			req.send();
+		});
+
+		return promise;
+	}
+
 }

@@ -103,10 +103,22 @@ export default class Variation {
 
     /**
      * Removes a blocker from the variation and database
-     * @param {Variation} variation 
+     * @param {Variation} variation the other variation in the blocker
      */
     async deleteBlocker(variation) {
-        // TODO: Implement
+        let index = this._blockers.indexOf(variation);
+        if (index != -1) {
+            // Remove from both arrays
+            this._blockers.splice(index, 1);
+
+            let indexOther = variation._blockers.indexOf(this);
+            if (indexOther != -1) {
+                variation._blockers.splice(indexOther, 1);
+            }
+
+            // Remove from database
+            await this._dbConn.deleteBlocker(this, variation);
+        }
     }
 
 }
