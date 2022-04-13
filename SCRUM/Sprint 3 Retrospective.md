@@ -1,12 +1,12 @@
 # Faith Nelson
 ## What went well?
-
+We really seemed to get into a groove of being able to ask for help from Jacob. I felt like we really were able to get on the same page about what each of us are doing. 
 
 ## What failed?
-
+I feel like there may have been some lack of communication between some of us in explaining the changes that are being made once we figured out how to move forward. 
 
 ## What to do differently?
-
+Maybe give more group demos and code reviews. 
 
 # Jacob Hofer
 ## What went well?
