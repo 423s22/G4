@@ -15,5 +15,6 @@ Manajer quit with no notice, have to pick up extra shifts for the next month.
 
 # Faith
 ## Working on
-
+Dashboard, Help & maybe Product
 ## Blockers
+Waiting on Database implimentation for product
