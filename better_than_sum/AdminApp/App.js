@@ -7,61 +7,66 @@ import HelpState from "./HelpState";
 import DatabaseConnection from "./BTSDatabase/DatabaseConnection";
 
 export default class App {
-  constructor() {
-    console.log("constructed");
+    constructor() {
+        console.log("constructed");
 
-    this._allStates = new Map();
+        this._allStates = new Map();
 
-    // Create states
-    this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
-    this._allStates.set(AppStateType.ProductState, new ProductState(this));
-    this._allStates.set(AppStateType.HelpState, new HelpState(this));
+        // Create states
+        this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
+        this._allStates.set(AppStateType.ProductState, new ProductState(this));
+        this._allStates.set(AppStateType.HelpState, new HelpState(this));
 
-    this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
-    this._running = false;
+        this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
+        this._running = false;
 
-    this._dbConn = new DatabaseConnection(1);
-  }
+        this._dbConn = new DatabaseConnection(1);
 
-  // TODO: Create setState() - Change state of    app
+        let windowURL = new URL(window.location.href);
+        this._shopName = windowURL.searchParams.get("shop");
+        console.log(this._shopName);
 
-  start() {
-    this._running = true;
+    }
 
-    let appDiv = document.getElementById("appDiv");
-    this._navBar = new NavBar();
-    this._navBar.createNavigationBar(this);
+    // TODO: Create setState() - Change state of    app
 
-    let stateDiv = document.createElement("div");
+    start() {
+        this._running = true;
 
-    appDiv.appendChild(stateDiv);
-    stateDiv.id = "stateDiv";
-    this._state.onRender("stateDiv");
+        let appDiv = document.getElementById("appDiv");
+        this._navBar = new NavBar();
+        this._navBar.createNavigationBar(this);
 
-    this._state.onEnable();
-  }
+        let stateDiv = document.createElement("div");
 
-  isRunning() {
-    return this._running;
-  }
+        appDiv.appendChild(stateDiv);
+        stateDiv.id = "stateDiv";
+        this._state.onRender("stateDiv");
 
-  setState(stateType) {
-    let oldState = this._state;
-    oldState.onDisable("stateDiv");
+        this._state.onEnable();
+    }
 
-    let newState = this._allStates.get(stateType);
-    this._state = newState;
-    newState.onEnable();
+    isRunning() {
+        return this._running;
+    }
 
-    newState.onRender("stateDiv");
-  }
+    setState(stateType) {
+        let oldState = this._state;
+        oldState.onDisable("stateDiv");
 
-  getDatabaseConnection() {
-    return this._dbConn;
-  }
+        let newState = this._allStates.get(stateType);
+        this._state = newState;
+        newState.onEnable();
 
-  // TODO: Add in call to database
+        newState.onRender("stateDiv");
+    }
 
-  //TODO: Add in the call to products as a list
+    getDatabaseConnection() {
+        return this._dbConn;
+    }
+
+    // TODO: Add in call to database
+
+    //TODO: Add in the call to products as a list
 }
 // TODO: Implement
