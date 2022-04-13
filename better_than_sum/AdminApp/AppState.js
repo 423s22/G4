@@ -11,7 +11,7 @@ export default class AppState {
 
   onEnable() {}
 
-  onDisable(divID) {}
+  onDisable() {}
 
   onRender(divID) {}
 }

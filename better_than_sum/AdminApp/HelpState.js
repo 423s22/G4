@@ -1,5 +1,4 @@
 import AppState from "./AppState";
-//import styles from "./../pages/css/Help.css"
 
 export default class HelpState extends AppState {
   constructor(app) {
@@ -9,16 +8,15 @@ export default class HelpState extends AppState {
 
   onEnable() {}
 
-  onDisable(divID) {
-    let div = document.getElementById(divID);
-    div.classList.remove("helpState");
-  }
+  onDisable() {}
 
   onRender(divID) {
     let div = document.getElementById(divID);
 
     div.innerHTML = "";
-    div.classList.add("helpState");
+    let helpDiv = document.createElement("div");
+    helpDiv.id = "helpDiv";
+    div.appendChild(helpDiv);
 
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
@@ -26,7 +24,7 @@ export default class HelpState extends AppState {
         // Typical action to be performed when the document is ready:
         const { Remarkable } = require("remarkable");
         this._md = new Remarkable();
-        div.innerHTML = this._md.render(xmlHttp.responseText);
+        helpDiv.innerHTML = this._md.render(xmlHttp.responseText);
       }
     };
     xmlHttp.open(

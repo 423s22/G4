@@ -46,6 +46,11 @@ export default class App {
         this._state.onEnable();
     }
 
+    setState(stateType) {
+        let oldState = this._state;
+        oldState.onDisable();
+    }
+
     isRunning() {
         return this._running;
     }

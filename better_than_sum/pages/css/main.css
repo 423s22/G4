@@ -41,7 +41,7 @@
   padding-top: 1%;
 }
 
-.helpState h1 {
+#helpDiv h1 {
   padding-bottom: 0.3em;
   font-size: 2em;
   border-bottom: 1px solid;
@@ -49,7 +49,7 @@
   margin-bottom: 16px;
 }
 
-.helpState h2 {
+#helpDiv h2 {
   padding-bottom: 0.3em;
   font-size: 1.5em;
   border-bottom: 1px solid;
@@ -57,20 +57,20 @@
   margin-bottom: 16px;
 }
 
-.helpState h3 {
+#helpDiv h3 {
   font-size: 1.25em;
   margin-top: 24px;
   margin-bottom: 16px;
 }
 
-.helpState h4 {
+#helpDiv h4 {
   margin-top: 24px;
   margin-bottom: 16px;
   font-weight: 600;
   line-height: 1.25;
 }
 
-.helpState p {
+#helpDiv p {
   margin-top: 0;
   margin-bottom: 16px;
 }

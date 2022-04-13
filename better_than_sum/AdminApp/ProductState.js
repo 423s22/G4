@@ -1,26 +1,61 @@
 import AppState from "./AppState";
 export default class ProductState extends AppState {
-  constructor(app) {
-    super(app);
-  }
+	constructor(app) {
+		super(app);
+	}
 
-  onEnable() {}
+	onEnable() { }
 
-  onDisable(divID) {
-    let div = document.getElementById(divID);
-  }
+	onDisable() { }
 
-  onRender(divID) {
-    // Temporary for testing db conn
-    let dbConn = this._app.getDatabaseConnection();
+	onRender(divID) {
+		// Temporary for testing db conn
 
-    let div = document.getElementById(divID);
-    div.innerHTML = "";
-    div.innerHTML = "<h1>Products!</h1>";
+		let div = document.getElementById(divID);
+		div.innerHTML = "";
+		div.innerHTML = "<h1>Products!</h1>";
 
-    dbConn.getUserProducts(1).then((products) => {
-      products[0].setName("Updated via code");
-      products[0].save();
-    });
-  }
+		//this.testDB();
+
+	}
+
+	// TODO: Test method, remove later
+	async testDB() {
+		let dbConn = this._app.getDatabaseConnection();
+		let products = await dbConn.getUserProducts();
+		console.log(products.getProducts().length);
+
+		let newProduct = await products.addProduct();
+		newProduct.setName("Created Product");
+		let id = newProduct.getID();
+
+		let group1 = await newProduct.addVariationGroup();
+		group1.setName("Group1");
+
+		let var1 = await group1.addVariation();
+		var1.setName("Var1");
+
+		let var2 = await group1.addVariation();
+		var2.setName("Var2");
+
+		let group2 = await newProduct.addVariationGroup();
+		group2.setName("Group2");
+
+		let var3 = await group2.addVariation();
+		var3.setName("Var3");
+
+		await var3.addBlocker(var2);
+
+		await newProduct.save();
+
+		products = await dbConn.getUserProducts();
+		console.log(products.getProducts());
+		console.log(products.getProducts().length);
+
+		await products.deleteProduct(products.getProductByID(id));
+
+		products = await dbConn.getUserProducts();
+		console.log(products.getProducts().length);
+
+	}
 }
