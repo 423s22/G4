@@ -5,7 +5,6 @@
 - [Writing Code for the Admin Side](#writing-code-for-the-admin-side)
 - [Writing Code for the Customer Side](#writing-code-for-the-customer-side)
 - [Using the Database API](#using-the-database-api)
-- [Testing and CI](#testing-and-ci)
   * [GET Requests](#get-requests)
     + [Get All Products Belonging to a User](#get-all-products-belonging-to-a-user)
     + [Get the ID of a User](#get-the-id-of-a-user)
@@ -22,6 +21,7 @@
     + [Delete a Variation Group](#delete-a-variation-group)
     + [Delete a Variation](#delete-a-variation)
     + [Delete a Variation Blocker](#delete-a-variation-blocker)
+- [Testing and CI](#testing-and-ci)
 <br><br><br>
 
 ## Setting Up Your Local Repo
