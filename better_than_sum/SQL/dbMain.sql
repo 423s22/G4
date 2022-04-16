@@ -51,3 +51,19 @@ CREATE TABLE VariationBlockers (
 );
 
 INSERT INTO Users (name) VALUES ("Test User");
+
+INSERT INTO Products (baseCost, name, owningUser) VALUES (100, "Test Item 1", 1);
+INSERT INTO Products (baseCost, name, owningUser) VALUES (300, "Test Item 2", 1);
+
+INSERT INTO VariationGroups (name, owningProduct) VALUES ("Color", 1);
+INSERT INTO VariationGroups (name, owningProduct) VALUES ("Size", 1);
+
+INSERT INTO Variations (addedCost, name, owningGroup) VALUES (50, "Red", 1);
+INSERT INTO Variations (addedCost, name, owningGroup) VALUES (50, "Blue", 1);
+INSERT INTO Variations (addedCost, name, owningGroup) VALUES (50, "Green", 1);
+
+INSERT INTO Variations (addedCost, name, owningGroup) VALUES (50, "Small", 2);
+INSERT INTO Variations (addedCost, name, owningGroup) VALUES (50, "Large", 2);
+
+INSERT INTO VariationBlockers (excludeVariationA, excludeVariationB) VALUES (1, 4);
+INSERT INTO VariationBlockers (excludeVariationA, excludeVariationB) VALUES (5, 2);
