@@ -1,6 +1,6 @@
 
 
-Create a architecture -
+# Create a architecture -
     * Our development
         * database 
         * ect
@@ -13,15 +13,15 @@ Create a architecture -
     * End User
       * Screens - Wireframe
       
-   Learn about the API's
+# Learn about the API's
    
       - Admin APi
       - Store front Api
       - Partner Api
       
-  Node JS connection
+ # Node JS connection
   
-  Look into how deploy onto server 
+ # Look into how deploy onto server 
     - Shopify CLI
     - Node JS
     - NPM

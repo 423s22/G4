@@ -21,6 +21,7 @@
     + [Delete a Variation Group](#delete-a-variation-group)
     + [Delete a Variation](#delete-a-variation)
     + [Delete a Variation Blocker](#delete-a-variation-blocker)
+- [Testing and CI](#testing-and-ci)
 <br><br><br>
 
 ## Setting Up Your Local Repo
@@ -174,3 +175,10 @@ To issue a DELETE request, send an HTTP request to `/database/` with the request
 - `operation=variationBlocker`
 - `blockerAID=INTEGER`
 - `blockerBID=INTEGER`
+
+## Testing and CI
+Anytime something is pushed to GitHub, the CI will run the following process:
+- A temporary MySQL database is setup
+- The `dbMain.sql` file is run to created tables and test data
+- The NodeJS code within `better_than_sum` is built with NPM to ensure no compilation errors exist
+- Any `.test.js` files are run using Jest. The current testing is done on the database to ensure the RESTful API is functional
