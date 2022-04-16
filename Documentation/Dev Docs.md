@@ -5,6 +5,7 @@
 - [Writing Code for the Admin Side](#writing-code-for-the-admin-side)
 - [Writing Code for the Customer Side](#writing-code-for-the-customer-side)
 - [Using the Database API](#using-the-database-api)
+- [Testing and CI](#testing-and-ci)
   * [GET Requests](#get-requests)
     + [Get All Products Belonging to a User](#get-all-products-belonging-to-a-user)
     + [Get the ID of a User](#get-the-id-of-a-user)
@@ -174,3 +175,10 @@ To issue a DELETE request, send an HTTP request to `/database/` with the request
 - `operation=variationBlocker`
 - `blockerAID=INTEGER`
 - `blockerBID=INTEGER`
+
+## Testing and CI
+Anytime something is pushed to GitHub, the CI will run the following process:
+- A temporary MySQL database is setup
+- The `dbMain.sql` file is run to created tables and test data
+- The NodeJS code within `better_than_sum` is built with NPM to ensure no compilation errors exist
+- Any `.test.js` files are run using Jest. The current testing is done on the database to ensure the RESTful API is functional
