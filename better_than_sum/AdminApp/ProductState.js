@@ -32,7 +32,9 @@ export default class ProductState extends AppState {
       let panel = document.createElement("div");
       panel.classList = "panel";
       let paragraph = document.createElement("p");
-      var paratext = document.createTextNode("Test Text here");
+      var paratext = document.createTextNode(
+        "Test Text here for the feature release."
+      );
       paragraph.appendChild(paratext);
       panel.appendChild(paragraph);
       div.appendChild(panel);
