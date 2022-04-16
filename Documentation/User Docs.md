@@ -29,11 +29,11 @@ Once installed, it will be available in your store's dashboard under the "Apps" 
 
 
 ## Using the Application
-All of the settings are managed via the App within the Admin Page of your store.
+The app has three different tabs for use. Dashboard will open up a welcome screen detailing information about the app.
 
-Currently, when the app is opened, a list of all the products appears, with a button that can be clicked to add a new random product to the list.
-Clicking this button will dynamically update the list in real-time with the newly added product. 
-A note also appears below the button indicating the id of the newly created product.
+The Products tab displays a list of products that can each be edited via the user interface. 
+
+The Help tab displays information about how to use the app and other important functionality.
 
 
 ## Future Functionality
