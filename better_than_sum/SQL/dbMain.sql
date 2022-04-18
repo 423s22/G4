@@ -51,8 +51,8 @@ CREATE TABLE VariationBlockers (
 
 INSERT INTO Users (name) VALUES ("Test User");
 
-INSERT INTO Products (baseCost, name, owningUser) VALUES (100, "Test Item 1", 1);
-INSERT INTO Products (baseCost, name, owningUser) VALUES (300, "Test Item 2", 1);
+INSERT INTO Products (shopifyID, owningUser) VALUES (1, 1);
+INSERT INTO Products (shopifyID, owningUser) VALUES (2, 1);
 
 INSERT INTO VariationGroups (name, owningProduct) VALUES ("Color", 1);
 INSERT INTO VariationGroups (name, owningProduct) VALUES ("Size", 1);
