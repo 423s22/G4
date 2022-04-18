@@ -1,12 +1,10 @@
 const mysql = require("mysql-await");
 import Koa from "koa";
 
-
 /**
  * Represents a connection to a database, allowing for handeling get, post, and delete requests
  */
 export default class DatabaseConnection {
-
     /**
      * Creates a new MySQL based connection
      * @param {string} host the IP of the host MySQL server
@@ -37,14 +35,23 @@ export default class DatabaseConnection {
             case "userID":
                 results = await this._getUserIDJSON(ctx.query.userName);
                 break;
+            case "product":
+                results = await this._getProductJSON(ctx.query.productID);
+                break;
             case "productVariations":
-                results = await this._getProductVariationsJSON(parseInt(ctx.query.productID));
+                results = await this._getProductVariationsJSON(
+                    parseInt(ctx.query.productID)
+                );
                 break;
             case "productVariationGroups":
-                results = await this._getVariationGroupsJSON(parseInt(ctx.query.productID));
+                results = await this._getVariationGroupsJSON(
+                    parseInt(ctx.query.productID)
+                );
                 break;
             case "variationBlockers":
-                results = await this._getVariationBlockersJSON(parseInt(ctx.query.variationID));
+                results = await this._getVariationBlockersJSON(
+                    parseInt(ctx.query.variationID)
+                );
                 break;
         }
 
@@ -54,6 +61,16 @@ export default class DatabaseConnection {
             ctx.response.body = results;
             ctx.response.status = 200;
         }
+    }
+
+    async _getProductJSON(productID) {
+        let results = await this._connection.awaitQuery(
+            `
+            SELECT * FROM Products 
+            WHERE productID = ?;
+            `, [productID]
+        );
+        return JSON.stringify(results);
     }
 
     async _getUserProductsJSON(userID) {
@@ -159,7 +176,7 @@ export default class DatabaseConnection {
             let result = await this._connection.awaitQuery(
                 `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
             );
-            return JSON.stringify({ "insertedID": result.insertId });
+            return JSON.stringify({ insertedID: result.insertId });
         } else {
             await this._connection.awaitQuery(
                 `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
@@ -173,7 +190,7 @@ export default class DatabaseConnection {
             let result = await this._connection.awaitQuery(
                 `INSERT INTO VariationGroups (name, owningProduct) VALUES (?, ?);`, [name, owningProduct]
             );
-            return JSON.stringify({ "insertedID": result.insertId });
+            return JSON.stringify({ insertedID: result.insertId });
         } else {
             await this._connection.awaitQuery(
                 `UPDATE VariationGroups SET name = ?, owningProduct = ? WHERE groupID = ?;`, [name, owningProduct, id]
@@ -187,7 +204,7 @@ export default class DatabaseConnection {
             let result = await this._connection.awaitQuery(
                 `INSERT INTO Variations (addedCost, name, owningGroup) VALUES (?, ?, ?);`, [addedCost, name, owningGroup]
             );
-            return JSON.stringify({ "insertedID": result.insertId });
+            return JSON.stringify({ insertedID: result.insertId });
         } else {
             await this._connection.awaitQuery(
                 `UPDATE Variations SET addedCost = ?, name = ?, owningGroup = ? WHERE variationID = ?;`, [addedCost, name, owningGroup, id]
@@ -197,8 +214,9 @@ export default class DatabaseConnection {
     }
 
     async _postVariationBlocker(blockerAId, blockerBId) {
-
-        let curBlockers = JSON.parse(await this._getVariationBlockersJSON(blockerAId));
+        let curBlockers = JSON.parse(
+            await this._getVariationBlockersJSON(blockerAId)
+        );
         let blockerExists = false;
         for (let i = 0; i < curBlockers.length; i++) {
             if (curBlockers[i]["exclude"] == blockerBId) {
@@ -211,8 +229,7 @@ export default class DatabaseConnection {
         await this._connection.awaitQuery(
             `INSERT INTO VariationBlockers (excludeVariationA, excludeVariationB) VALUES (?, ?);`, [blockerAId, blockerBId]
         );
-        return JSON.stringify({ "inserted": true });
-
+        return JSON.stringify({ inserted: true });
     }
 
     /**
@@ -220,7 +237,6 @@ export default class DatabaseConnection {
      * @param {Koa.ParameterizedContext} ctx the KoaContext of the request
      */
     async handleDeleteRequest(ctx) {
-
         const requestedOperation = ctx.query.operation;
         let results = null;
         switch (requestedOperation) {
@@ -261,47 +277,47 @@ export default class DatabaseConnection {
 
     async _deleteProduct(id) {
         if (isNaN(id)) {
-            return JSON.stringify({ "message": "Invalid ID" });
+            return JSON.stringify({ message: "Invalid ID" });
         } else {
             await this._connection.awaitQuery(
                 `DELETE FROM Products WHERE productID = ?;`, [id]
             );
-            return JSON.stringify({ "message": "Successfully deleted" });
+            return JSON.stringify({ message: "Successfully deleted" });
         }
     }
 
     async _deleteVariationGroup(id) {
         if (isNaN(id)) {
-            return JSON.stringify({ "message": "Invalid ID" });
+            return JSON.stringify({ message: "Invalid ID" });
         } else {
             await this._connection.awaitQuery(
                 `DELETE FROM VariationGroups WHERE groupID = ?;`, [id]
             );
-            return JSON.stringify({ "message": "Successfully deleted" });
+            return JSON.stringify({ message: "Successfully deleted" });
         }
     }
 
     async _deleteVariation(id) {
         if (isNaN(id)) {
-            return JSON.stringify({ "message": "Invalid ID" });
+            return JSON.stringify({ message: "Invalid ID" });
         } else {
             await this._connection.awaitQuery(
                 `DELETE FROM Variations WHERE variationID = ?;`, [id]
             );
-            return JSON.stringify({ "message": "Successfully deleted" });
+            return JSON.stringify({ message: "Successfully deleted" });
         }
     }
 
     async _deleteVariationBlocker(blockerAID, blockerBID) {
         if (isNaN(blockerAID) || isNaN(blockerBID)) {
-            return JSON.stringify({ "message": "Invalid ID" });
+            return JSON.stringify({ message: "Invalid ID" });
         } else {
             await this._connection.awaitQuery(
                 `DELETE FROM VariationBlockers WHERE 
                 (excludeVariationA = ? AND excludeVariationB = ?) OR 
                 (excludeVariationA = ? AND excludeVariationB = ?);`, [blockerAID, blockerBID, blockerBID, blockerAID]
             );
-            return JSON.stringify({ "message": "Successfully deleted" });
+            return JSON.stringify({ message: "Successfully deleted" });
         }
     }
 
