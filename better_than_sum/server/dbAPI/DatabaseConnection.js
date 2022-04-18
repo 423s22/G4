@@ -131,8 +131,7 @@ export default class DatabaseConnection {
             case "product":
                 {
                     let id = parseInt(post["productID"]);
-                    let baseCost = parseInt(post["baseCost"]);
-                    let name = post["name"];
+                    let shopifyID = parseInt(post["shopifyID"]);
                     let owningUser = parseInt(post["owningUser"]);
                     results = await this._postProduct(id, baseCost, name, owningUser);
                     break;
@@ -171,15 +170,15 @@ export default class DatabaseConnection {
         }
     }
 
-    async _postProduct(id, baseCost, name, owningUser) {
+    async _postProduct(id, shopifyID, owningUser) {
         if (isNaN(id)) {
             let result = await this._connection.awaitQuery(
-                `INSERT INTO Products (baseCost, name, owningUser) VALUES (?, ?, ?);`, [baseCost, name, owningUser]
+                `INSERT INTO Products (shopifyID, owningUser) VALUES (?, ?);`, [shopifyID, owningUser]
             );
             return JSON.stringify({ insertedID: result.insertId });
         } else {
             await this._connection.awaitQuery(
-                `UPDATE Products SET baseCost = ?, name = ?, owningUser = ? WHERE productID = ?;`, [baseCost, name, owningUser, id]
+                `UPDATE Products SET shopifyID = ?, owningUser = ? WHERE productID = ?;`, [shopifyID, owningUser, id]
             );
             return JSON.stringify({});
         }

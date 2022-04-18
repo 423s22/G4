@@ -28,9 +28,8 @@ export default class DatabaseConnection {
 		let products = [];
 		for (let i = 0; i < responseJSON.length; i++) {
 			let id = responseJSON[i]["productID"];
-			let baseCost = responseJSON[i]["baseCost"];
-			let name = responseJSON[i]["name"];
-			products.push(new Product(id, baseCost, name, this));
+			let shopifyID = responseJSON[i]["shopifyID"];
+			products.push(new Product(id, shopifyID, this));
 		}
 
 		// Clusters the generation of products, and waits for them all to complete
@@ -132,15 +131,15 @@ export default class DatabaseConnection {
 	}
 
 	/**
-	 * Creates a new empty product
+	 * Creates a new empty product based on an existing shopify product
+	 * @param {number} shopifyProductID the id of the existing shopify product
 	 * @returns the created Product
 	 */
-	async createNewProduct() {
+	async createNewProduct(shopifyProductID) {
 		let productID = (
 			await this._executePostRequest({
 				operation: "product",
-				baseCost: 0,
-				name: "",
+				shopifyID: shopifyProductID,
 				owningUser: this._userID,
 			})
 		)["insertedID"];
@@ -210,8 +209,7 @@ export default class DatabaseConnection {
 				this._executePostRequest({
 					operation: "product",
 					productID: product.getID(),
-					baseCost: product.getBaseCost(),
-					name: product.getName(),
+					shopifyID: product.getShopifyID(),
 					owningUser: this._userID,
 				})
 			);

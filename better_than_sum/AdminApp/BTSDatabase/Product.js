@@ -6,14 +6,12 @@ export default class Product {
 	/**
 	 * Creates a new in-memory product. This method is to be used by DatabaseConnection
 	 * @param {number} id the database id of the product
-	 * @param {number} baseCost the base cost, in cents, of the product
-	 * @param {string} name the name of the product
+	 * @param {number} shopifyID the id of the shopify product
 	 * @param {DatabaseConnection} dbConn a connection to the BTS API
 	 */
-	constructor(id, baseCost, name, dbConn) {
+	constructor(id, shopifyID, dbConn) {
 		this._id = id;
-		this._baseCost = baseCost;
-		this._name = name;
+		this._shopifyID = shopifyID;
 		this._dbConn = dbConn;
 		this._variationGroups = [];
 		this._saved = true;
@@ -61,37 +59,27 @@ export default class Product {
 	}
 
 	/**
-	 *
+	 * 
+	 * @returns {number} the shopify id of the product
+	 */
+	getShopifyID() {
+		return this._shopifyID;
+	}
+
+	/**
+	 * TODO: Get this from shopify
 	 * @returns the base cost, in cents, of the product
 	 */
 	getBaseCost() {
-		return this._baseCost;
+		return 0;
 	}
 
 	/**
-	 * Updates the base cost of the product
-	 * @param {number} newCost the new cost, in cents
-	 */
-	setBaseCost(newCost) {
-		this._baseCost = newCost;
-		this._saved = false;
-	}
-
-	/**
-	 *
+	 * TODO: Get this from shopify
 	 * @returns the name of the product
 	 */
 	getName() {
-		return this._name;
-	}
-
-	/**
-	 * Updates the products name
-	 * @param {string} newName the new name of the product
-	 */
-	setName(newName) {
-		this._name = newName;
-		this._saved = false;
+		return "";
 	}
 
 	/**
