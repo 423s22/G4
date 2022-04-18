@@ -322,10 +322,8 @@ export default class DatabaseConnection {
     }
 
     async handleShopConnect(shopName) {
-        let results = await this._getUserIDJSON(shopName);
-        console.log(results);
+        let results = JSON.parse(await this._getUserIDJSON(shopName));
         if (results.length == 0) {
-            console.log("Inserting!");
             await this._connection.awaitQuery(
                 `INSERT INTO Users (name) VALUES (?);`, [shopname]
             );
