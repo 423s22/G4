@@ -66,10 +66,10 @@ app.prepare().then(async() => {
                 }
 
                 // Create the shop user in the db
-                await dbConn.handleShopConnect(shop);
+                let btsID = await dbConn.handleShopConnect(shop);
 
                 // Redirect to app with shop parameter upon auth
-                ctx.redirect(`/?shop=${shop}&host=${host}`);
+                ctx.redirect(`/?shop=${shop}&host=${host}&btsID=${btsID}`);
 
             },
         })

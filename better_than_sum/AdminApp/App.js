@@ -20,11 +20,9 @@ export default class App {
     this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
     this._running = false;
 
-    this._dbConn = new DatabaseConnection(1);
-
     let windowURL = new URL(window.location.href);
-    this._shopName = windowURL.searchParams.get("shop");
-    console.log(this._shopName);
+    this._dbConn = new DatabaseConnection(windowURL.searchParams.get("btsID"));
+    console.log(windowURL.searchParams.get("btsID"));
   }
 
   // TODO: Create setState() - Change state of    app
