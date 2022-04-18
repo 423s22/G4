@@ -23,6 +23,11 @@ export default class App {
     let windowURL = new URL(window.location.href);
     this._dbConn = new DatabaseConnection(windowURL.searchParams.get("btsID"));
     console.log(windowURL.searchParams.get("btsID"));
+
+    fetch("/products").then((res) => {
+      console.log(res);
+    });
+
   }
 
   // TODO: Create setState() - Change state of    app

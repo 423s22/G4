@@ -35,11 +35,11 @@ const ACTIVE_SHOPIFY_SHOPS = {};
 
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
     path: "/webhooks",
-    webhookHandler: async(topic, shop, body) =>
+    webhookHandler: async (topic, shop, body) =>
         delete ACTIVE_SHOPIFY_SHOPS[shop],
 });
 
-app.prepare().then(async() => {
+app.prepare().then(async () => {
     const server = new Koa();
     server.use(bodyParser());
     const router = new Router();
@@ -75,13 +75,13 @@ app.prepare().then(async() => {
         })
     );
 
-    const handleRequest = async(ctx) => {
+    const handleRequest = async (ctx) => {
         await handle(ctx.req, ctx.res);
         ctx.respond = false;
         ctx.res.statusCode = 200;
     };
 
-    router.post("/webhooks", async(ctx) => {
+    router.post("/webhooks", async (ctx) => {
         try {
             await Shopify.Webhooks.Registry.process(ctx.req, ctx.res);
             console.log(`Webhook processed, returned status code 200`);
@@ -93,7 +93,7 @@ app.prepare().then(async() => {
     router.post(
         "/graphql",
         verifyRequest({ returnHeader: true }),
-        async(ctx, next) => {
+        async (ctx, next) => {
             await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
         }
     );
@@ -110,20 +110,31 @@ app.prepare().then(async() => {
 
     dbConn.connect();
 
-    router.get("/database/", async(ctx) => {
+    router.get("/database/", async (ctx) => {
         // Handle get request from database
         await dbConn.handleGetRequest(ctx);
     });
 
-    router.post("/database/", async(ctx) => {
+    router.post("/database/", async (ctx) => {
         await dbConn.handlePostRequest(ctx);
     });
 
-    router.delete("/database/", async(ctx) => {
+    router.delete("/database/", async (ctx) => {
         await dbConn.handleDeleteRequest(ctx);
     });
 
-    router.get("(.*)", async(ctx) => {
+    router.get("/products", async (ctx) => {
+        const { shop, accessToken } = ctx.session;
+        const res = await fetch(
+            `https://${process.env.SHOPIFY_API_KEY}:${accessToken}@${shop}/admin/api/2020-10/products.json?${new URLSearchParams(
+                ctx.request.query
+            )}`
+        );
+        ctx.body = await res.json();
+        ctx.status = 200;
+    });
+
+    router.get("(.*)", async (ctx) => {
         const shop = ctx.query.shop;
 
         // This shop hasn't been seen yet, go through OAuth to create a session
