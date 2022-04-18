@@ -321,6 +321,14 @@ export default class DatabaseConnection {
         }
     }
 
+    async handleShopConnect(shopName) {
+        if ((await this._getUserIDJSON(shopName)).length == 0) {
+            await this._connection.awaitQuery(
+                `INSERT INTO Users (name) VALUES (?);`, [shopname]
+            );
+        }
+    }
+
     /**
      * Attempts to connect to the database
      * @returns true when successfully connected, or false if an error occurred
