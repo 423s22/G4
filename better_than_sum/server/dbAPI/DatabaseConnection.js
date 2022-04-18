@@ -322,7 +322,9 @@ export default class DatabaseConnection {
     }
 
     async handleShopConnect(shopName) {
+        console.log(shopName);
         if ((await this._getUserIDJSON(shopName)).length == 0) {
+            console.log("Inserting!");
             await this._connection.awaitQuery(
                 `INSERT INTO Users (name) VALUES (?);`, [shopname]
             );
