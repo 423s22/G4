@@ -1,19 +1,99 @@
-## Setting Up Your Local Repository
-The GitHub Repository is located at: [https://github.com/423s22/G4](https://github.com/423s22/G4)
+# Developer Documentation
+## Table of Contents
+- [Setting Up Your Local Repo](#setting-up-your-local-repo)
+- [Contributions](#contributions)
+- [Writing Code for the Admin Side](#writing-code-for-the-admin-side)
+- [Writing Code for the Customer Side](#writing-code-for-the-customer-side)
+- [Using the Database API](#using-the-database-api)
+  * [GET Requests](#get-requests)
+    + [Get All Products Belonging to a User](#get-all-products-belonging-to-a-user)
+    + [Get the ID of a User](#get-the-id-of-a-user)
+    + [Get All the Variations of a Product](#get-all-the-variations-of-a-product)
+    + [Get All the Variation Groups of a Product](#get-all-the-variation-groups-of-a-product)
+    + [Get All the Blockers of a Variation](#get-all-the-blockers-of-a-variation)
+  * [POST Requests](#post-requests)
+    + [Add/Update a Product](#addupdate-a-product)
+    + [Add/Update a Variation Group](#addupdate-a-variation-group)
+    + [Add/Update a Variation](#addupdate-a-variation)
+    + [Add a Variation Blocker (If It Does Not Already Exist)](#add-a-variation-blocker-if-it-does-not-already-exist)
+  * [DELETE Requests](#delete-requests)
+    + [Delete a Product](#delete-a-product)
+    + [Delete a Variation Group](#delete-a-variation-group)
+    + [Delete a Variation](#delete-a-variation)
+    + [Delete a Variation Blocker](#delete-a-variation-blocker)
+- [Testing and CI](#testing-and-ci)
+<br><br><br>
 
-1. Clone the repository at [https://github.com/423s22/G4](https://github.com/423s22/G4) to your local machine
+## Setting Up Your Local Repo
+1. Clone this repository
+
 2. Create a Shopify partner account and development store to deploy the app to
-3. Install the Shopify CLI, Node.js, npm, and Ruby
-4. Run `shopify login` to login to your Shopify partner account
-5. Create an account on ngrok to obtain an auth token
-6. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
-7. `cd` into the `better_that_sum` and `run shopify app serve`
-8. Open the URL provided by the terminal to install the app on your development store
 
-## Contributing to the Repository
-1. Create a new branch of the repository specific to the changes you intend to implement
-2. Write the code to implement the feature
-3. Issue a Pull Request to the Testing branch. Once accepted, the changes will be in effect on that branch, and once fully tested, will be merged into Main
+3. [Install the Shopify CLI, Node.js, npm, and Ruby](https://shopify.dev/apps/tools/cli/installation)
+
+4. Run `shopify login` to login to your Shopify partner account
+
+5. Create an account on ngrok to obtain an auth token
+
+6. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
+
+7. Setup a MySQL server on the same machine running the app.
+
+8. Create a database named `G4db` and a user that can access it. Run the SQL files located in `better_than_sum/SQL`.
+
+9. Copy the `better_than_sum/.env.example` file to `better_than-sum/.env`
+10. Fill in the following fields in `better_than_sum/.env` with the proper information
+  ```js
+  SHOPIFY_API_KEY=// Enter your shopify API key here
+  SHOPIFY_API_SECRET=// Enter your secret shopify api key here
+  HOST=// Enter your NGROK tunnel url here
+  SHOP=// Enter the domain of your shop here
+  SCOPES=write_products,write_customers,write_draft_orders // Do not modify this line
+  MYSQL_USER=// Enter the username for your MySQL database here
+  MYSQL_PASS=// Enter the password for your MySQL database here
+  ```
+
+11. `cd` into the `better_than_sum`
+12. run `npm install`
+13. run `shopify app serve`
+
+14. Open the URL provided by the terminal to install the app on your development store
+<br><br><br>
+
+## Contributions
+Create a new branch specific to the feature being added.
+
+Write the code, then when ready, issue a pull request to the Testing branch.
+
+Once all code in Testing is ready for production, it will be merged into Main.
+<br><br><br>
+
+## Writing Code for the Admin Side
+The admin-side of the app is accessible by staff members of any store with this app installed. 
+This is where users will access their product variations and modify details.
+
+All the code related to the Admin Side is located within `better_than_sum/pages/AdminApp`
+
+`App.js` is the starting point of the program and is responsible for initializing and maintaining the overall state of the program.
+
+Further functionality is delegated to various AppStates that extend the class located in `AppState.js`, along with any other classes added.
+
+This functionality can be viewed on a store via logging in using a staff account, navigating to Apps using the list on the left-hand side, and selecting better_than_sum. 
+
+The app must be running in order to use it. To start the app, run `shopify app serve` from within the `better_than_sum` folder.
+<br><br><br>
+
+## Writing Code for the Customer Side
+The customer-side of the app is accessible by anyone visiting the front end of the store. 
+This is where users will be able to select a specific variation of a product and see their updated cost.
+
+This functionality is delegated to the app extension via code blocks located in `better_than_sum/theme-app-extension`
+
+The `.liquid` files within the `blocks` folder each describe an element that can be added by a staff member when editing the layout of the store.
+A code block is able to display/use custom HTML, CSS, and JS to add functionality to a store page.
+
+Code blocks are statically loaded onto a webpage, so changes must be pushed for them to take effect. Run `shopify extension push` from within `better_than_sum/theme-app-extension` to upload any changes made.
+<br><br><br>
 
 ## Using the Database API
 ### GET Requests
@@ -95,3 +175,10 @@ To issue a DELETE request, send an HTTP request to `/database/` with the request
 - `operation=variationBlocker`
 - `blockerAID=INTEGER`
 - `blockerBID=INTEGER`
+
+## Testing and CI
+Anytime something is pushed to GitHub, the CI will run the following process:
+- A temporary MySQL database is setup
+- The `dbMain.sql` file is run to created tables and test data
+- The NodeJS code within `better_than_sum` is built with NPM to ensure no compilation errors exist
+- Any `.test.js` files are run using Jest. The current testing is done on the database to ensure the RESTful API is functional

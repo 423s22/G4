@@ -1,20 +1,15 @@
-import { Heading, Page } from "@shopify/polaris";
+import App from "../AdminApp/App";
+import React, { useState, useEffect } from "react";
 
 export default function Index() {
+  let app;
+  if (typeof window === "object") {
+    app = new App();
+  }
 
-	if (typeof window === "object") {
-		console.log("Runs in browser: " + window.location.href);
-	}
+  useEffect(() => {
+    if (typeof window === "object" && !app.isRunning()) app.start();
+  }, []);
 
-	return (
-
-		<Page>
-			<Heading>
-				Shopify app with Node and React{" "}
-				<span role="img" aria-label="tada emoji">
-					🎉
-				</span>
-			</Heading>
-		</Page>
-	);
+  return <div id="appDiv"></div>;
 }
