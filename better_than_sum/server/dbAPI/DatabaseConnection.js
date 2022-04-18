@@ -325,7 +325,7 @@ export default class DatabaseConnection {
         let results = JSON.parse(await this._getUserIDJSON(shopName));
         if (results.length == 0) {
             await this._connection.awaitQuery(
-                `INSERT INTO Users (name) VALUES (?);`, [shopname]
+                `INSERT INTO Users (name) VALUES (?);`, [shopName]
             );
         }
     }
