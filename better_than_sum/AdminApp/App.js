@@ -26,6 +26,7 @@ export default class App {
 
     fetch("/products?shop=" + windowURL.searchParams.get("shop")).then((res) => {
       console.log(res);
+      console.log(typeof res);
     });
 
   }

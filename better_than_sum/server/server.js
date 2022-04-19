@@ -133,8 +133,7 @@ app.prepare().then(async () => {
         const products = await client.get({
             path: "products"
         });
-        console.log(products.body);
-        //ctx.body = await res.json();
+        ctx.response.body = products.body;
         ctx.status = 200;
     });
 
