@@ -126,9 +126,7 @@ app.prepare().then(async () => {
     });
 
     router.get("/products", async (ctx) => {
-        // TODO: Returns products
-        console.log(ctx.query.shop);
-        console.log(SHOP_AUTH_KEYS);
+        // TODO: Return products
         const client = new Shopify.Clients.Rest(ctx.query.shop, SHOP_AUTH_KEYS[ctx.query.shop]);
         const products = await client.get({
             path: "products"

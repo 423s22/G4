@@ -5,10 +5,10 @@ import DashboardState from "./DashboardState";
 import ProductState from "./ProductState";
 import HelpState from "./HelpState";
 import DatabaseConnection from "./BTSDatabase/DatabaseConnection";
+import ShopifyApiConnection from "./ShopifyAPI/ShopifyAPIConnection";
 
 export default class App {
   constructor() {
-    console.log("constructed");
 
     this._allStates = new Map();
 
@@ -22,11 +22,10 @@ export default class App {
 
     let windowURL = new URL(window.location.href);
     this._dbConn = new DatabaseConnection(windowURL.searchParams.get("btsID"));
-    console.log(windowURL.searchParams.get("btsID"));
+    this._apiConn = new ShopifyApiConnection(windowURL.searchParams.get("shop"));
 
-    fetch("/products?shop=" + windowURL.searchParams.get("shop")).then((res) => {
-      console.log(res.body);
-      console.log(JSON.parse(res.body));
+    this._apiConn.getProductsJSON().then((response) => {
+      console.log(response);
     });
 
   }
