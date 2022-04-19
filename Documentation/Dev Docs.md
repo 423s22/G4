@@ -7,6 +7,8 @@
 - [Using the Database API](#using-the-database-api)
   * [GET Requests](#get-requests)
     + [Get All Products Belonging to a User](#get-all-products-belonging-to-a-user)
+    + [Get a Product by ID](#get-a-product-by-id)
+    + [Get a product by Shopify ID](#get-a-product-by-shopify-id)
     + [Get the ID of a User](#get-the-id-of-a-user)
     + [Get All the Variations of a Product](#get-all-the-variations-of-a-product)
     + [Get All the Variation Groups of a Product](#get-all-the-variation-groups-of-a-product)
@@ -103,6 +105,12 @@ To issue a GET request, send an HTTP request to `/database/` with the requested 
 #### Get All Products Belonging to a User
 - `request=userProducts`
 - `userID=INTEGER`
+#### Get a Product by ID
+- `request=product`
+- `productID=INTEGER`
+#### Get a product by Shopify ID
+- `request=shopifyProduct`
+- `shopifyID=INTEGER`
 #### Get the ID of a User
 - `request=userID`
 - `userName=STRING`
@@ -125,8 +133,7 @@ To issue a POST request, send an HTTP request to `/database/` with the content b
 {
   "operation":"product",
   "productID":INTEGER, // Optional, used if updating a product, empty if adding
-  "baseCost":INTEGER, // Baseline cost of product, in cents
-  "name":STRING,
+  "shopifyID":INTEGER
   "owningUser":INTEGER // ID of user who owns the product
 }
 ```
