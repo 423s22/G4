@@ -16,6 +16,8 @@ export default class ShopifyApiConnection {
         url.pathname += "products/"
         url.searchParams.append("shop", this._shopName);
 
+        console.log(url.toString());
+
         let promise = new Promise((resolve, reject) => {
             let req = new XMLHttpRequest();
             req.onreadystatechange = () => {
