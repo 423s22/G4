@@ -24,10 +24,6 @@ export default class App {
 		this._dbConn = new DatabaseConnection(windowURL.searchParams.get("btsID"));
 		this._apiConn = new ShopifyApiConnection(windowURL.searchParams.get("shop"));
 
-		this._apiConn.getProductsJSON().then((response) => {
-			console.log(response);
-		});
-
 	}
 
 	start() {
