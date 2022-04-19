@@ -32,6 +32,7 @@ Shopify.Context.initialize({
 // Storing the currently active shops in memory will force them to re-login when your server restarts. You should
 // persist this object in your app.
 const ACTIVE_SHOPIFY_SHOPS = {};
+const SHOP_AUTH_KEYS = {};
 
 Shopify.Webhooks.Registry.addHandler("APP_UNINSTALLED", {
     path: "/webhooks",
@@ -51,6 +52,7 @@ app.prepare().then(async () => {
                 const { shop, accessToken, scope } = ctx.state.shopify;
                 const host = ctx.query.host;
                 ACTIVE_SHOPIFY_SHOPS[shop] = scope;
+                SHOP_AUTH_KEYS[shop] = accessToken;
 
                 const responses = await Shopify.Webhooks.Registry.register({
                     shop,
@@ -125,12 +127,14 @@ app.prepare().then(async () => {
 
     router.get("/products", async (ctx) => {
         // TODO: Returns products
-        const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
-        const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
-        const products = await client.get({
-            path: "products"
-        });
-        console.log(products);
+        console.log(ctx.query.shop);
+        console.log(SHOP_AUTH_KEYS);
+        // const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
+        // const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
+        // const products = await client.get({
+        //     path: "products"
+        // });
+        // console.log(products);
         ctx.body = await res.json();
         ctx.status = 200;
     });
