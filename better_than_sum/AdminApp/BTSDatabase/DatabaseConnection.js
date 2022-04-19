@@ -132,19 +132,19 @@ export default class DatabaseConnection {
 
 	/**
 	 * Creates a new empty product based on an existing shopify product
-	 * @param {number} shopifyProductID the id of the existing shopify product
+	 * @param {JSON} shopifyProduct the JSON of the shopify product to base this on
 	 * @returns the created Product
 	 */
-	async createNewProduct(shopifyProductID) {
+	async createNewProduct(shopifyProduct) {
 		let productID = (
 			await this._executePostRequest({
 				operation: "product",
-				shopifyID: shopifyProductID,
+				shopifyID: shopifyProduct["id"],
 				owningUser: this._userID,
 			})
 		)["insertedID"];
 
-		return new Product(productID, 0, "", this);
+		return new Product(productID, shopifyProduct, this);
 	}
 
 	/**

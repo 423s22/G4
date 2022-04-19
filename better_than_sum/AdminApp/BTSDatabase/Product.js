@@ -6,12 +6,12 @@ export default class Product {
 	/**
 	 * Creates a new in-memory product. This method is to be used by DatabaseConnection
 	 * @param {number} id the database id of the product
-	 * @param {number} shopifyID the id of the shopify product
+	 * @param {JSON} shopifyProduct the shopify product to base this on
 	 * @param {DatabaseConnection} dbConn a connection to the BTS API
 	 */
-	constructor(id, shopifyID, dbConn) {
+	constructor(id, shopifyProduct, dbConn) {
 		this._id = id;
-		this._shopifyID = shopifyID;
+		this._shopifyProduct = shopifyProduct;
 		this._dbConn = dbConn;
 		this._variationGroups = [];
 		this._saved = true;
@@ -63,23 +63,23 @@ export default class Product {
 	 * @returns {number} the shopify id of the product
 	 */
 	getShopifyID() {
-		return this._shopifyID;
+		return this._shopifyProduct["id"];
 	}
 
 	/**
-	 * TODO: Get this from shopify
+	 * TODO: Test this
 	 * @returns the base cost, in cents, of the product
 	 */
 	getBaseCost() {
-		return 0;
+		parseInt(this._shopifyProduct["variants"][0]["price"] * 100);
 	}
 
 	/**
-	 * TODO: Get this from shopify
+	 * TODO: Test this
 	 * @returns the name of the product
 	 */
 	getName() {
-		return "";
+		this._shopifyProduct["title"];
 	}
 
 	/**
