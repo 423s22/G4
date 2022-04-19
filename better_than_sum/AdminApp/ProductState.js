@@ -55,8 +55,6 @@ export default class ProductState extends AppState {
 
 		this._app.getShopifyAPIConnection().getProductsJSON().then((products) => {
 
-			console.log(products);
-
 			for (let i = 0; i < products.length; i++) {
 				let curProduct = products[i];
 				let productDiv = document.createElement("div");
@@ -73,6 +71,9 @@ export default class ProductState extends AppState {
 						console.log(product);
 					});
 				});
+
+				div.appendChild(productDiv);
+
 			}
 		});
 
