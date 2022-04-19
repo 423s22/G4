@@ -17,8 +17,7 @@ export default class ProductState extends AppState {
 
 		// Temporary for testing db conn
 		let currentProducts = ["Phone", "Ipad", "Photo"];
-		var i;
-		for (i = 0; i < currentProducts.length; i++) {
+		for (let i = 0; i < currentProducts.length; i++) {
 			// Create an button which will allow for the drop down
 			let accordian = document.createElement("button");
 			let text = document.createTextNode(currentProducts[i]);
@@ -57,6 +56,7 @@ export default class ProductState extends AppState {
 
 			for (let i = 0; i < products.length; i++) {
 				let curProduct = products[i];
+				console.log(curProduct);
 
 				let productDiv = document.createElement("div");
 				div.appendChild(productDiv);
