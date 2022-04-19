@@ -16,7 +16,9 @@ export default class DatabaseConnection {
 
 		this._baseURL.pathname += "database/";
 
-		this._executeGetRequest("userID", { userName: shopName }).then((value) => { console.log(value) });
+		this._executeGetRequest("userID", { userName: shopName }).then((value) => {
+			this._userID = value[0]["userID"];
+		});
 	}
 
 	/**
