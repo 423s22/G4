@@ -133,7 +133,7 @@ export default class DatabaseConnection {
                     let id = parseInt(post["productID"]);
                     let shopifyID = parseInt(post["shopifyID"]);
                     let owningUser = parseInt(post["owningUser"]);
-                    results = await this._postProduct(id, baseCost, name, owningUser);
+                    results = await this._postProduct(id, shopifyID, owningUser);
                     break;
                 }
             case "variationGroup":
