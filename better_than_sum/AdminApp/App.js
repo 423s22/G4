@@ -25,8 +25,8 @@ export default class App {
     console.log(windowURL.searchParams.get("btsID"));
 
     fetch("/products?shop=" + windowURL.searchParams.get("shop")).then((res) => {
-      console.log(res);
-      console.log(typeof res);
+      console.log(res.body);
+      console.log(JSON.parse(res.body));
     });
 
   }
