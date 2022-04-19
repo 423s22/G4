@@ -54,6 +54,9 @@ export default class ProductState extends AppState {
 
 		this._app.getShopifyAPIConnection().getProductsJSON().then((products) => {
 
+			console.log(products);
+			console.log(products.length);
+
 			for (let i = 0; i < products.length; i++) {
 				let curProduct = products[i];
 				console.log(curProduct);
