@@ -39,7 +39,7 @@ export default class DatabaseConnection {
                 results = await this._getProductJSON(ctx.query.productID);
                 break;
             case "shopifyProduct":
-                results = await this._getShopifyProductJSON(ctx.query.shopifyID);
+                results = await this._getShopifyProductJSON(parseInt(ctx.query.shopifyID));
                 break;
             case "productVariations":
                 results = await this._getProductVariationsJSON(
