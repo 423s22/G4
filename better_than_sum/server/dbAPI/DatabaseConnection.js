@@ -38,6 +38,9 @@ export default class DatabaseConnection {
             case "product":
                 results = await this._getProductJSON(ctx.query.productID);
                 break;
+            case "shopifyProduct":
+                results = await this._getShopifyProductJSON(ctx.query.shopifyID);
+                break;
             case "productVariations":
                 results = await this._getProductVariationsJSON(
                     parseInt(ctx.query.productID)
@@ -69,6 +72,16 @@ export default class DatabaseConnection {
             SELECT * FROM Products 
             WHERE productID = ?;
             `, [productID]
+        );
+        return JSON.stringify(results);
+    }
+
+    async _getShopifyProductJSON(shopifyID) {
+        let results = await this._connection.awaitQuery(
+            `
+            SELECT * FROM Products 
+            WHERE shopifyID = ?;
+            `, [shopifyID]
         );
         return JSON.stringify(results);
     }
