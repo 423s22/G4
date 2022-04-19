@@ -125,6 +125,12 @@ app.prepare().then(async () => {
 
     router.get("/products", async (ctx) => {
         // TODO: Returns products
+        const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
+        const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
+        const products = await client.get({
+            path: "products"
+        });
+        console.log(products);
         ctx.body = await res.json();
         ctx.status = 200;
     });
