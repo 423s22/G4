@@ -124,13 +124,7 @@ app.prepare().then(async () => {
     });
 
     router.get("/products", async (ctx) => {
-        console.log(ctx);
-        const { shop, accessToken } = ctx.state.shopify;
-        const res = await fetch(
-            `https://${process.env.SHOPIFY_API_KEY}:${accessToken}@${shop}/admin/api/2020-10/products.json?${new URLSearchParams(
-                ctx.request.query
-            )}`
-        );
+        // TODO: Returns products
         ctx.body = await res.json();
         ctx.status = 200;
     });
