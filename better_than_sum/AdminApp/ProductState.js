@@ -53,39 +53,40 @@ export default class ProductState extends AppState {
 
 		this._app.getShopifyAPIConnection().getProductsJSON().then((shopifyProducts) => {
 
-			this._app.getDatabaseConnection().getUserProducts(this._app.getShopifyAPIConnection())
-				.then((dbProducts) => {
-					for (let i = 0; i < shopifyProducts["products"].length; i++) {
-						let curProduct = shopifyProducts["products"][i];
+			this._app.getDatabaseConnection().getUserProducts(this._app.getShopifyAPIConnection()).then((dbProducts) => {
+				for (let i = 0; i < shopifyProducts["products"].length; i++) {
+					let curProduct = shopifyProducts["products"][i];
 
-						let shouldInclude = true;
-						for (let j = 0; j < dbProducts.length; j++) {
-							if (dbProducts[j].getShopifyID() == curProduct["id"]) {
-								shouldInclude = false;
-								break;
-							}
+					let shouldInclude = true;
+					for (let j = 0; j < dbProducts.length; j++) {
+						console.log(dbProducts[j]);
+						console.log(curProduct);
+						if (dbProducts[j].getShopifyID() == curProduct["id"]) {
+							shouldInclude = false;
+							break;
 						}
-
-						if (!shouldInclude) continue;
-
-						let productDiv = document.createElement("div");
-						div.appendChild(productDiv);
-
-						let productTitle = document.createElement("h3");
-						productTitle.textContent = curProduct["title"];
-						productDiv.appendChild(productTitle);
-
-						let addProductBtn = document.createElement("button");
-						addProductBtn.textContent = "Add Product";
-						addProductBtn.addEventListener("click", (e) => {
-							this._app.getDatabaseConnection().createNewProduct(curProduct).then((product) => {
-								console.log("Added Product!");
-								console.log(product);
-							});
-						});
-						productDiv.appendChild(addProductBtn);
 					}
-				});
+
+					if (!shouldInclude) continue;
+
+					let productDiv = document.createElement("div");
+					div.appendChild(productDiv);
+
+					let productTitle = document.createElement("h3");
+					productTitle.textContent = curProduct["title"];
+					productDiv.appendChild(productTitle);
+
+					let addProductBtn = document.createElement("button");
+					addProductBtn.textContent = "Add Product";
+					addProductBtn.addEventListener("click", (e) => {
+						this._app.getDatabaseConnection().createNewProduct(curProduct).then((product) => {
+							console.log("Added Product!");
+							console.log(product);
+						});
+					});
+					productDiv.appendChild(addProductBtn);
+				}
+			});
 
 
 		});
