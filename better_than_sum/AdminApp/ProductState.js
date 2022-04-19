@@ -2,7 +2,6 @@ import AppState from "./AppState";
 export default class ProductState extends AppState {
 	constructor(app) {
 		super(app);
-		this._dbConn = this._app.getDatabaseConnection();
 	}
 
 	onEnable() { }
@@ -67,7 +66,7 @@ export default class ProductState extends AppState {
 				let addProductBtn = document.createElement("button");
 				addProductBtn.textContent = "Add Product";
 				addProductBtn.addEventListener("click", (e) => {
-					this._dbConn.createNewProduct(curProduct).then((product) => {
+					this._app.getDatabaseConnection().createNewProduct(curProduct).then((product) => {
 						console.log("Added Product!");
 						console.log(product);
 					});
