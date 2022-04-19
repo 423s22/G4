@@ -57,7 +57,9 @@ export default class ProductState extends AppState {
 
 			for (let i = 0; i < products.length; i++) {
 				let curProduct = products[i];
+
 				let productDiv = document.createElement("div");
+				div.appendChild(productDiv);
 
 				let productTitle = document.createElement("h3");
 				productTitle.textContent = curProduct["title"];
@@ -71,8 +73,7 @@ export default class ProductState extends AppState {
 						console.log(product);
 					});
 				});
-
-				div.appendChild(productDiv);
+				productDiv.appendChild(addProductBtn);
 
 			}
 		});
