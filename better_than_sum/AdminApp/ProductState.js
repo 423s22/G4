@@ -51,29 +51,43 @@ export default class ProductState extends AppState {
 			});
 		}
 
-		this._app.getShopifyAPIConnection().getProductsJSON().then((products) => {
+		this._app.getShopifyAPIConnection().getProductsJSON().then((shopifyProducts) => {
 
-			for (let i = 0; i < products["products"].length; i++) {
-				let curProduct = products["products"][i];
+			this._app.getDatabaseConnection().getUserProducts(this._app.getShopifyAPIConnection())
+				.then((dbProducts) => {
+					for (let i = 0; i < shopifyProducts["products"].length; i++) {
+						let curProduct = shopifyProducts["products"][i];
 
-				let productDiv = document.createElement("div");
-				div.appendChild(productDiv);
+						let shouldInclude = true;
+						for (let j = 0; j < dbProducts.length; j++) {
+							if (dbProducts[j].getShopifyID() == curProduct["id"]) {
+								shouldInclude = false;
+								break;
+							}
+						}
 
-				let productTitle = document.createElement("h3");
-				productTitle.textContent = curProduct["title"];
-				productDiv.appendChild(productTitle);
+						if (!shouldInclude) continue;
 
-				let addProductBtn = document.createElement("button");
-				addProductBtn.textContent = "Add Product";
-				addProductBtn.addEventListener("click", (e) => {
-					this._app.getDatabaseConnection().createNewProduct(curProduct).then((product) => {
-						console.log("Added Product!");
-						console.log(product);
-					});
+						let productDiv = document.createElement("div");
+						div.appendChild(productDiv);
+
+						let productTitle = document.createElement("h3");
+						productTitle.textContent = curProduct["title"];
+						productDiv.appendChild(productTitle);
+
+						let addProductBtn = document.createElement("button");
+						addProductBtn.textContent = "Add Product";
+						addProductBtn.addEventListener("click", (e) => {
+							this._app.getDatabaseConnection().createNewProduct(curProduct).then((product) => {
+								console.log("Added Product!");
+								console.log(product);
+							});
+						});
+						productDiv.appendChild(addProductBtn);
+					}
 				});
-				productDiv.appendChild(addProductBtn);
 
-			}
+
 		});
 
 	}

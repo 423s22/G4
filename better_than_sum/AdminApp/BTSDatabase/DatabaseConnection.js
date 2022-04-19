@@ -1,3 +1,4 @@
+import ShopifyApiConnection from "../ShopifyAPI/ShopifyAPIConnection";
 import Product from "./Product";
 import ProductList from "./ProductList";
 import Variation from "./Variation";
@@ -19,17 +20,29 @@ export default class DatabaseConnection {
 
 	/**
 	 * Retrieves all the products owned by a user
+	 * @param {ShopifyApiConnection} shopifyAPI the connection to shopify api
 	 * @returns an array of Products
 	 */
-	async getUserProducts() {
+	async getUserProducts(shopifyAPI) {
+		let shopifyProducts = (await shopifyAPI.getProductsJSON())["products"];
 		let responseJSON = await this._executeGetRequest("userProducts", {
 			userID: this._userID,
 		});
 		let products = [];
 		for (let i = 0; i < responseJSON.length; i++) {
-			let id = responseJSON[i]["productID"];
 			let shopifyID = responseJSON[i]["shopifyID"];
-			products.push(new Product(id, shopifyID, this));
+
+			// Find the associated shopify product
+			let shopifyProduct = null;
+			for (let j = 0; j < shopifyProducts.length; j++) {
+				if (shopifyProducts[j]["id"] == shopifyID) {
+					shopifyProduct = shopifyProducts[j];
+					break;
+				}
+			}
+
+			let id = responseJSON[i]["productID"];
+			products.push(new Product(id, shopifyProduct, this));
 		}
 
 		// Clusters the generation of products, and waits for them all to complete
