@@ -7,8 +7,8 @@ export default class ShopifyApiConnection {
      */
     constructor(shopName, baseURL = null) {
         if (baseURL == null) this._baseURL = new URL(window.location.href);
+        else this._baseURL = baseURL;
         this._shopName = shopName;
-        this._baseURL = baseURL;
     }
 
     async getProductsJSON() {
