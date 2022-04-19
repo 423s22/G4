@@ -129,13 +129,12 @@ app.prepare().then(async () => {
         // TODO: Returns products
         console.log(ctx.query.shop);
         console.log(SHOP_AUTH_KEYS);
-        // const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
-        // const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
-        // const products = await client.get({
-        //     path: "products"
-        // });
-        // console.log(products);
-        // ctx.body = await res.json();
+        const client = new Shopify.Clients.Rest(ctx.query.shop, SHOP_AUTH_KEYS[ctx.query.shop]);
+        const products = await client.get({
+            path: "products"
+        });
+        console.log(products.body);
+        //ctx.body = await res.json();
         ctx.status = 200;
     });
 
