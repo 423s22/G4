@@ -14,7 +14,10 @@ export default class ShopifyApiConnection {
     async getProductsJSON() {
         let url = new URL(this._baseURL);
         url.pathname += "products/"
-        url.searchParams.append("shop", this._shopName);
+        if (url.searchParams.get("shop") == "") {
+            url.searchParams.append("shop", this._shopName);
+        }
+
 
         console.log(url.toString());
 
