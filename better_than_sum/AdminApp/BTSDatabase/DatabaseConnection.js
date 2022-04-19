@@ -21,7 +21,7 @@ export default class DatabaseConnection {
 	/**
 	 * Retrieves all the products owned by a user
 	 * @param {ShopifyApiConnection} shopifyAPI the connection to shopify api
-	 * @returns {Promise<Product[]>} an array of Products
+	 * @returns the product list
 	 */
 	async getUserProducts(shopifyAPI) {
 		let shopifyProducts = (await shopifyAPI.getProductsJSON())["products"];

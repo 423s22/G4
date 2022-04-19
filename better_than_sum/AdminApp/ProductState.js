@@ -58,10 +58,8 @@ export default class ProductState extends AppState {
 					let curProduct = shopifyProducts["products"][i];
 
 					let shouldInclude = true;
-					for (let j = 0; j < dbProducts.length; j++) {
-						console.log(dbProducts[j]);
-						console.log(curProduct);
-						if (dbProducts[j].getShopifyID() == curProduct["id"]) {
+					for (let j = 0; j < dbProducts.getProducts().length; j++) {
+						if (dbProducts.getProducts()[j].getShopifyID() == curProduct["id"]) {
 							shouldInclude = false;
 							break;
 						}
