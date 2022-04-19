@@ -135,7 +135,7 @@ app.prepare().then(async () => {
         //     path: "products"
         // });
         // console.log(products);
-        ctx.body = await res.json();
+        // ctx.body = await res.json();
         ctx.status = 200;
     });
 

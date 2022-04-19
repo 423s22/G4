@@ -24,7 +24,7 @@ export default class App {
     this._dbConn = new DatabaseConnection(windowURL.searchParams.get("btsID"));
     console.log(windowURL.searchParams.get("btsID"));
 
-    fetch("/products").then((res) => {
+    fetch("/products?shop=" + windowURL.searchParams.get("shop")).then((res) => {
       console.log(res);
     });
 
