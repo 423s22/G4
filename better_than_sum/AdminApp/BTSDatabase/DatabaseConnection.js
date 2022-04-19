@@ -7,15 +7,16 @@ import VariationGroup from "./VariationGroup";
 export default class DatabaseConnection {
 	/**
 	 * Creates a new connection to the BTS Database API
-	 * @param {number} userID the ID of the user managing the products
+	 * @param {string} shopName the name of the shop
 	 * @param {string} baseURL the URL to make the http requests to
 	 */
-	constructor(userID, baseURL = null) {
+	constructor(shopName, baseURL = null) {
 		if (baseURL == null) this._baseURL = new URL(window.location.href);
 		else this._baseURL = new URL(baseURL);
 
 		this._baseURL.pathname += "database/";
-		this._userID = userID;
+
+		this._executeGetRequest("userID", { userName: shopName }).then((value) => { console.log(value) });
 	}
 
 	/**

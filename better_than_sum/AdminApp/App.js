@@ -21,7 +21,7 @@ export default class App {
 		this._running = false;
 
 		let windowURL = new URL(window.location.href);
-		this._dbConn = new DatabaseConnection(windowURL.searchParams.get("btsID"));
+		this._dbConn = new DatabaseConnection(windowURL.searchParams.get("shop"));
 		this._apiConn = new ShopifyApiConnection(windowURL.searchParams.get("shop"));
 
 	}
