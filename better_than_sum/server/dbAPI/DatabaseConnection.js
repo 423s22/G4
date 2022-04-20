@@ -66,6 +66,11 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Loads the JSON of a specificied product
+     * @param {number} productID the database ID of the product
+     * @returns the stringified JSON of the product
+     */
     async _getProductJSON(productID) {
         let results = await this._connection.awaitQuery(
             `
@@ -76,6 +81,11 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
+    /**
+     * Loads the JSON of a specificied product via shopify ID
+     * @param {number} shopifyID the shopify ID of the product
+     * @returns the stringified JSON of the product
+     */
     async _getShopifyProductJSON(shopifyID) {
         let results = await this._connection.awaitQuery(
             `
@@ -86,6 +96,11 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
+    /**
+     * Loads the JSON of all products owned by a user
+     * @param {number} userID the database ID of the owning user
+     * @returns the stringified JSON of the products
+     */
     async _getUserProductsJSON(userID) {
         let results = await this._connection.awaitQuery(
             `
@@ -97,6 +112,11 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
+    /**
+     * Loads the JSON of the ID of a user
+     * @param {string} name the name of the user
+     * @returns the stringified JSON of the user ID
+     */
     async _getUserIDJSON(name) {
         let results = await this._connection.awaitQuery(
             `SELECT userID FROM Users WHERE name = ?`, [name]
@@ -104,6 +124,11 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
+    /**
+     * Loads the JSON of the variations of a product
+     * @param {number} productID the database ID of the product
+     * @returns the stringified JSON of the variations
+     */
     async _getProductVariationsJSON(productID) {
         let results = await this._connection.awaitQuery(
             `SELECT Variations.* FROM Variations 
@@ -115,6 +140,11 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
+    /**
+     * Loads the JSON of the variation groups of a product
+     * @param {number} productID the database ID of the product
+     * @returns the stringified JSON of the variation groups
+     */
     async _getVariationGroupsJSON(productID) {
         let results = await this._connection.awaitQuery(
             `SELECT * FROM VariationGroups WHERE owningProduct = ?`, [productID]
@@ -122,6 +152,11 @@ export default class DatabaseConnection {
         return JSON.stringify(results);
     }
 
+    /**
+     * Loads the JSON of the blockers of a variation
+     * @param {number} variationID the database ID of the variation
+     * @returns the stringified JSON of the variation's blockers
+     */
     async _getVariationBlockersJSON(variationID) {
         let resultsA = await this._connection.awaitQuery(
             `SELECT excludeVariationB AS exclude FROM VariationBlockers WHERE excludeVariationA = ?`, [variationID]
@@ -183,6 +218,13 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Creates or updates a product in the database
+     * @param {number} id the database ID of the product. If empty, creates a new product
+     * @param {number} shopifyID the ID of the shopify product to base this product on
+     * @param {number} owningUser the ID of the user who owns this product
+     * @returns the stringified JSON denoting the inserted ID if a new product was created
+     */
     async _postProduct(id, shopifyID, owningUser) {
         if (isNaN(id)) {
             let result = await this._connection.awaitQuery(
@@ -197,6 +239,13 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Creates or updates a variation group in the database
+     * @param {number} id the database ID of the group. If empty, creates a new group
+     * @param {string} name the name of the group
+     * @param {number} owningProduct the ID of the product who owns this group
+     * @returns the stringified JSON denoting the inserted ID if a new group was created
+     */
     async _postVariationGroup(id, name, owningProduct) {
         if (isNaN(id)) {
             let result = await this._connection.awaitQuery(
@@ -211,6 +260,13 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Creates or updates a variation in the database
+     * @param {number} id the database ID of the variation. If empty, creates a new variation
+     * @param {number} addedCost the added cost, in cents, of the variation
+     * @param {number} owningGroup the ID of the group who owns this variation
+     * @returns the stringified JSON denoting the inserted ID if a new variation was created
+     */
     async _postVariation(id, addedCost, name, owningGroup) {
         if (isNaN(id)) {
             let result = await this._connection.awaitQuery(
@@ -225,6 +281,12 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Creates a variation blocker in the database
+     * @param {number} blockerAId the database ID of the first variation
+     * @param {number} blockerBId the database ID of the second variation
+     * @returns the stringified JSON denoting if a new blocker was created
+     */
     async _postVariationBlocker(blockerAId, blockerBId) {
         let curBlockers = JSON.parse(
             await this._getVariationBlockersJSON(blockerAId)
@@ -287,6 +349,11 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Deletes a product from the database
+     * @param {number} id the database ID of the product
+     * @returns the stringified JSON denoting if the product was deleted, or if the ID was invalid
+     */
     async _deleteProduct(id) {
         if (isNaN(id)) {
             return JSON.stringify({ message: "Invalid ID" });
@@ -298,6 +365,11 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Deletes a variation group from the database
+     * @param {number} id the database ID of the group
+     * @returns the stringified JSON denoting if the group was deleted, or if the ID was invalid
+     */
     async _deleteVariationGroup(id) {
         if (isNaN(id)) {
             return JSON.stringify({ message: "Invalid ID" });
@@ -309,6 +381,11 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Deletes a variation from the database
+     * @param {number} id the database ID of the variation
+     * @returns the stringified JSON denoting if the variation was deleted, or if the ID was invalid
+     */
     async _deleteVariation(id) {
         if (isNaN(id)) {
             return JSON.stringify({ message: "Invalid ID" });
@@ -320,6 +397,12 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Deletes a variation blocker from the database
+     * @param {number} blockerAID the ID of the first variation
+     * @param {number} blockerBID the ID of the second variation
+     * @returns the stringified JSON denoting if the blocker was deleted, or if either of the IDs were invalid
+     */
     async _deleteVariationBlocker(blockerAID, blockerBID) {
         if (isNaN(blockerAID) || isNaN(blockerBID)) {
             return JSON.stringify({ message: "Invalid ID" });
@@ -333,6 +416,11 @@ export default class DatabaseConnection {
         }
     }
 
+    /**
+     * Attempts to create a new user record for a shop
+     * @param {string} shopName the name of the shop
+     * @returns {Promise<number>} the ID of the user record
+     */
     async handleShopConnect(shopName) {
         let results = JSON.parse(await this._getUserIDJSON(shopName));
         if (results.length == 0) {
@@ -347,7 +435,7 @@ export default class DatabaseConnection {
 
     /**
      * Attempts to connect to the database
-     * @returns true when successfully connected, or false if an error occurred
+     * @returns {Promise<boolean>} true when successfully connected, or false if an error occurred
      */
     async connect() {
         if (this._isConnected) return true;

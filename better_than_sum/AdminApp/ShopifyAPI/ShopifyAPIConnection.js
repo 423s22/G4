@@ -1,7 +1,7 @@
 export default class ShopifyApiConnection {
 
     /**
-     * 
+     * Creates a new connection to the Shopify API exposed by the server
      * @param {string} shopName the name of the shop used for requests
      * @param {string} baseURL the url to make requests to
      */
@@ -11,6 +11,10 @@ export default class ShopifyApiConnection {
         this._shopName = shopName;
     }
 
+    /**
+     * 
+     * @returns {Promise<any>} the list of shopify-based products owned by the store
+     */
     async getProductsJSON() {
         let url = new URL(this._baseURL);
         url.pathname += "products/"

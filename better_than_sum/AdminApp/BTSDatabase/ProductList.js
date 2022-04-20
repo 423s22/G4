@@ -4,7 +4,7 @@ import Product from "./Product";
 export default class ProductList {
 
     /**
-     * 
+     * Creates a new ProductList to properly maintain the creation and deletion of products
      * @param {Product[]} products 
      * @param {DatabaseConnection} dbConn 
      */
