@@ -37,7 +37,7 @@
 
 6. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
 
-7. Setup a MySQL server on the same machine running the app.
+7. Setup a MySQL Community server on the same machine running the app.
 
 8. Create a database named `G4db` and a user that can access it. Run the SQL files located in `better_than_sum/SQL`.
 
