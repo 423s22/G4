@@ -1,17 +1,17 @@
 import App from "./App";
 
 export default class AppState {
-  /**
-   *
-   * @param {App} app
-   */
-  constructor(app) {
-    this._app = app;
-  }
+	/**
+	 * Creates a new AppState with the specified app
+	 * @param {App} app
+	 */
+	constructor(app) {
+		this._app = app;
+	}
 
-  onEnable() {}
+	onEnable() { }
 
-  onDisable() {}
+	onDisable() { }
 
-  onRender(divID) {}
+	onRender(divID) { }
 }
