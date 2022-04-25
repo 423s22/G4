@@ -1,6 +1,7 @@
 # Developer Documentation
 ## Table of Contents
 - [Setting Up Your Local Repo](#setting-up-your-local-repo)
+- [Troubleshooting Issues](#troubleshooting-issues)
 - [Contributions](#contributions)
 - [Writing Code for the Admin Side](#writing-code-for-the-admin-side)
 - [Writing Code for the Customer Side](#writing-code-for-the-customer-side)
@@ -61,6 +62,13 @@
 
 14. Open the URL provided by the terminal to install the app on your development store
 <br><br><br>
+
+## Troubleshooting Issues
+- Ensure your MySQL server is running
+- Ensure your MySQL user is setup properly with permissions
+- Ensure the latest MySQL files have been run
+- Ensure your ngrok account is setup properly, and you have authenticated your email
+- Run `shopify app tunnel stop` within the `better_than_sum` folder
 
 ## Contributions
 Create a new branch specific to the feature being added.
