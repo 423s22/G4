@@ -177,7 +177,7 @@ export default class DatabaseConnection {
 			})
 		)["insertedID"];
 
-		return new VariationGroup(groupID, product, "", this);
+		return new VariationGroup(groupID, product, "Unnamed Group", this);
 	}
 
 	/**
@@ -195,7 +195,7 @@ export default class DatabaseConnection {
 			})
 		)["insertedID"];
 
-		return new Variation(variationID, variationGroup, 0, "", this);
+		return new Variation(variationID, variationGroup, 0, "Unnamed Variation", this);
 	}
 
 	/**
