@@ -3,9 +3,9 @@ import Product from "./BTSDatabase/Product";
 
 export default class EditProductState extends AppState {
 	constructor(app) {
+		super(app);
         this._product = null;
         this._toRenderTo = null;
-		super(app);
 	}
 
     /**
