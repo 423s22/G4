@@ -38,7 +38,7 @@ export default class ProductState extends AppState {
 
 						let productCost = document.createElement("h2");
 						productCost.innerText = "$" + curShopifyProduct["variants"][0]["price"];
-						btsProductDiv.appendChild(productCost);
+						unusedProductDiv.appendChild(productCost);
 
 						let addProductBtn = document.createElement("button");
 						addProductBtn.textContent = "Add BTS Product";
