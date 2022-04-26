@@ -61,7 +61,7 @@ export default class VariationGroup {
 
   /**
    * Creates a new empty variation belonging to this group
-   * @returns {Variation} the newly created variation
+   * @returns {Promise<Variation>} the newly created variation
    */
   async addVariation() {
     let newVariation = await this._dbConn.createNewVariation(this);

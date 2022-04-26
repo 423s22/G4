@@ -57,7 +57,7 @@ export default class EditProductState extends AppState {
                 let variationTitle = document.createElement("h1");
                 variationTitle.textContent = curVariationGroup.getName();
                 curGroupDiv.appendChild(variationTitle);
-                
+
                 let variationsDiv = document.createElement("div");
                 variationsDiv.classList.add("epsVariationsDiv");
                 curGroupDiv.appendChild(variationsDiv);
@@ -74,19 +74,29 @@ export default class EditProductState extends AppState {
                     curVariationDiv.appendChild(variationTitle);
 
                     let variationAddedCost = document.createElement("h2");
-                    variationAddedCost.innerText = "$" + curVariation.getAddedCost()/100;
+                    variationAddedCost.innerText = "$" + curVariation.getAddedCost() / 100;
                     curVariationDiv.appendChild(variationAddedCost);
 
                 }
 
                 let newVariationBtn = document.createElement("button");
                 newVariationBtn.textContent = "New Variation"
+                newVariationBtn.addEventListener("click", (event) => {
+                    curVariationGroup.addVariation().then(() => {
+                        this.onRender(this._toRenderTo);
+                    })
+                });
                 curGroupDiv.appendChild(newVariationBtn);
 
             }
 
             let newGroupBtn = document.createElement("button");
             newGroupBtn.textContent = "New Group";
+            newGroupBtn.addEventListener("click", (event) => {
+                this._product.addVariationGroup().then(() => {
+                    this.onRender(this._toRenderTo);
+                });
+            });
             groupsDiv.appendChild(newGroupBtn);
 
         }

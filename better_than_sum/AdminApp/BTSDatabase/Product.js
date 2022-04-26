@@ -123,7 +123,7 @@ export default class Product {
 
 	/**
 	 * Creates a new empty variation group belonging to this product
-	 * @returns {VariationGroup} the newly created group
+	 * @returns {Promise<VariationGroup>} the newly created group
 	 */
 	async addVariationGroup() {
 		let newGroup = await this._dbConn.createNewVariationGroup(this);
