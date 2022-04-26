@@ -1,7 +1,7 @@
 import AppState from "./AppState";
 import Product from "../BTSDatabase/Product";
 
-export default class ProductState extends AppState {
+export default class EditProductState extends AppState {
 	constructor(app) {
         this._product = null;
         this._toRenderTo = null;

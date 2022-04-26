@@ -6,6 +6,7 @@ import ProductState from "./ProductState";
 import HelpState from "./HelpState";
 import DatabaseConnection from "./BTSDatabase/DatabaseConnection";
 import ShopifyApiConnection from "./ShopifyAPI/ShopifyAPIConnection";
+import EditProductState from "./EditProductState";
 
 export default class App {
 	constructor() {
