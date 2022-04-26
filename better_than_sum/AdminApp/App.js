@@ -16,6 +16,7 @@ export default class App {
 		this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
 		this._allStates.set(AppStateType.ProductState, new ProductState(this));
 		this._allStates.set(AppStateType.HelpState, new HelpState(this));
+		this._allStates.set(AppStateType.EditProductState, new EditProductState(this));
 
 		this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
 		this._running = false;
@@ -55,6 +56,10 @@ export default class App {
 		newState.onEnable();
 
 		newState.onRender("stateDiv");
+	}
+
+	getState() {
+		return this._state;
 	}
 
 	/**

@@ -1,4 +1,5 @@
 import AppState from "./AppState";
+import AppStateType from "./AppStateType";
 export default class ProductState extends AppState {
 	constructor(app) {
 		super(app);
@@ -45,10 +46,10 @@ export default class ProductState extends AppState {
 						addProductBtn.addEventListener("click", (event) => {
 							this._app.getDatabaseConnection().createNewProduct(curShopifyProduct).then(
 								(value) => {
-									console.log(value);
+									this._app.setState(AppStateType.ProductState);
+									this._app.getState().setProduct(value);
 								}
 							)
-							addProductBtn.remove();
 						});
 						unusedProductDiv.appendChild(addProductBtn);
 
