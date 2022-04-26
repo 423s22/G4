@@ -77,6 +77,15 @@ export default class EditProductState extends AppState {
                     variationAddedCost.innerText = "$" + curVariation.getAddedCost() / 100;
                     curVariationDiv.appendChild(variationAddedCost);
 
+                    let deleteVariationBtn = document.createElement("button");
+                    deleteVariationBtn.textContent = "Delete Variation";
+                    deleteVariationBtn.addEventListener("click", (event) => {
+                        curVariation.getGroup().deleteVariation(curVariation).then(() => {
+                            this.onRender(this._toRenderTo);
+                        });
+                    });
+                    curVariationDiv.appendChild(deleteVariationBtn);
+
                 }
 
                 let newVariationBtn = document.createElement("button");
@@ -87,6 +96,15 @@ export default class EditProductState extends AppState {
                     })
                 });
                 curGroupDiv.appendChild(newVariationBtn);
+
+                let deleteGroupBtn = document.createElement("button");
+                deleteGroupBtn.textContent = "Delete Group";
+                deleteGroupBtn.addEventListener("click", (event) => {
+                    curVariationGroup.getProduct().deleteVariationGroup(curVariationGroup).then(() => {
+                        this.onRender(this._toRenderTo);
+                    });
+                });
+                curGroupDiv.appendChild(deleteGroupBtn);
 
             }
 
