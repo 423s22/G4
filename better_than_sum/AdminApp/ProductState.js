@@ -47,6 +47,7 @@ export default class ProductState extends AppState {
 							this._app.getDatabaseConnection().createNewProduct(curShopifyProduct).then(
 								(value) => {
 									this._app.setState(AppStateType.ProductState);
+									console.log(this._app.getState());
 									this._app.getState().setProduct(value);
 								}
 							)
@@ -56,6 +57,7 @@ export default class ProductState extends AppState {
 						div.appendChild(unusedProductDiv);
 
 					} else {
+						console.log(associatedBTSProduct);
 						let btsProductDiv = document.createElement("div");
 						btsProductDiv.classList.add("psBTSProductDiv");
 
