@@ -10,9 +10,11 @@
 .epsGroupsDiv > div {
     margin-top: 20px;
     border-width: 1px;
+    border-style: solid;
     border-color: rgb(201, 204, 207);
     border-radius: 4px;
     padding-left: 10px;
+    padding-bottom: 20px;
 }
 
 .epsVariationsDiv {
@@ -22,7 +24,9 @@
 .epsVariationsDiv > div {
     margin-top: 10px;
     border-width: 1px;
+    border-style: solid;
     border-color: rgb(201, 204, 207);
     border-radius: 4px;
     padding-left: 10px;
+    padding-bottom: 10px;
 }
