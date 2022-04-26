@@ -67,6 +67,14 @@ export default class ProductState extends AppState {
 						productCost.innerText = "$" + (associatedBTSProduct.getBaseCost() / 100);
 						btsProductDiv.appendChild(productCost);
 
+						let editProductBtn = document.createElement("button");
+						editProductBtn.textContent = "Edit BTS Product";
+						editProductBtn.addEventListener("click", (event) => {
+							this._app.setState(AppStateType.EditProductState);
+							this._app.getState().setProduct(value);
+						});
+						unusedProductDiv.appendChild(associatedBTSProduct);
+
 						div.appendChild(btsProductDiv);
 					}
 

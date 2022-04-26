@@ -67,16 +67,16 @@ export default class Product {
 	}
 
 	/**
-	 * TODO: Test this
-	 * @returns the base cost, in cents, of the product
+	 * 
+	 * @returns {number} the base cost of the product in cents
 	 */
 	getBaseCost() {
 		return parseInt(this._shopifyProduct["variants"][0]["price"] * 100);
 	}
 
 	/**
-	 * TODO: Test this
-	 * @returns the name of the product
+	 * 
+	 * @returns {string} the title of the product
 	 */
 	getName() {
 		return this._shopifyProduct["title"];

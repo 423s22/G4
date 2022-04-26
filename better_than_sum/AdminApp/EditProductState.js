@@ -28,7 +28,7 @@ export default class EditProductState extends AppState {
         if (this._product == null) {
             div.innerHTML = "Loading...";
         } else {
-
+            div.innerHTML = "";
             let productDetails = document.createElement("div");
             productDetails.classList.add("epsDetailsDiv");
             
