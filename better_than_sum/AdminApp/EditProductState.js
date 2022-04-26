@@ -1,5 +1,5 @@
 import AppState from "./AppState";
-import Product from "../BTSDatabase/Product";
+import Product from "./BTSDatabase/Product";
 
 export default class EditProductState extends AppState {
 	constructor(app) {
