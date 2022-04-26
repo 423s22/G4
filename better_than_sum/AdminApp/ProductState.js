@@ -71,9 +71,9 @@ export default class ProductState extends AppState {
 						editProductBtn.textContent = "Edit BTS Product";
 						editProductBtn.addEventListener("click", (event) => {
 							this._app.setState(AppStateType.EditProductState);
-							this._app.getState().setProduct(value);
+							this._app.getState().setProduct(associatedBTSProduct);
 						});
-						btsProductDiv.appendChild(associatedBTSProduct);
+						btsProductDiv.appendChild(editProductBtn);
 
 						div.appendChild(btsProductDiv);
 					}
