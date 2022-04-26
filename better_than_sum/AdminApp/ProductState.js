@@ -73,7 +73,7 @@ export default class ProductState extends AppState {
 							this._app.setState(AppStateType.EditProductState);
 							this._app.getState().setProduct(value);
 						});
-						unusedProductDiv.appendChild(associatedBTSProduct);
+						btsProductDiv.appendChild(associatedBTSProduct);
 
 						div.appendChild(btsProductDiv);
 					}
