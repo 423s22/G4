@@ -36,7 +36,21 @@ export default class ProductState extends AppState {
 						productTitle.innerText = curShopifyProduct["title"];
 						unusedProductDiv.appendChild(productTitle);
 
-						console.log(curShopifyProduct);
+						let productCost = document.createElement("h2");
+						productCost.innerText = "$" + curShopifyProduct["variants"][0]["price"];
+						btsProductDiv.appendChild(productCost);
+
+						let addProductBtn = document.createElement("button");
+						addProductBtn.textContent = "Add BTS Product";
+						addProductBtn.addEventListener("click", (event) => {
+							this._app.getDatabaseConnection().createNewProduct(curShopifyProduct).then(
+								(value) => {
+									console.log(value);
+								}
+							)
+							addProductBtn.remove();
+						});
+						unusedProductDiv.appendChild(addProductBtn);
 
 						div.appendChild(unusedProductDiv);
 
@@ -51,8 +65,6 @@ export default class ProductState extends AppState {
 						let productCost = document.createElement("h2");
 						productCost.innerText = "$" + (associatedBTSProduct.getBaseCost() / 100);
 						btsProductDiv.appendChild(productCost);
-
-						console.log(curShopifyProduct);
 
 						div.appendChild(btsProductDiv);
 					}
