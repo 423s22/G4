@@ -2,11 +2,11 @@ import AppState from "./AppState";
 import Product from "./BTSDatabase/Product";
 
 export default class EditProductState extends AppState {
-	constructor(app) {
-		super(app);
+    constructor(app) {
+        super(app);
         this._product = null;
         this._toRenderTo = null;
-	}
+    }
 
     /**
      * Sets the active product being edited
@@ -31,16 +31,63 @@ export default class EditProductState extends AppState {
             div.innerHTML = "";
             let productDetails = document.createElement("div");
             productDetails.classList.add("epsDetailsDiv");
-            
+
             let productTitle = document.createElement("h1");
             productTitle.innerText = this._product.getName();
             productDetails.appendChild(productTitle);
 
             let productCost = document.createElement("h2");
-            productCost.innerText = "$" + this._product.getBaseCost()/100;
+            productCost.innerText = "$" + this._product.getBaseCost() / 100;
             productDetails.appendChild(productCost);
-            
+
             div.appendChild(productDetails);
+
+            let variationGroups = this._product.getVariationGroups();
+
+            let groupsDiv = document.createElement("div");
+            groupsDiv.classList.add("epsGroupsDiv");
+            div.appendChild(groupsDiv);
+
+            for (let i = 0; i < variationGroups.length; i++) {
+                let curGroupDiv = document.createElement("div");
+                groupsDiv.appendChild(curGroupDiv);
+
+                let curVariationGroup = variationGroups[i];
+
+                let variationTitle = document.createElement("h1");
+                variationTitle.textContent = curVariationGroup.getName();
+                curGroupDiv.appendChild(variationTitle);
+                
+                let variationsDiv = document.createElement("div");
+                variationsDiv.classList.add("epsVariationsDiv");
+                curGroupDiv.appendChild(variationsDiv);
+
+                let variations = curVariationGroup.getVariations();
+                for (let j = 0; j < variations.length; j++) {
+                    let curVariation = variations[j];
+
+                    let curVariationDiv = document.createElement("div");
+                    variationsDiv.appendChild(curVariationDiv);
+
+                    let variationTitle = document.createElement("h1");
+                    variationTitle.textContent = curVariation.getName();
+                    curVariationDiv.appendChild(variationTitle);
+
+                    let variationAddedCost = document.createElement("h2");
+                    variationAddedCost.innerText = "$" + curVariation.getAddedCost()/100;
+                    curVariationDiv.appendChild(variationAddedCost);
+
+                }
+
+                let newVariationBtn = document.createElement("button");
+                newVariationBtn.textContent = "New Variation"
+                curGroupDiv.appendChild(newVariationBtn);
+
+            }
+
+            let newGroupBtn = document.createElement("button");
+            newGroupBtn.textContent = "New Group";
+            groupsDiv.appendChild(newGroupBtn);
 
         }
     }
