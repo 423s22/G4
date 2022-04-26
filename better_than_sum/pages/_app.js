@@ -7,7 +7,9 @@ import { authenticatedFetch } from "@shopify/app-bridge-utils";
 import { Redirect } from "@shopify/app-bridge/actions";
 import "@shopify/polaris/dist/styles.css";
 import translations from "@shopify/polaris/locales/en.json";
+import "./css/eps.css";
 import "./css/main.css";
+
 
 function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);

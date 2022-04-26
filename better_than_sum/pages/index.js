@@ -1,6 +1,5 @@
 import App from "../AdminApp/App";
 import React, { useState, useEffect } from "react";
-import "./css/eps.css";
 
 export default function Index() {
   let app;
