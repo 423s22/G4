@@ -22,9 +22,10 @@ export default class App {
 		this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
 		this._running = false;
 
+		let windowURL = new URL(window.location.href);
+
 		this._shopName = windowURL.searchParams.get("shop");
 
-		let windowURL = new URL(window.location.href);
 		this._dbConn = new DatabaseConnection(this._shopName);
 		this._apiConn = new ShopifyApiConnection(this._shopName);
 
