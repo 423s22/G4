@@ -41,40 +41,6 @@
   padding-top: 1%;
 }
 
-#helpDiv h1 {
-  padding-bottom: 0.3em;
-  font-size: 2em;
-  border-bottom: 1px solid;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-#helpDiv h2 {
-  padding-bottom: 0.3em;
-  font-size: 1.5em;
-  border-bottom: 1px solid;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-#helpDiv h3 {
-  font-size: 1.25em;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-#helpDiv h4 {
-  margin-top: 24px;
-  margin-bottom: 16px;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-#helpDiv p {
-  margin-top: 0;
-  margin-bottom: 16px;
-}
-
 /*This styling is based off of code examples on W3Schools*/
 
 /* Style the buttons that are used to open and close the accordion panel */
