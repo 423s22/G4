@@ -154,8 +154,8 @@ export default class EditProductState extends AppState {
             let saveProductBtn = document.createElement("button");
             saveProductBtn.textContent = "Save Product Changes";
             saveProductBtn.addEventListener("click", (event) => {
-                this._updateSaveStatus();
                 this._saving = true;
+                this._updateSaveStatus();
                 this._product.save().then(() => {
                     this._saving = false;
                     this._updateSaveStatus();
