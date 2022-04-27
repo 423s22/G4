@@ -54,9 +54,13 @@ export default class EditProductState extends AppState {
 
                 let curVariationGroup = variationGroups[i];
 
-                let variationTitle = document.createElement("h1");
-                variationTitle.textContent = curVariationGroup.getName();
-                curGroupDiv.appendChild(variationTitle);
+                let variationTitleInput = document.createElement("input");
+                variationTitleInput.type = "text";
+                variationTitleInput.value = curVariationGroup.getName();
+                variationTitleInput.addEventListener("change", () => {
+                    curVariationGroup.setName(variationTitleInput.value);
+                });
+                curGroupDiv.appendChild(variationTitleInput);
 
                 let variationsDiv = document.createElement("div");
                 variationsDiv.classList.add("epsVariationsDiv");
@@ -69,9 +73,13 @@ export default class EditProductState extends AppState {
                     let curVariationDiv = document.createElement("div");
                     variationsDiv.appendChild(curVariationDiv);
 
-                    let variationTitle = document.createElement("h1");
-                    variationTitle.textContent = curVariation.getName();
-                    curVariationDiv.appendChild(variationTitle);
+                    let variationTitleInput = document.createElement("input");
+                    variationTitleInput.type = "text";
+                    variationTitleInput.value = curVariation.getName();
+                    variationTitleInput.addEventListener("change", (event) => {
+                        curVariation.setName(variationTitleInput.value);
+                    });
+                    curVariationDiv.appendChild(variationTitleInput);
 
                     let variationAddedCost = document.createElement("h2");
                     variationAddedCost.innerText = "$" + curVariation.getAddedCost() / 100;
@@ -85,7 +93,6 @@ export default class EditProductState extends AppState {
                         });
                     });
                     curVariationDiv.appendChild(deleteVariationBtn);
-
                 }
 
                 let newVariationBtn = document.createElement("button");
@@ -116,6 +123,13 @@ export default class EditProductState extends AppState {
                 });
             });
             groupsDiv.appendChild(newGroupBtn);
+
+            let saveProductBtn = document.createElement("button");
+            saveProductBtn.textContent = "Save Product Changes";
+            saveProductBtn.addEventListener("click", (event) => {
+                this._product.save();
+            });
+            groupsDiv.appendChild(saveProductBtn);
 
         }
     }
