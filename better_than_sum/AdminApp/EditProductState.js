@@ -82,8 +82,25 @@ export default class EditProductState extends AppState {
                     curVariationDiv.appendChild(variationTitleInput);
 
                     let variationAddedCost = document.createElement("h2");
-                    variationAddedCost.innerText = "$" + curVariation.getAddedCost() / 100;
+                    variationAddedCost.innerText = "$";
                     curVariationDiv.appendChild(variationAddedCost);
+
+                    let variationAddedCostInput = document.createElement("input");
+                    variationAddedCostInput.type = "text";
+                    variationAddedCostInput.value = (curVariation.getAddedCost()/100).toFixed(2);
+                    variationAddedCostInput.addEventListener("change", (evnet) => {
+                        let newCost = parseFloat(variationAddedCostInput.value);
+                        if (isNaN(newCost)) {
+                            newCost = 0;
+                        }
+                        newCost *= 100;
+                        newCost = parseInt(newCost);
+                        curVariation.setAddedCost(newCost);
+                        variationAddedCostInput.value = (curVariation.getAddedCost()/100).toFixed(2);
+                    });
+
+                    variationAddedCost.appendChild(variationAddedCostInput);
+
 
                     let deleteVariationBtn = document.createElement("button");
                     deleteVariationBtn.textContent = "Delete Variation";
