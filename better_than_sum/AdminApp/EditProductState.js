@@ -6,6 +6,8 @@ export default class EditProductState extends AppState {
         super(app);
         this._product = null;
         this._toRenderTo = null;
+        this._saveStatusDiv = null;
+        this._saving = false;
     }
 
     /**
@@ -29,6 +31,11 @@ export default class EditProductState extends AppState {
             div.innerHTML = "Loading...";
         } else {
             div.innerHTML = "";
+
+            this._saveStatusDiv = document.createElement("div");
+            this._saveStatusDiv.classList.add("epsSaveStatusDiv");
+            div.appendChild(this._saveStatusDiv);
+
             let productDetails = document.createElement("div");
             productDetails.classList.add("epsDetailsDiv");
 
@@ -59,6 +66,7 @@ export default class EditProductState extends AppState {
                 variationTitleInput.value = curVariationGroup.getName();
                 variationTitleInput.addEventListener("change", () => {
                     curVariationGroup.setName(variationTitleInput.value);
+                    this._updateSaveStatus();
                 });
                 curGroupDiv.appendChild(variationTitleInput);
 
@@ -78,6 +86,7 @@ export default class EditProductState extends AppState {
                     variationTitleInput.value = curVariation.getName();
                     variationTitleInput.addEventListener("change", (event) => {
                         curVariation.setName(variationTitleInput.value);
+                        this._updateSaveStatus();
                     });
                     curVariationDiv.appendChild(variationTitleInput);
 
@@ -87,7 +96,7 @@ export default class EditProductState extends AppState {
 
                     let variationAddedCostInput = document.createElement("input");
                     variationAddedCostInput.type = "text";
-                    variationAddedCostInput.value = (curVariation.getAddedCost()/100).toFixed(2);
+                    variationAddedCostInput.value = (curVariation.getAddedCost() / 100).toFixed(2);
                     variationAddedCostInput.addEventListener("change", (evnet) => {
                         let newCost = parseFloat(variationAddedCostInput.value);
                         if (isNaN(newCost)) {
@@ -96,7 +105,8 @@ export default class EditProductState extends AppState {
                         newCost *= 100;
                         newCost = parseInt(newCost);
                         curVariation.setAddedCost(newCost);
-                        variationAddedCostInput.value = (curVariation.getAddedCost()/100).toFixed(2);
+                        variationAddedCostInput.value = (curVariation.getAddedCost() / 100).toFixed(2);
+                        this._updateSaveStatus();
                     });
 
                     variationAddedCost.appendChild(variationAddedCostInput);
@@ -144,11 +154,34 @@ export default class EditProductState extends AppState {
             let saveProductBtn = document.createElement("button");
             saveProductBtn.textContent = "Save Product Changes";
             saveProductBtn.addEventListener("click", (event) => {
-                this._product.save();
+                this._updateSaveStatus();
+                this._saving = true;
+                this._product.save().then(() => {
+                    this._saving = false;
+                    this._updateSaveStatus();
+                });
             });
             groupsDiv.appendChild(saveProductBtn);
 
         }
     }
+
+
+    _updateSaveStatus() {
+        
+        this._saveStatusDiv.innerHTML = "";
+
+        if (!this._product.isSaved()) {
+            if (!this._saving) {
+                this._saveStatusDiv.innerHTML = "<h1>You have unsaved changes!</h1>";
+            } else {
+                this._saveStatusDiv.innerHTML = "<h1>Saving...<h1>";
+            }
+        } else {
+            this._saveStatusDiv.innerHTML = "<h1>All changes saved!<h1>";
+        }
+
+    }
+
 
 }
