@@ -22,9 +22,11 @@ export default class App {
 		this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
 		this._running = false;
 
+		this._shopName = windowURL.searchParams.get("shop");
+
 		let windowURL = new URL(window.location.href);
-		this._dbConn = new DatabaseConnection(windowURL.searchParams.get("shop"));
-		this._apiConn = new ShopifyApiConnection(windowURL.searchParams.get("shop"));
+		this._dbConn = new DatabaseConnection(this._shopName);
+		this._apiConn = new ShopifyApiConnection(this._shopName);
 
 	}
 
@@ -78,4 +80,13 @@ export default class App {
 	getShopifyAPIConnection() {
 		return this._apiConn;
 	}
+
+	/**
+	 * 
+	 * @returns {string} the name of the shop
+	 */
+	getShopName() {
+		return this._shopName;
+	}
+
 }
