@@ -164,6 +164,7 @@ export default class EditProductState extends AppState {
             groupsDiv.appendChild(saveProductBtn);
 
         }
+        this._updateSaveStatus();
     }
 
 
