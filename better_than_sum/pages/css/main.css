@@ -1,3 +1,18 @@
+/*
+Color Pallet:
+
+#EEEEEE *base color
+#A19191
+#EDEDD5
+#D5E4ED
+#919AA1
+
+*/
+
+body {
+  background-color: #eee;
+}
+
 #appDiv {
   display: flex;
   flex-direction: column;
@@ -19,6 +34,8 @@
 #navDiv li {
   border-style: solid;
   border-color: #000000;
+  border-width: thin;
+  background-color: #d5e4ed;
   list-style: none;
   float: left;
   width: 15%;
@@ -31,7 +48,7 @@
 }
 
 #navDiv li:hover {
-  background-color: darkgrey;
+  background-color: #919aa1;
 }
 
 #stateDiv {

@@ -4,6 +4,7 @@
   border-bottom: 1px solid;
   margin-top: 24px;
   margin-bottom: 16px;
+  text-align: center;
 }
 
 #helpDiv h2 {
@@ -12,12 +13,15 @@
   border-bottom: 1px solid;
   margin-top: 24px;
   margin-bottom: 16px;
+  padding-left: 25px;
 }
 
 #helpDiv h3 {
   font-size: 1.25em;
+  font-weight: bold;
   margin-top: 24px;
   margin-bottom: 16px;
+  padding-left: 25px;
 }
 
 #helpDiv h4 {
@@ -25,9 +29,11 @@
   margin-bottom: 16px;
   font-weight: 600;
   line-height: 1.25;
+  padding-left: 25px;
 }
 
 #helpDiv p {
   margin-top: 0;
   margin-bottom: 16px;
+  padding-left: 25px;
 }
