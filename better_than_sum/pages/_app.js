@@ -10,7 +10,6 @@ import translations from "@shopify/polaris/locales/en.json";
 import "./css/main.css";
 import "./css/EditProductState.css";
 import "./css/Dashboard.css";
-import "./css/Product.css";
 import "./css/Help.css";
 
 function userLoggedInFetch(app) {
