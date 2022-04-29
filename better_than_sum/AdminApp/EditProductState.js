@@ -120,6 +120,10 @@ export default class EditProductState extends AppState {
 					variationBlockersDiv.classList.add("epsBlockerListDiv");
 					curVariationDiv.appendChild(variationBlockersDiv);
 
+					let variationBlockersTitle = document.createElement("h1");
+					variationBlockersTitle.textContent = "Blockers";
+					variationBlockersDiv.appendChild(variationBlockersTitle);
+
 					let blockers = curVariation.getBlockers();
 					for (let k = 0; k < blockers.length; k++) {
 						let curBlocker = blockers[k];
