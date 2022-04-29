@@ -11,6 +11,7 @@ import "./css/main.css";
 import "./css/EditProductState.css";
 import "./css/Dashboard.css";
 import "./css/Help.css";
+import "./css/Product.css";
 
 function userLoggedInFetch(app) {
   const fetchFunction = authenticatedFetch(app);

@@ -1,32 +1,101 @@
-
 .epsDetailsDiv {
+}
 
+.epsDetailsDiv h1 {
+  padding-left: 0;
+  padding-bottom: 0.4em;
+  font-size: 2em;
+  text-align: center;
+  border-bottom: 1px solid #737b80;
+}
+
+.epsDetailsDiv h2 {
+  padding-left: 0;
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  padding-left: 25px;
 }
 
 .epsGroupsDiv {
+}
 
+.epsGroupsDiv input {
+  padding: 12px 5px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.epsGroupsDiv button {
+  background-color: #7ca8db; /* Main Button */
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 25px;
+  margin-top: 1%;
+}
+
+.epsGroupsDiv button:hover {
+  background-color: #5a7a9e; /* Main Button */
+}
+
+.epsGroupsDiv .saveButton {
+  margin-top: 1%;
+  margin-left: 5%;
+  background-color: #2c963f; /* Save Button */
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.epsGroupsDiv .saveButton:hover {
+  background-color: #1e662b; /* Save Button hover */
+}
+
+.epsGroupsDiv .deleteButton {
+  background-color: #c73f38; /* Delete Button */
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 1%;
+}
+
+.epsGroupsDiv .deleteButton:hover {
+  background-color: #8f332e;
 }
 
 .epsGroupsDiv > div {
-    margin-top: 20px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(201, 204, 207);
-    border-radius: 4px;
-    padding-left: 10px;
-    padding-bottom: 10px;
+  margin-top: 20px;
+  border-width: thin;
+  border-style: solid;
+  border-color: #919aa1;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-bottom: 10px;
 }
 
 .epsVariationsDiv {
-
 }
 
 .epsVariationsDiv > div {
-    margin-top: 10px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(201, 204, 207);
-    border-radius: 4px;
-    padding-left: 10px;
-    padding-bottom: 10px;
+  margin-top: 10px;
+  border-width: thin;
+  border-style: solid;
+  border-color: #919aa1;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-bottom: 10px;
 }

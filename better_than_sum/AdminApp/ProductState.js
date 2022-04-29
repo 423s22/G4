@@ -1,90 +1,100 @@
 import AppState from "./AppState";
 import AppStateType from "./AppStateType";
 export default class ProductState extends AppState {
-	constructor(app) {
-		super(app);
-	}
+  constructor(app) {
+    super(app);
+  }
 
-	onEnable() { }
+  onEnable() {}
 
-	onDisable() { }
+  onDisable() {}
 
-	onRender(divID) {
-		let div = document.getElementById(divID);
+  onRender(divID) {
+    let div = document.getElementById(divID);
 
-		div.innerHTML = "Loading...";
+    div.innerHTML = "Loading...";
 
-		this._app.getShopifyAPIConnection().getProductsJSON().then((shopifyProducts) => {
-			this._app.getDatabaseConnection().getUserProducts(this._app.getShopifyAPIConnection()).then((dbProducts) => {
-				div.innerHTML = "";
-				for (let i = 0; i < shopifyProducts["products"].length; i++) {
-					let curShopifyProduct = shopifyProducts["products"][i];
+    this._app
+      .getShopifyAPIConnection()
+      .getProductsJSON()
+      .then((shopifyProducts) => {
+        this._app
+          .getDatabaseConnection()
+          .getUserProducts(this._app.getShopifyAPIConnection())
+          .then((dbProducts) => {
+            div.innerHTML = "";
 
-					let associatedBTSProduct = null;
-					for (let j = 0; j < dbProducts.getProducts().length; j++) {
-						if (dbProducts.getProducts()[j].getShopifyID() == curShopifyProduct["id"]) {
-							associatedBTSProduct = dbProducts.getProducts()[j];
-							break;
-						}
-					}
+            let pageTitle = document.createElement("h1");
+            pageTitle.id = "pageTitle";
+            pageTitle.innerText = "Current Products";
+            div.appendChild(pageTitle);
 
-					if (associatedBTSProduct == null) {
+            for (let i = 0; i < shopifyProducts["products"].length; i++) {
+              let curShopifyProduct = shopifyProducts["products"][i];
 
-						let unusedProductDiv = document.createElement("div");
-						unusedProductDiv.classList.add("psUnusedProductDiv");
+              let associatedBTSProduct = null;
+              for (let j = 0; j < dbProducts.getProducts().length; j++) {
+                if (
+                  dbProducts.getProducts()[j].getShopifyID() ==
+                  curShopifyProduct["id"]
+                ) {
+                  associatedBTSProduct = dbProducts.getProducts()[j];
+                  break;
+                }
+              }
 
-						let productTitle = document.createElement("h1");
-						productTitle.innerText = curShopifyProduct["title"];
-						unusedProductDiv.appendChild(productTitle);
+              if (associatedBTSProduct == null) {
+                let unusedProductDiv = document.createElement("div");
+                unusedProductDiv.classList.add("psUnusedProductDiv");
 
-						let productCost = document.createElement("h2");
-						productCost.innerText = "$" + curShopifyProduct["variants"][0]["price"];
-						unusedProductDiv.appendChild(productCost);
+                let productTitle = document.createElement("h1");
+                productTitle.innerText = curShopifyProduct["title"];
+                unusedProductDiv.appendChild(productTitle);
 
-						let addProductBtn = document.createElement("button");
-						addProductBtn.textContent = "Add BTS Product";
-						addProductBtn.addEventListener("click", (event) => {
-							this._app.getDatabaseConnection().createNewProduct(curShopifyProduct).then(
-								(value) => {
-									this._app.setState(AppStateType.EditProductState);
-									this._app.getState().setProduct(value);
-								}
-							)
-						});
-						unusedProductDiv.appendChild(addProductBtn);
+                let productCost = document.createElement("h2");
+                productCost.innerText =
+                  "$" + curShopifyProduct["variants"][0]["price"];
+                unusedProductDiv.appendChild(productCost);
 
-						div.appendChild(unusedProductDiv);
+                let addProductBtn = document.createElement("button");
+                addProductBtn.textContent = "Add BTS Product";
+                addProductBtn.addEventListener("click", (event) => {
+                  this._app
+                    .getDatabaseConnection()
+                    .createNewProduct(curShopifyProduct)
+                    .then((value) => {
+                      this._app.setState(AppStateType.EditProductState);
+                      this._app.getState().setProduct(value);
+                    });
+                });
+                unusedProductDiv.appendChild(addProductBtn);
 
-					} else {
-						let btsProductDiv = document.createElement("div");
-						btsProductDiv.classList.add("psBTSProductDiv");
+                div.appendChild(unusedProductDiv);
+              } else {
+                let btsProductDiv = document.createElement("div");
+                btsProductDiv.classList.add("psBTSProductDiv");
 
-						let productTitle = document.createElement("h1");
-						productTitle.innerText = associatedBTSProduct.getName();
-						btsProductDiv.appendChild(productTitle);
+                let productTitle = document.createElement("h1");
+                productTitle.innerText = associatedBTSProduct.getName();
+                btsProductDiv.appendChild(productTitle);
 
-						let productCost = document.createElement("h2");
-						productCost.innerText = "$" + (associatedBTSProduct.getBaseCost() / 100);
-						btsProductDiv.appendChild(productCost);
+                let productCost = document.createElement("h2");
+                productCost.innerText =
+                  "$" + associatedBTSProduct.getBaseCost() / 100;
+                btsProductDiv.appendChild(productCost);
 
-						let editProductBtn = document.createElement("button");
-						editProductBtn.textContent = "Edit BTS Product";
-						editProductBtn.addEventListener("click", (event) => {
-							this._app.setState(AppStateType.EditProductState);
-							this._app.getState().setProduct(associatedBTSProduct);
-						});
-						btsProductDiv.appendChild(editProductBtn);
+                let editProductBtn = document.createElement("button");
+                editProductBtn.textContent = "Edit BTS Product";
+                editProductBtn.addEventListener("click", (event) => {
+                  this._app.setState(AppStateType.EditProductState);
+                  this._app.getState().setProduct(associatedBTSProduct);
+                });
+                btsProductDiv.appendChild(editProductBtn);
 
-						div.appendChild(btsProductDiv);
-					}
-
-
-				}
-			});
-
-
-		});
-
-	}
-
+                div.appendChild(btsProductDiv);
+              }
+            }
+          });
+      });
+  }
 }
