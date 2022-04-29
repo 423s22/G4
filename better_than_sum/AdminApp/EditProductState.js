@@ -137,6 +137,7 @@ export default class EditProductState extends AppState {
 						blockerDiv.appendChild(blockerTitle);
 
 						let removeBlockerBtn = document.createElement("button");
+						removeBlockerBtn.classList.add("deleteButton");
 						removeBlockerBtn.textContent = "Delete Blocker";
 						removeBlockerBtn.addEventListener("click", (event) => {
 							curVariation.deleteBlocker(curBlocker).then(() => {
