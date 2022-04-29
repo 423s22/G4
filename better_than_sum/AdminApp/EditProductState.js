@@ -121,7 +121,7 @@ export default class EditProductState extends AppState {
 					curVariationDiv.appendChild(variationBlockersDiv);
 
 					let blockers = curVariation.getBlockers();
-					for (let k = 0; k < blockers; k++) {
+					for (let k = 0; k < blockers.length; k++) {
 						let curBlocker = blockers[k];
 
 						let blockerDiv = document.createElement("div");
