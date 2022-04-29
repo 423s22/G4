@@ -35,6 +35,7 @@ export default class EditProductState extends AppState {
       this._saveStatusDiv = document.createElement("div");
       this._saveStatusDiv.classList.add("epsSaveStatusDiv");
       div.appendChild(this._saveStatusDiv);
+      this._updateSaveStatus();
 
       let productDetails = document.createElement("div");
       productDetails.classList.add("epsDetailsDiv");
@@ -174,7 +175,6 @@ export default class EditProductState extends AppState {
       });
       groupsDiv.appendChild(saveProductBtn);
     }
-    //this._updateSaveStatus(); *Possibly need to delete this line once testing complete
   }
 
   _updateSaveStatus() {
