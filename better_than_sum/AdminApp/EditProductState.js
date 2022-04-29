@@ -166,6 +166,19 @@ export default class EditProductState extends AppState {
 					}
 					variationBlockersDiv.appendChild(newBlockerSelect);
 
+					let addBlockerBtn = document.createElement("button");
+					addBlockerBtn.textContent = "Add Selected Blocker";
+					addBlockerBtn.addEventListener("click", (event) => {
+						let selected = newBlockerSelect.options[newBlockerSelect.selectedIndex];
+						if (selected.value != "none") {
+							let newBlockerID = parseInt(selected.value);
+							let newBlockerVariation = this._product.getVariationByID(newBlockerID);
+							curVariation.addBlocker(newBlockerVariation).then(() => {
+								this.onRender(this._toRenderTo);
+							});
+						}
+					});
+
 					let deleteVariationBtn = document.createElement("button");
 					deleteVariationBtn.textContent = "Delete Variation";
 					deleteVariationBtn.classList.add("deleteButton");
