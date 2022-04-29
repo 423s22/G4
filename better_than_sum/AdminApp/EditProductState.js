@@ -143,12 +143,12 @@ export default class EditProductState extends AppState {
 					}
 
 					let newBlockerSelect = document.createElement("select");
-					let defaultBlockerSelect = document.createElement("select");
+					let defaultBlockerSelect = document.createElement("option");
 					defaultBlockerSelect.disabled = true;
+					defaultBlockerSelect.selected = true;
 					defaultBlockerSelect.value = "none";
 					defaultBlockerSelect.textContent = "Select a blocker to add"
 					newBlockerSelect.add(defaultBlockerSelect);
-					newBlockerSelect.selectedIndex = 0;
 
 					for (let ii = 0; ii < variationGroups.length; ii++) {
 						if (ii == i) continue;
