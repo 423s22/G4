@@ -156,7 +156,7 @@ export default class EditProductState extends AppState {
 						let otherVariations = otherVariationGroup.getVariations();
 						for (let jj = 0; jj < otherVariations.length; jj++) {
 							let otherVariation = otherVariations[jj];
-							if (curVariation.getBlockers().findIndex(x => x == otherVariation) != -1) {
+							if (curVariation.getBlockers().findIndex(x => x == otherVariation) == -1) {
 								let blockerOption = document.createElement("option");
 								blockerOption.value = otherVariation.getID();
 								blockerOption.text = otherVariation.getName();
