@@ -2,6 +2,7 @@
 }
 
 .epsDetailsDiv h1 {
+  margin-top: 25px;
   padding-left: 0;
   padding-bottom: 0.4em;
   font-size: 2em;
@@ -45,6 +46,7 @@
 }
 
 .epsGroupsDiv .saveButton {
+  margin-bottom: 5%;
   margin-top: 1%;
   margin-left: 5%;
   background-color: #2c963f; /* Save Button */
@@ -98,4 +100,30 @@
   border-radius: 4px;
   padding-left: 10px;
   padding-bottom: 10px;
+}
+
+div .epsSaveStatusDiv {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 5px;
+  background-color: #ededd5;
+  border: 2px solid #ccccb8;
+}
+
+.epsBlockerListDiv select {
+  background-color: #919aa1;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 25px;
+  margin-top: 1%;
+}
+
+.epsBlockerListDiv select:focus-within {
+  background-color: #9ca6ad;
 }
