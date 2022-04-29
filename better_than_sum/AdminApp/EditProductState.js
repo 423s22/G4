@@ -178,6 +178,7 @@ export default class EditProductState extends AppState {
 							});
 						}
 					});
+					variationBlockersDiv.appendChild(addBlockerBtn);
 
 					let deleteVariationBtn = document.createElement("button");
 					deleteVariationBtn.textContent = "Delete Variation";
