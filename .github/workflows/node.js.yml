@@ -43,6 +43,11 @@ jobs:
     - name: Create databases
       run: mysql -u root --host=127.0.0.1 --password="rootPassword" --database="G4db" < "dbMain.sql"
       working-directory: ./better_than_sum/SQL
+    - run: npm cache clean --force
+      working-directory: ./better_than_sum
+    - name: Upgrade NPM
+      run: npm install -g npm
+      working-directory: ./better_than_sum
     - run: npm ci
       working-directory: ./better_than_sum
     - run: npm run build --if-present

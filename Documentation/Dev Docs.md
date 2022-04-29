@@ -1,12 +1,15 @@
 # Developer Documentation
 ## Table of Contents
 - [Setting Up Your Local Repo](#setting-up-your-local-repo)
+- [Troubleshooting Issues](#troubleshooting-issues)
 - [Contributions](#contributions)
 - [Writing Code for the Admin Side](#writing-code-for-the-admin-side)
 - [Writing Code for the Customer Side](#writing-code-for-the-customer-side)
 - [Using the Database API](#using-the-database-api)
   * [GET Requests](#get-requests)
     + [Get All Products Belonging to a User](#get-all-products-belonging-to-a-user)
+    + [Get a Product by ID](#get-a-product-by-id)
+    + [Get a product by Shopify ID](#get-a-product-by-shopify-id)
     + [Get the ID of a User](#get-the-id-of-a-user)
     + [Get All the Variations of a Product](#get-all-the-variations-of-a-product)
     + [Get All the Variation Groups of a Product](#get-all-the-variation-groups-of-a-product)
@@ -21,6 +24,7 @@
     + [Delete a Variation Group](#delete-a-variation-group)
     + [Delete a Variation](#delete-a-variation)
     + [Delete a Variation Blocker](#delete-a-variation-blocker)
+- [Testing and CI](#testing-and-ci)
 <br><br><br>
 
 ## Setting Up Your Local Repo
@@ -36,7 +40,7 @@
 
 6. Run `shopify app tunnel auth <token>` filling in the `<token>` obtained from ngrok
 
-7. Setup a MySQL server on the same machine running the app.
+7. Setup a MySQL Community server on the same machine running the app.
 
 8. Create a database named `G4db` and a user that can access it. Run the SQL files located in `better_than_sum/SQL`.
 
@@ -58,6 +62,13 @@
 
 14. Open the URL provided by the terminal to install the app on your development store
 <br><br><br>
+
+## Troubleshooting Issues
+- Ensure your MySQL server is running
+- Ensure your MySQL user is setup properly with permissions
+- Ensure the latest MySQL files have been run
+- Ensure your ngrok account is setup properly, and you have authenticated your email
+- Run `shopify app tunnel stop` within the `better_than_sum` folder
 
 ## Contributions
 Create a new branch specific to the feature being added.
@@ -102,6 +113,12 @@ To issue a GET request, send an HTTP request to `/database/` with the requested 
 #### Get All Products Belonging to a User
 - `request=userProducts`
 - `userID=INTEGER`
+#### Get a Product by ID
+- `request=product`
+- `productID=INTEGER`
+#### Get a product by Shopify ID
+- `request=shopifyProduct`
+- `shopifyID=INTEGER`
 #### Get the ID of a User
 - `request=userID`
 - `userName=STRING`
@@ -124,8 +141,7 @@ To issue a POST request, send an HTTP request to `/database/` with the content b
 {
   "operation":"product",
   "productID":INTEGER, // Optional, used if updating a product, empty if adding
-  "baseCost":INTEGER, // Baseline cost of product, in cents
-  "name":STRING,
+  "shopifyID":INTEGER
   "owningUser":INTEGER // ID of user who owns the product
 }
 ```
@@ -174,3 +190,10 @@ To issue a DELETE request, send an HTTP request to `/database/` with the request
 - `operation=variationBlocker`
 - `blockerAID=INTEGER`
 - `blockerBID=INTEGER`
+
+## Testing and CI
+Anytime something is pushed to GitHub, the CI will run the following process:
+- A temporary MySQL database is setup
+- The `dbMain.sql` file is run to created tables and test data
+- The NodeJS code within `better_than_sum` is built with NPM to ensure no compilation errors exist
+- Any `.test.js` files are run using Jest. The current testing is done on the database to ensure the RESTful API is functional

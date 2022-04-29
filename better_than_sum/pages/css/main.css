@@ -1,0 +1,87 @@
+/*
+Color Pallet:
+
+#EEEEEE *base color
+#A19191
+#EDEDD5
+#D5E4ED
+#919AA1
+
+*/
+
+#appDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+#navDiv {
+  width: 100%;
+  height: 50%;
+}
+
+#navDiv ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+#navDiv li {
+  border-style: solid;
+  border-color: #000000;
+  border-width: thin;
+  background-color: #d5e4ed;
+  list-style: none;
+  float: left;
+  width: 15%;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+#navDiv a {
+  display: block;
+  height: 25px;
+  width: 100%;
+}
+
+#navDiv li:hover {
+  background-color: #919aa1;
+}
+
+#stateDiv {
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding-top: 1%;
+}
+
+/*This styling is based off of code examples on W3Schools*/
+
+/* Style the buttons that are used to open and close the accordion panel */
+#stateDiv .accordian {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+#stateDiv .active,
+#stateDiv .accordian:hover {
+  background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+#stateDiv .panel {
+  padding: 0 18px;
+  background-color: #ccc;
+  display: none;
+  overflow: hidden;
+}
