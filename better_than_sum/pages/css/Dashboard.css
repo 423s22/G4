@@ -1,0 +1,29 @@
+#dashboard h1 {
+  padding-left: 0;
+  padding-bottom: 0.4em;
+  font-size: 2em;
+  text-align: center;
+  border-bottom: 1px solid #737b80;
+}
+
+#dashboard h2 {
+  padding-top: 25px;
+  padding-bottom: 0.5em;
+  font-size: 1.5em;
+  padding-left: 25px;
+}
+
+#dashboard h3 {
+  padding-top: 25px;
+  padding-bottom: 0.5em;
+  font-size: 1.25em;
+  padding-left: 25px;
+}
+
+#dashboard p {
+  padding-left: 50px;
+}
+
+#dashboard li {
+  padding-left: 25px;
+}

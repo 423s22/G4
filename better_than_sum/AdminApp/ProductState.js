@@ -1,94 +1,100 @@
 import AppState from "./AppState";
+import AppStateType from "./AppStateType";
 export default class ProductState extends AppState {
-	constructor(app) {
-		super(app);
-	}
+  constructor(app) {
+    super(app);
+  }
 
-	onEnable() { }
+  onEnable() {}
 
-	onDisable() { }
+  onDisable() {}
 
-	onRender(divID) {
-		let div = document.getElementById(divID);
+  onRender(divID) {
+    let div = document.getElementById(divID);
 
-		div.innerHTML = "";
-		div.innerHTML = "<h1>Products!</h1>";
+    div.innerHTML = "Loading...";
 
-		// Temporary for testing db conn
-		let currentProducts = ["Phone", "Ipad", "Photo"];
-		for (let i = 0; i < currentProducts.length; i++) {
-			// Create an button which will allow for the drop down
-			let accordian = document.createElement("button");
-			let text = document.createTextNode(currentProducts[i]);
-			// Allow for calling in css
-			accordian.classList = "accordian";
-			accordian.id = currentProducts[i];
-			// Set button text
-			accordian.appendChild(text);
-			div.appendChild(accordian);
+    this._app
+      .getShopifyAPIConnection()
+      .getProductsJSON()
+      .then((shopifyProducts) => {
+        this._app
+          .getDatabaseConnection()
+          .getUserProducts(this._app.getShopifyAPIConnection())
+          .then((dbProducts) => {
+            div.innerHTML = "";
 
-			let panel = document.createElement("div");
-			panel.classList = "panel";
-			let paragraph = document.createElement("p");
-			var paratext = document.createTextNode(
-				"Test Text here for the feature release."
-			);
-			paragraph.appendChild(paratext);
-			panel.appendChild(paragraph);
-			div.appendChild(panel);
+            let pageTitle = document.createElement("h1");
+            pageTitle.id = "pageTitle";
+            pageTitle.innerText = "Current Products";
+            div.appendChild(pageTitle);
 
-			accordian.addEventListener("click", (event) => {
-				/* Toggle between adding and removing the "active" class,
-				to highlight the button that controls the panel */
-				accordian.classList.toggle("active");
+            for (let i = 0; i < shopifyProducts["products"].length; i++) {
+              let curShopifyProduct = shopifyProducts["products"][i];
 
-				/* Toggle between hiding and showing the active panel */
-				if (panel.style.display === "block") {
-					panel.style.display = "none";
-				} else {
-					panel.style.display = "block";
-				}
-			});
-		}
+              let associatedBTSProduct = null;
+              for (let j = 0; j < dbProducts.getProducts().length; j++) {
+                if (
+                  dbProducts.getProducts()[j].getShopifyID() ==
+                  curShopifyProduct["id"]
+                ) {
+                  associatedBTSProduct = dbProducts.getProducts()[j];
+                  break;
+                }
+              }
 
-		this._app.getShopifyAPIConnection().getProductsJSON().then((shopifyProducts) => {
+              if (associatedBTSProduct == null) {
+                let unusedProductDiv = document.createElement("div");
+                unusedProductDiv.classList.add("psUnusedProductDiv");
 
-			this._app.getDatabaseConnection().getUserProducts(this._app.getShopifyAPIConnection()).then((dbProducts) => {
-				for (let i = 0; i < shopifyProducts["products"].length; i++) {
-					let curProduct = shopifyProducts["products"][i];
+                let productTitle = document.createElement("h1");
+                productTitle.innerText = curShopifyProduct["title"];
+                unusedProductDiv.appendChild(productTitle);
 
-					let shouldInclude = true;
-					for (let j = 0; j < dbProducts.getProducts().length; j++) {
-						if (dbProducts.getProducts()[j].getShopifyID() == curProduct["id"]) {
-							shouldInclude = false;
-							break;
-						}
-					}
+                let productCost = document.createElement("h2");
+                productCost.innerText =
+                  "$" + curShopifyProduct["variants"][0]["price"];
+                unusedProductDiv.appendChild(productCost);
 
-					if (!shouldInclude) continue;
+                let addProductBtn = document.createElement("button");
+                addProductBtn.textContent = "Add BTS Product";
+                addProductBtn.addEventListener("click", (event) => {
+                  this._app
+                    .getDatabaseConnection()
+                    .createNewProduct(curShopifyProduct)
+                    .then((value) => {
+                      this._app.setState(AppStateType.EditProductState);
+                      this._app.getState().setProduct(value);
+                    });
+                });
+                unusedProductDiv.appendChild(addProductBtn);
 
-					let productDiv = document.createElement("div");
-					div.appendChild(productDiv);
+                div.appendChild(unusedProductDiv);
+              } else {
+                let btsProductDiv = document.createElement("div");
+                btsProductDiv.classList.add("psBTSProductDiv");
 
-					let productTitle = document.createElement("h3");
-					productTitle.textContent = curProduct["title"];
-					productDiv.appendChild(productTitle);
+                let productTitle = document.createElement("h1");
+                productTitle.innerText = associatedBTSProduct.getName();
+                btsProductDiv.appendChild(productTitle);
 
-					let addProductBtn = document.createElement("button");
-					addProductBtn.textContent = "Add Product";
-					addProductBtn.addEventListener("click", (e) => {
-						this._app.getDatabaseConnection().createNewProduct(curProduct).then((product) => {
-							console.log("Added Product!");
-							console.log(product);
-						});
-					});
-					productDiv.appendChild(addProductBtn);
-				}
-			});
+                let productCost = document.createElement("h2");
+                productCost.innerText =
+                  "$" + associatedBTSProduct.getBaseCost() / 100;
+                btsProductDiv.appendChild(productCost);
 
+                let editProductBtn = document.createElement("button");
+                editProductBtn.textContent = "Edit BTS Product";
+                editProductBtn.addEventListener("click", (event) => {
+                  this._app.setState(AppStateType.EditProductState);
+                  this._app.getState().setProduct(associatedBTSProduct);
+                });
+                btsProductDiv.appendChild(editProductBtn);
 
-		});
-
-	}
-
+                div.appendChild(btsProductDiv);
+              }
+            }
+          });
+      });
+  }
 }

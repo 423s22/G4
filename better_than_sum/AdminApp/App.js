@@ -6,6 +6,7 @@ import ProductState from "./ProductState";
 import HelpState from "./HelpState";
 import DatabaseConnection from "./BTSDatabase/DatabaseConnection";
 import ShopifyApiConnection from "./ShopifyAPI/ShopifyAPIConnection";
+import EditProductState from "./EditProductState";
 
 export default class App {
 	constructor() {
@@ -16,13 +17,17 @@ export default class App {
 		this._allStates.set(AppStateType.DashboardState, new DashboardState(this));
 		this._allStates.set(AppStateType.ProductState, new ProductState(this));
 		this._allStates.set(AppStateType.HelpState, new HelpState(this));
+		this._allStates.set(AppStateType.EditProductState, new EditProductState(this));
 
 		this._state = this._allStates.get(AppStateType.DashboardState); // This will run the AppState class that will contain
 		this._running = false;
 
 		let windowURL = new URL(window.location.href);
-		this._dbConn = new DatabaseConnection(windowURL.searchParams.get("shop"));
-		this._apiConn = new ShopifyApiConnection(windowURL.searchParams.get("shop"));
+
+		this._shopName = windowURL.searchParams.get("shop");
+
+		this._dbConn = new DatabaseConnection(this._shopName);
+		this._apiConn = new ShopifyApiConnection(this._shopName);
 
 	}
 
@@ -57,6 +62,10 @@ export default class App {
 		newState.onRender("stateDiv");
 	}
 
+	getState() {
+		return this._state;
+	}
+
 	/**
 	 * 
 	 * @returns {DatabaseConnection}
@@ -72,4 +81,13 @@ export default class App {
 	getShopifyAPIConnection() {
 		return this._apiConn;
 	}
+
+	/**
+	 * 
+	 * @returns {string} the name of the shop
+	 */
+	getShopName() {
+		return this._shopName;
+	}
+
 }

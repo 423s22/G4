@@ -1,3 +1,14 @@
+/*
+Color Pallet:
+
+#EEEEEE *base color
+#A19191
+#EDEDD5
+#D5E4ED
+#919AA1
+
+*/
+
 #appDiv {
   display: flex;
   flex-direction: column;
@@ -19,19 +30,23 @@
 #navDiv li {
   border-style: solid;
   border-color: #000000;
+  border-width: thin;
+  background-color: #d5e4ed;
   list-style: none;
   float: left;
   width: 15%;
   text-align: center;
+  font-size: 1.2em;
 }
 
 #navDiv a {
   display: block;
+  height: 25px;
   width: 100%;
 }
 
 #navDiv li:hover {
-  background-color: darkgrey;
+  background-color: #919aa1;
 }
 
 #stateDiv {
@@ -39,40 +54,6 @@
   width: 100%;
   height: 100%;
   padding-top: 1%;
-}
-
-#helpDiv h1 {
-  padding-bottom: 0.3em;
-  font-size: 2em;
-  border-bottom: 1px solid;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-#helpDiv h2 {
-  padding-bottom: 0.3em;
-  font-size: 1.5em;
-  border-bottom: 1px solid;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-#helpDiv h3 {
-  font-size: 1.25em;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-#helpDiv h4 {
-  margin-top: 24px;
-  margin-bottom: 16px;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-#helpDiv p {
-  margin-top: 0;
-  margin-bottom: 16px;
 }
 
 /*This styling is based off of code examples on W3Schools*/

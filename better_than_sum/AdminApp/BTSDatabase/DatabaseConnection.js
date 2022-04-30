@@ -172,12 +172,12 @@ export default class DatabaseConnection {
 		let groupID = (
 			await this._executePostRequest({
 				operation: "variationGroup",
-				name: "",
+				name: "Unnamed Group",
 				owningProduct: product.getID(),
 			})
 		)["insertedID"];
 
-		return new VariationGroup(groupID, product, "", this);
+		return new VariationGroup(groupID, product, "Unnamed Group", this);
 	}
 
 	/**
@@ -189,13 +189,13 @@ export default class DatabaseConnection {
 		let variationID = (
 			await this._executePostRequest({
 				operation: "variation",
-				name: "",
+				name: "Unnamed Variation",
 				addedCost: 0,
 				owningGroup: variationGroup.getID(),
 			})
 		)["insertedID"];
 
-		return new Variation(variationID, variationGroup, 0, "", this);
+		return new Variation(variationID, variationGroup, 0, "Unnamed Variation", this);
 	}
 
 	/**

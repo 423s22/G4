@@ -67,19 +67,19 @@ export default class Product {
 	}
 
 	/**
-	 * TODO: Test this
-	 * @returns the base cost, in cents, of the product
+	 * 
+	 * @returns {number} the base cost of the product in cents
 	 */
 	getBaseCost() {
-		parseInt(this._shopifyProduct["variants"][0]["price"] * 100);
+		return parseInt(this._shopifyProduct["variants"][0]["price"] * 100);
 	}
 
 	/**
-	 * TODO: Test this
-	 * @returns the name of the product
+	 * 
+	 * @returns {string} the title of the product
 	 */
 	getName() {
-		this._shopifyProduct["title"];
+		return this._shopifyProduct["title"];
 	}
 
 	/**
@@ -123,7 +123,7 @@ export default class Product {
 
 	/**
 	 * Creates a new empty variation group belonging to this product
-	 * @returns {VariationGroup} the newly created group
+	 * @returns {Promise<VariationGroup>} the newly created group
 	 */
 	async addVariationGroup() {
 		let newGroup = await this._dbConn.createNewVariationGroup(this);
