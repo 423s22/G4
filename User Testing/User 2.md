@@ -13,7 +13,7 @@
 
 
 **User Comments:**
-### 3)Ask them what are the current product that you can change on this site?
+### 2)Ask them what are the current product that you can change on this site?
 **Time it took to complete task:**
 
 
@@ -23,7 +23,7 @@
 
 **User Comments:**
 
-### 5) Create a group for the Phone Case product, called "model"
+### 3) Create a group for the Phone Case product, called "model"
 **Time it took to complete task:**
 
 
@@ -32,7 +32,7 @@
 
 
 **User Comments:**
-### 7) Ask them to give the variant options of, “iPhone 11” and “Galaxy S12”.
+### 4) Ask them to give the variant options of, “iPhone 11” and “Galaxy S12”.
 **Time it took to complete task:**
 
 
@@ -41,26 +41,7 @@
 
 
 **User Comments:**
-### 9) Ask them to create another group called “Colors” that has 3 variants, “Purple Pokadots”, “Solid Red”, and “Galaxy”
-**Time it took to complete task:**
-
-
-**Issues:**
-
-
-
-**User Comments:**
-
-### 11) Ask them if they think their progress is saved?
-**Time it took to complete task:**
-
-
-**Issues:**
-
-
-**User Comments:**
-
-### 13) Ask them to make that product so that only the Galaxy S12 can access the Galaxy color.
+### 5) Ask them to create another group called “Colors” that has 3 variants, “Purple Pokadots”, “Solid Red”, and “Galaxy”
 **Time it took to complete task:**
 
 
@@ -70,3 +51,73 @@
 
 **User Comments:**
 
+### 5) Ask them if they think their progress is saved?
+**Time it took to complete task:**
+
+
+**Issues:**
+
+
+**User Comments:**
+
+### 6) Ask them to make that product so that only the Galaxy S12 can access the Galaxy color.
+**Time it took to complete task:**
+
+
+**Issues:**
+
+
+
+**User Comments:**
+
+### 7) Ask them to make that product so that only the Galaxy S12 can access the Galaxy color.
+
+**Time it took to complete task:**
+
+**Issues:**
+
+
+
+**User Comments:**
+
+### 8)Ask them to create a group called “design”.
+
+**Time it took to complete task:**
+
+**Issues:**
+
+
+
+**User Comments:**
+
+
+### 9) Ask them to delete that group.
+
+
+**Time it took to complete task:**
+
+**Issues:**
+
+
+
+**User Comments:**
+
+### 10) Ask them to delete the Purple Pokadots.
+
+
+**Time it took to complete task:**
+
+**Issues:**
+
+
+
+**User Comments:**
+### 11) Ask them to save the product. 
+
+**Time it took to complete task:**
+
+**Issues:**
+
+
+
+**User Comments:**
