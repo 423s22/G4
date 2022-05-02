@@ -69,6 +69,21 @@ app.prepare().then(async () => {
 				// Create the shop user in the db
 				let btsID = await dbConn.handleShopConnect(shop);
 
+				// Set the shop api url metafield to allow storefront to access the api
+				const restClient = new Shopify.Clients.Rest(shop, accessToken);
+                await restClient.post({
+                    path: "metafields",
+                    data: {
+                        "metafield": {
+                            "namespace": "better_than_sum",
+                            "key": "apiUrl",
+                            "value": ctx.URL.host,
+                            "type": "single_line_text_field"
+                        }
+                    },
+                    type: DataType.JSON
+                });
+
 				// Expose the metafield to the storefront
 				const graphQLClient = new Shopify.Clients.Graphql(shop, accessToken);
 				const exposeQuery = `
