@@ -71,18 +71,18 @@ app.prepare().then(async () => {
 
 				// Set the shop api url metafield to allow storefront to access the api
 				const restClient = new Shopify.Clients.Rest(shop, accessToken);
-                await restClient.post({
-                    path: "metafields",
-                    data: {
-                        "metafield": {
-                            "namespace": "better_than_sum",
-                            "key": "apiUrl",
-                            "value": ctx.URL.host,
-                            "type": "single_line_text_field"
-                        }
-                    },
-                    type: DataType.JSON
-                });
+				await restClient.post({
+					path: "metafields",
+					data: {
+						"metafield": {
+							"namespace": "better_than_sum",
+							"key": "apiUrl",
+							"value": ctx.URL.host,
+							"type": "single_line_text_field"
+						}
+					},
+					type: DataType.JSON
+				});
 
 				// Expose the metafield to the storefront
 				const graphQLClient = new Shopify.Clients.Graphql(shop, accessToken);
@@ -150,7 +150,7 @@ app.prepare().then(async () => {
 
 	router.get("/database/", async (ctx) => {
 		// Handle get request from database
-		ctx.headers["access-control-allow-origin"] = "*";	
+		ctx.set("Access-Control-Allow-Origin", "*");
 		await dbConn.handleGetRequest(ctx);
 	});
 
