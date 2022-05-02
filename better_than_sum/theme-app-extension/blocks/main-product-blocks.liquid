@@ -5,8 +5,14 @@
 }
 {% endschema %}
 
+<script src="{{ 'BlockMain.js' | asset_url }}" defer></script>
+
+<div class="variant-groups" id="variantgroups">
+
+</div>
+
 <div class="better-than-sum-block">
 
-  <h1>Hello from Better Than Sum!</h1>
+  <input type="hidden" id="dbURL" value="{{ shop.metafields.better_than_sum.apiUrl.value }}">
 
 </div>

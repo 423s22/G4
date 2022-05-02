@@ -69,6 +69,28 @@ app.prepare().then(async () => {
 				// Create the shop user in the db
 				let btsID = await dbConn.handleShopConnect(shop);
 
+				// Expose the metafield to the storefront
+				const graphQLClient = new Shopify.Clients.Graphql(shop, accessToken);
+				const exposeQuery = `
+						mutation {
+								metafieldStorefrontVisibilityCreate(
+										input: {
+												namespace: "better_than_sum"
+												key: "apiUrl"
+												ownerType: SHOP
+										}
+								) {
+										metafieldStorefrontVisibility {
+												id
+										}
+										userErrors {
+												field
+												message
+										}
+								}
+						}`;
+				await graphQLClient.query({ data: exposeQuery });
+
 				// Redirect to app with shop parameter upon auth
 				ctx.redirect(`/?shop=${shop}&host=${host}&btsID=${btsID}`);
 
