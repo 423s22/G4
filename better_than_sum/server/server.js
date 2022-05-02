@@ -135,6 +135,7 @@ app.prepare().then(async () => {
 
 	router.get("/database/", async (ctx) => {
 		// Handle get request from database
+		ctx.headers["access-control-allow-origin"] = "*";	
 		await dbConn.handleGetRequest(ctx);
 	});
 
