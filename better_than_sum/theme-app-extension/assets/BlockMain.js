@@ -1,6 +1,8 @@
 function start() {
 
-    dbURL = document.getElementById("dbURL").value;
+    let dbURL = document.getElementById("dbURL").value;
+    let productID = document.getElementById("shopifyProductID").value;
+    console.log(productID);
 
     let url = new URL("https://" + dbURL);
     url.pathname += "database/";
