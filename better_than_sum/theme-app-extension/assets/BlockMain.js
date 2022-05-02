@@ -12,7 +12,7 @@ function start() {
     req.open("GET", url.toString());
     req.onload = () => {
         let responseJSON = JSON.parse(req.responseText);
-        let btsID = responseJSON["productID"];
+        let btsID = responseJSON[0]["productID"];
         console.log(btsID);
     }
     req.send();
