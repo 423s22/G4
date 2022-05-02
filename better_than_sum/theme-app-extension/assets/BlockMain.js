@@ -26,6 +26,7 @@ async function executeGetRequest(baseURL, request, data = {}) {
             }
         };
 
+        console.log(url.toString());
         req.open("GET", url.toString());
         req.send();
     });
