@@ -12,7 +12,7 @@ function start() {
 }
 
 async function executeGetRequest(baseURL, request, data = {}) {
-    let url = new URL("https://" + baseURL + "database/");
+    let url = new URL("https://" + baseURL + "/database/");
     url.searchParams.append("request", request);
     for (const key in data) {
         url.searchParams.append(key, data[key]);
@@ -25,8 +25,6 @@ async function executeGetRequest(baseURL, request, data = {}) {
                 resolve(JSON.parse(req.responseText));
             }
         };
-
-        console.log(url.toString());
         req.open("GET", url.toString());
         req.send();
     });
