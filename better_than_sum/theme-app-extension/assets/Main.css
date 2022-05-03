@@ -19,6 +19,10 @@
     cursor: pointer;
 }
 
+.groupDiv > button:disabled {
+	cursor: default;
+}
+
 .selectedVariant {
-	background-color: rgba(92, 201, 255, 0.5) !important;
+	background-color: rgba(99, 164, 197, 0.5) !important;
 }
