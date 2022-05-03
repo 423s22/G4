@@ -7,17 +7,37 @@ async function start() {
         "shopifyID": shopifyProductID
     });
     let btsID = product[0]["productID"];
-    console.log(product);
 
     let variations = await executeGetRequest(dbURL, "productVariations", { "productID": btsID });
     let groups = await executeGetRequest(dbURL, "productVariationGroups", { "productID": btsID });
 
     let selectDiv = document.getElementById("variantGroups");
 
+    let groupDivs = new Map();
+
+    // Create all of the divs for each group
     for (let i = 0; i < groups.length; i++) {
         let groupDiv = document.createElement("div");
         groupDiv.classList.add("groupDiv");
         selectDiv.appendChild(groupDiv);
+
+        groupDivs.set(parseInt(groups[i]["groupID"]), groupDiv);
+
+        let groupTitle = document.createElement("h1");
+        groupTitle.textContent = groups[i]["name"];
+        groupDiv.appendChild(groupTitle);
+    }
+
+    // Add variations to each group
+    for (let i = 0; i < variations.length; i++) {
+
+        let variationButton = document.createElement("button");
+        variationButton.textContent = variations[i]["name"];
+        // TODO: Implement selecting only one from each group, blockers that gray out, updating cost
+
+        let groupDiv = groupDivs.get(parseInt(variations[i]["owningGroup"]));
+        groupDiv.appendChild(variationButton);
+        
     }
 
     console.log(variations);
