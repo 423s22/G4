@@ -7,6 +7,7 @@ async function start() {
         "shopifyID": shopifyProductID
     });
     let btsID = product[0]["productID"];
+    console.log(product);
 
     let variations = await executeGetRequest(dbURL, "productVariations", { "productID": btsID });
     let groups = await executeGetRequest(dbURL, "productVariationGroups", { "productID": btsID });
@@ -16,7 +17,7 @@ async function start() {
     for (let i = 0; i < groups.length; i++) {
         let groupDiv = document.createElement("div");
         groupDiv.classList.add("groupDiv");
-        selectDiv.appendChild(selectDiv);
+        selectDiv.appendChild(groupDiv);
     }
 
     console.log(variations);
