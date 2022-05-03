@@ -65,6 +65,10 @@ async function start() {
      * @type {Map<number, HTMLButtonElement>}
      */
     let variationButtons = new Map();
+    /**
+     * @var selectedButtons
+     * @type {HTMLButtonElement[]}
+     */
     let selectedButtons = [];
 
     // Add variations to each group
@@ -72,6 +76,7 @@ async function start() {
 
         let variationButton = document.createElement("button");
         variationButton.textContent = variations[i]["name"];
+        variationButton.dataset.variationID = variations[i]["variationID"];
         variationButtons.set(variations[i]["variationID"], variationButton);
 
         let groupDiv = groupDivs.get(parseInt(variations[i]["owningGroup"]));
@@ -94,14 +99,17 @@ async function start() {
                 entry[1].disabled = false;
             }
 
-            // Disable blocked buttons
-            let blockedIDs = blockersMap.get(variations[i]["variationID"]);
-            for (let entry of blockedIDs) {
-                variationButtons.get(entry).disabled = true;
-            }
-
+            // Add the button as selected
             selectedButtons.push(variationButton);
             variationButton.classList.add("selectedVariant");
+
+            // Disable buttons based on selections
+            for (let button of selectedButtons) {
+                let blockedIDs = blockersMap.get(button.dataset.variationID);
+                for (let entry of blockedIDs) {
+                    variationButtons.get(entry).disabled = true;
+                }
+            }
         });
 
     }
