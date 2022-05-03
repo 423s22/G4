@@ -15,15 +15,23 @@ async function start() {
     let blockersMap = new Map();
 
     // Load the blockers
+    let toAwait = [];
     for (let i = 0; i < variations.length; i++) {
         let variationID = variations[i]["variationID"];
-        executeGetRequest(dbURL, "variationBlockers", { "variationID": variationID }).then(
-            (value) => {
-                // TODO: Save the blockers
-                console.log(value);
-            }
+        toAwait.push(
+            executeGetRequest(dbURL, "variationBlockers", { "variationID": variationID }).then(
+                (value) => {
+                    let blockerIDs = [];
+                    for (let j = 0; j < value.length; j++) {
+                        blockerIDs.push(value[j]["exclude"]);
+                    }
+                    blockersMap.set(variationID, blockerIDs);
+                }
+            )
         );
     }
+    await Promise.all(toAwait);
+    console.log(blockersMap);
 
     let selectDiv = document.getElementById("variantGroups");
 
