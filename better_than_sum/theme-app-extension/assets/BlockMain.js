@@ -1,14 +1,27 @@
-function start() {
+async function start() {
 
     let dbURL = document.getElementById("dbURL").value;
     let shopifyProductID = document.getElementById("shopifyProductID").value;
 
-    executeGetRequest(dbURL, "shopifyProduct", {
+    let product = await executeGetRequest(dbURL, "shopifyProduct", {
         "shopifyID": shopifyProductID
-    }).then((value) => {
-        let btsID = value[0]["productID"];
-        console.log(btsID);
     });
+    let btsID = product[0]["productID"];
+
+    let variations = await executeGetRequest(dbURL, "productVariations", { "productID": btsID });
+    let groups = await executeGetRequest(dbURL, "productVariationGroups", { "productID": btsID });
+
+    let selectDiv = document.getElementById("variantGroups");
+
+    for (let i = 0; i < groups.length; i++) {
+        let groupDiv = document.createElement("div");
+        groupDiv.classList.add("groupDiv");
+        selectDiv.appendChild(selectDiv);
+    }
+
+    console.log(variations);
+    console.log(groups);
+
 }
 
 async function executeGetRequest(baseURL, request, data = {}) {
