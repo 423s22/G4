@@ -58,7 +58,7 @@ async function start() {
     }
 
     let totalPriceIndicator = document.getElementById("totalPriceIndicator");
-    totalPriceIndicator.textContent = document.getElementById("shopifyProductPrice").value;
+    totalPriceIndicator.textContent = "$" + (document.getElementById("shopifyProductPrice").value / 100).toFixed(2);
 
     /**
      * @var variationButtons
@@ -111,14 +111,15 @@ async function start() {
                 for (let j = 0; j < blockedIDs.length; j++) {
                     variationButtons.get(blockedIDs[j]).disabled = true;
                 }
-                // TODO: Update price
+                // Add to price
                 for (let variation of variations) {
                     if (variation["variationID"] == parseInt(button.dataset.variation_id)) {
                         totalPrice += variation["addedCost"];
                     }
                 }
             }
-            totalPriceIndicator.textContent = totalPrice;
+            // Update price
+            totalPriceIndicator.textContent = "$" + (totalPrice / 100).toFixed(2);
         });
 
     }
