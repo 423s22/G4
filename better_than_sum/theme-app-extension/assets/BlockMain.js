@@ -85,6 +85,7 @@ async function start() {
                 let index = selectedButtons.indexOf(groupDiv.children[j]);
                 if (index != -1) {
                     selectedButtons.splice(index, 1);
+                    groupDiv.children[j].classList.remove("selectedVariant");
                 }
             }
 
@@ -100,6 +101,7 @@ async function start() {
             }
 
             selectedButtons.push(variationButton);
+            variationButton.classList.add("selectedVariant");
         });
 
     }
