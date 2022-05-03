@@ -52,19 +52,20 @@ async function start() {
 
         groupDivs.set(parseInt(groups[i]["groupID"]), groupDiv);
 
-        let groupTitle = document.createElement("h1");
+        let groupTitle = document.createElement("h2");
         groupTitle.textContent = groups[i]["name"];
         groupDiv.appendChild(groupTitle);
     }
 
-    let totalPrice = document.getElementById("totalPriceIndicator");
-    totalPrice.textContent = document.getElementById("shopifyProductPrice").value;
+    let totalPriceIndicator = document.getElementById("totalPriceIndicator");
+    totalPriceIndicator.textContent = document.getElementById("shopifyProductPrice").value;
 
     /**
      * @var variationButtons
      * @type {Map<number, HTMLButtonElement>}
      */
     let variationButtons = new Map();
+
     /**
      * @var selectedButtons
      * @type {HTMLButtonElement[]}
@@ -82,7 +83,6 @@ async function start() {
         let groupDiv = groupDivs.get(parseInt(variations[i]["owningGroup"]));
         groupDiv.appendChild(variationButton);
 
-        // TODO: Implement selecting only one from each group, blockers that gray out, updating cost
         variationButton.addEventListener("click", (event) => {
 
             // Remove selected buttons in same group
@@ -103,13 +103,22 @@ async function start() {
             selectedButtons.push(variationButton);
             variationButton.classList.add("selectedVariant");
 
-            // Disable buttons based on selections
+            // Disable buttons based on selections and update price
+            let totalPrice = parseInt(document.getElementById("shopifyProductPrice").value);
             for (let button of selectedButtons) {
+                // Disable buttons
                 let blockedIDs = blockersMap.get(parseInt(button.dataset.variation_id));
                 for (let j = 0; j < blockedIDs.length; j++) {
                     variationButtons.get(blockedIDs[j]).disabled = true;
                 }
+                // TODO: Update price
+                for (let variation of variations) {
+                    if (variation["variationID"] == parseInt(button.dataset.variation_id)) {
+                        totalPrice += variation["addedCost"];
+                    }
+                }
             }
+            totalPriceIndicator.textContent = totalPrice;
         });
 
     }
