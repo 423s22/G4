@@ -76,7 +76,7 @@ async function start() {
 
         let variationButton = document.createElement("button");
         variationButton.textContent = variations[i]["name"];
-        variationButton.dataset.variationID = variations[i]["variationID"];
+        variationButton.dataset.variation_id = variations[i]["variationID"];
         variationButtons.set(variations[i]["variationID"], variationButton);
 
         let groupDiv = groupDivs.get(parseInt(variations[i]["owningGroup"]));
@@ -105,7 +105,7 @@ async function start() {
 
             // Disable buttons based on selections
             for (let button of selectedButtons) {
-                let blockedIDs = blockersMap.get(button.dataset.variationID);
+                let blockedIDs = blockersMap.get(parseInt(button.dataset.variation_id));
                 for (let j = 0; j < blockedIDs.length; j++) {
                     variationButtons.get(blockedIDs[j]).disabled = true;
                 }
