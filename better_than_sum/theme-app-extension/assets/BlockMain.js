@@ -12,6 +12,10 @@ async function start() {
     let variations = await executeGetRequest(dbURL, "productVariations", { "productID": btsID });
     let groups = await executeGetRequest(dbURL, "productVariationGroups", { "productID": btsID });
 
+    /**
+     * @var blockersMap
+     * @type {Map<number, number[]>}
+     */
     let blockersMap = new Map();
 
     // Load the blockers
@@ -31,10 +35,13 @@ async function start() {
         );
     }
     await Promise.all(toAwait);
-    console.log(blockersMap);
 
     let selectDiv = document.getElementById("variantGroups");
 
+    /**
+     * @var groupDivs
+     * @type {Map<number, HTMLDivElement>}
+     */
     let groupDivs = new Map();
 
     // Create all of the divs for each group
@@ -53,15 +60,47 @@ async function start() {
     let totalPrice = document.getElementById("totalPriceIndicator");
     totalPrice.textContent = document.getElementById("shopifyProductPrice").value;
 
+    /**
+     * @var variationButtons
+     * @type {Map<number, HTMLButtonElement>}
+     */
+    let variationButtons = new Map();
+    let selectedButtons = [];
+
     // Add variations to each group
     for (let i = 0; i < variations.length; i++) {
 
         let variationButton = document.createElement("button");
         variationButton.textContent = variations[i]["name"];
-        // TODO: Implement selecting only one from each group, blockers that gray out, updating cost
+        variationButtons.set(variations[i]["variationID"], variationButton);
 
         let groupDiv = groupDivs.get(parseInt(variations[i]["owningGroup"]));
         groupDiv.appendChild(variationButton);
+
+        // TODO: Implement selecting only one from each group, blockers that gray out, updating cost
+        variationButton.addEventListener("click", (event) => {
+
+            // Remove selected buttons in same group
+            for (let j = 0; j < groupDiv.children.length; j++) {
+                let index = selectedButtons.indexOf(groupDiv.children[j]);
+                if (index != -1) {
+                    selectedButtons.splice(index, 1);
+                }
+            }
+
+            // Momentarilly enable all buttons
+            for (let entry of variationButtons.entries()) {
+                entry[1].disabled = false;
+            }
+
+            // Disable blocked buttons
+            let blockedIDs = blockersMap.get(variations[i]["variationID"]);
+            for (let entry of blockedIDs) {
+                variationButtons.get(entry).disabled = true;
+            }
+
+            selectedButtons.push(variationButton);
+        });
 
     }
 
