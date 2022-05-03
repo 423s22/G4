@@ -7,6 +7,14 @@ async function start() {
     let product = await executeGetRequest(dbURL, "shopifyProduct", {
         "shopifyID": shopifyProductID
     });
+
+    let totalPriceIndicator = document.getElementById("totalPriceIndicator");
+    totalPriceIndicator.textContent = "$" + (document.getElementById("shopifyProductPrice").value / 100).toFixed(2);
+
+    if (product.length == 0) {
+        return;
+    }
+    
     let btsID = product[0]["productID"];
 
     let variations = await executeGetRequest(dbURL, "productVariations", { "productID": btsID });
@@ -56,9 +64,6 @@ async function start() {
         groupTitle.textContent = groups[i]["name"];
         groupDiv.appendChild(groupTitle);
     }
-
-    let totalPriceIndicator = document.getElementById("totalPriceIndicator");
-    totalPriceIndicator.textContent = "$" + (document.getElementById("shopifyProductPrice").value / 100).toFixed(2);
 
     /**
      * @var variationButtons
