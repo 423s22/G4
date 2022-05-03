@@ -124,9 +124,6 @@ async function start() {
 
     }
 
-    console.log(variations);
-    console.log(groups);
-
 }
 
 async function executeGetRequest(baseURL, request, data = {}) {
