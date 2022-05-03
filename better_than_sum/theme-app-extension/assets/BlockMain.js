@@ -1,5 +1,6 @@
 async function start() {
 
+    // Load all the basic information
     let dbURL = document.getElementById("dbURL").value;
     let shopifyProductID = document.getElementById("shopifyProductID").value;
 
@@ -10,6 +11,19 @@ async function start() {
 
     let variations = await executeGetRequest(dbURL, "productVariations", { "productID": btsID });
     let groups = await executeGetRequest(dbURL, "productVariationGroups", { "productID": btsID });
+
+    let blockersMap = new Map();
+
+    // Load the blockers
+    for (let i = 0; i < variations.length; i++) {
+        let variationID = variations[i]["variationID"];
+        executeGetRequest(dbURL, "variationBlockers", { "variationID": variationID }).then(
+            (value) => {
+                // TODO: Save the blockers
+                console.log(value);
+            }
+        );
+    }
 
     let selectDiv = document.getElementById("variantGroups");
 
@@ -28,6 +42,9 @@ async function start() {
         groupDiv.appendChild(groupTitle);
     }
 
+    let totalPrice = document.getElementById("totalPriceIndicator");
+    totalPrice.textContent = document.getElementById("shopifyProductPrice").value;
+
     // Add variations to each group
     for (let i = 0; i < variations.length; i++) {
 
@@ -37,7 +54,7 @@ async function start() {
 
         let groupDiv = groupDivs.get(parseInt(variations[i]["owningGroup"]));
         groupDiv.appendChild(variationButton);
-        
+
     }
 
     console.log(variations);

@@ -8,12 +8,14 @@
 <script src="{{ 'BlockMain.js' | asset_url }}" defer></script>
 
 <div class="variant-groups" id="variantGroups">
-
 </div>
+
+<h1 id="totalPriceIndicator"></h1>
 
 <div class="better-than-sum-block">
 
   <input type="hidden" id="dbURL" value="{{ shop.metafields.better_than_sum.apiUrl.value }}">
   <input type="hidden" id="shopifyProductID" value="{{ product.id }}">
+  <input type="hidden" id="shopifyProductPrice" value="{{ product.price }}">
 
 </div>
