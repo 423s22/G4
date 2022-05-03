@@ -6,10 +6,6 @@
 
 }
 
-.selectedVariant {
-	background-color: rgba(92, 201, 255, 0.5);
-}
-
 .groupDiv > button {
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid #323232;
@@ -21,4 +17,8 @@
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+.selectedVariant {
+	background-color: rgba(92, 201, 255, 0.5);
 }

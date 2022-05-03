@@ -106,8 +106,8 @@ async function start() {
             // Disable buttons based on selections
             for (let button of selectedButtons) {
                 let blockedIDs = blockersMap.get(button.dataset.variationID);
-                for (let entry of blockedIDs) {
-                    variationButtons.get(entry).disabled = true;
+                for (let j = 0; j < blockedIDs.length; j++) {
+                    variationButtons.get(blockedIDs[j]).disabled = true;
                 }
             }
         });
