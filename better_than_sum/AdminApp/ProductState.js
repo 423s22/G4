@@ -29,6 +29,7 @@ export default class ProductState extends AppState {
             pageTitle.innerText = "Current Products";
             div.appendChild(pageTitle);
 
+            // Pulls down all the products from shopify's side
             for (let i = 0; i < shopifyProducts["products"].length; i++) {
               let curShopifyProduct = shopifyProducts["products"][i];
 

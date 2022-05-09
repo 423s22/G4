@@ -18,6 +18,7 @@ export default class DashboardState extends AppState {
     let title = document.createElement("h1");
     title.innerHTML = "Welcome to Better than Sum!<br>";
     dashdiv.appendChild(title);
+
     // Link to github
     let link = document.createElement("a");
     link.href = "https://github.com/423s22/G4";
@@ -26,12 +27,14 @@ export default class DashboardState extends AppState {
     introLink.appendChild(link);
     dashdiv.appendChild(introLink);
 
+    // Creates our product #
     let productNum = document.createTextNode("product version 1.0.0-RC1");
     let introProd = document.createElement("h2");
     introProd.appendChild(productNum);
     dashdiv.appendChild(introProd);
 
     let welcome = document.createElement("h3");
+    // Creates welcome text with the url shop name
     welcome.innerHTML = "Welcome, " + this._app.getShopName() + "!";
     dashdiv.appendChild(welcome);
     let instructions = document.createElement("p");
