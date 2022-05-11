@@ -10,13 +10,13 @@ Make sure that our sprint plans are looked at by the whole team and disscussed a
 
 # Jacob Hofer
 ## What went well?
-
+Interopability with Shopify went smoothly, and brought us to a finished state of our app. The work between teammates was easily merged and came together quite seamlessly.
 
 ## What failed?
-
+The theme app extension had not been developed on time as desired, and so I had to go and finish it in order to have a completed project, rather than wait for the teammate responsible to complete it.
 
 ## What to do differently?
-
+Make expectations clearer and increase the frequence of checking in so we can more quickly adapt to various situations.
 
 # Megan Fehres
 ## What went Well?
