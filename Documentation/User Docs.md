@@ -5,7 +5,9 @@
 - [Requesting an Install Link](#requesting-an-install-link)
 - [Using the Install Link](#using-the-install-link)
 - [Using the Application](#using-the-application)
-- [Future Functionality](#future-functionality)
+  * [Dashboard](#dashboard)
+  * [Products](#products)
+  * [Help](#help)
   * [Variations and Variation Groups](#variations-and-variation-groups)
   * [Variation Blockers](#variation-blockers)
 
@@ -28,17 +30,19 @@ Once installed, it will be available in your store's dashboard under the "Apps" 
 
 
 ## Using the Application
-The app has three different tabs for use. Dashboard will open up a welcome screen detailing information about the app.
-
+The app has three different tabs for use. 
+### Dashboard
+Dashboard will open up a welcome screen detailing information about the app.
+### Products
 The Products tab displays a list of products that can each be edited via the user interface. 
 
+Selecting a product from this list opens a new section for creating variation groups, variations, and blockers. 
+Simply use each of the buttons and enter information into the text fields to modify names and prices. 
+When your changes are done, hit the save button at the bottom of the page.
+
+### Help
 The Help tab displays information about how to use the app and other important functionality.
 
-
-## Future Functionality
-More functionality is planned to allow for creating fully custom variations for products loaded from Shopify's base list of products.
-
-Users will first create their product within Shopify's base system. Within our app it can then be selected to edit its variations.
 
 ### Variations and Variation Groups
 Variations are divided into groups for each product. A variation group describes the overall characteristic the variations target.
