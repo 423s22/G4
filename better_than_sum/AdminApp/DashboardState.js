@@ -1,5 +1,8 @@
 import AppState from "./AppState";
 
+/**
+ * Represents the state for the dashboard
+ */
 export default class DashboardState extends AppState {
   constructor(app) {
     super(app);

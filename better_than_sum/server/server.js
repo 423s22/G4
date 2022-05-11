@@ -139,25 +139,27 @@ app.prepare().then(async () => {
 	router.get("(/_next/static/.*)", handleRequest); // Static content is clear
 	router.get("/_next/webpack-hmr", handleRequest); // Webpack content is clear
 
+	// Create the connection to the MySQL Database
 	let dbConn = new DatabaseConnection(
 		"localhost",
 		process.env.MYSQL_USER,
 		process.env.MYSQL_PASS,
 		"G4db"
 	);
-
 	dbConn.connect();
 
+	// Handle GET requests to the database API
 	router.get("/database/", async (ctx) => {
-		// Handle get request from database
 		ctx.set("Access-Control-Allow-Origin", "*");
 		await dbConn.handleGetRequest(ctx);
 	});
 
+	// Handle POST requests to the database API
 	router.post("/database/", async (ctx) => {
 		await dbConn.handlePostRequest(ctx);
 	});
 
+	// Handle DELETE requests to the database API
 	router.delete("/database/", async (ctx) => {
 		await dbConn.handleDeleteRequest(ctx);
 	});

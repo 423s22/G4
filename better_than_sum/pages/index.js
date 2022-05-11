@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 export default function Index() {
   let app;
   if (typeof window === "object") {
+    // If running in the browser, create and run the app
     app = new App();
   }
 

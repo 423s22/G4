@@ -1,6 +1,9 @@
 import AppState from "./AppState";
 import Product from "./BTSDatabase/Product";
 
+/**
+ * Represents the state for editing a specific product
+ */
 export default class EditProductState extends AppState {
 	constructor(app) {
 		super(app);
@@ -28,15 +31,18 @@ export default class EditProductState extends AppState {
 
 		let div = document.getElementById(divID);
 		if (this._product == null) {
+			// Still loading the product
 			div.innerHTML = "Loading...";
 		} else {
 			div.innerHTML = "";
 
+			// Create the div for the save status
 			this._saveStatusDiv = document.createElement("div");
 			this._saveStatusDiv.classList.add("epsSaveStatusDiv");
 			div.appendChild(this._saveStatusDiv);
 			this._updateSaveStatus();
 
+			// Create the overall product information
 			let productDetails = document.createElement("div");
 			productDetails.classList.add("epsDetailsDiv");
 
@@ -50,6 +56,7 @@ export default class EditProductState extends AppState {
 
 			div.appendChild(productDetails);
 
+			// Create the list of all variation groups
 			let variationGroups = this._product.getVariationGroups();
 
 			let groupsDiv = document.createElement("div");
@@ -57,6 +64,7 @@ export default class EditProductState extends AppState {
 			div.appendChild(groupsDiv);
 
 			for (let i = 0; i < variationGroups.length; i++) {
+				// Create each variation group
 				let curGroupDiv = document.createElement("div");
 				groupsDiv.appendChild(curGroupDiv);
 
@@ -71,12 +79,14 @@ export default class EditProductState extends AppState {
 				});
 				curGroupDiv.appendChild(variationTitleInput);
 
+				// Create the list of all the variations
 				let variationsDiv = document.createElement("div");
 				variationsDiv.classList.add("epsVariationsDiv");
 				curGroupDiv.appendChild(variationsDiv);
 
 				let variations = curVariationGroup.getVariations();
 				for (let j = 0; j < variations.length; j++) {
+					// Create each variation
 					let curVariation = variations[j];
 
 					let curVariationDiv = document.createElement("div");
@@ -116,6 +126,7 @@ export default class EditProductState extends AppState {
 
 					variationAddedCost.appendChild(variationAddedCostInput);
 
+					// Create a list for variation blockers
 					let variationBlockersDiv = document.createElement("div");
 					variationBlockersDiv.classList.add("epsBlockerListDiv");
 					curVariationDiv.appendChild(variationBlockersDiv);
@@ -126,6 +137,7 @@ export default class EditProductState extends AppState {
 
 					let blockers = curVariation.getBlockers();
 					for (let k = 0; k < blockers.length; k++) {
+						// Create each blocker
 						let curBlocker = blockers[k];
 
 						let blockerDiv = document.createElement("div");
@@ -147,6 +159,7 @@ export default class EditProductState extends AppState {
 						blockerDiv.appendChild(removeBlockerBtn);
 					}
 
+					// Create the selector for a new blocker
 					let newBlockerSelect = document.createElement("select");
 					let defaultBlockerSelect = document.createElement("option");
 					defaultBlockerSelect.disabled = true;
@@ -246,6 +259,9 @@ export default class EditProductState extends AppState {
 		}
 	}
 
+	/**
+	 * Updates the status of the save div based on if the product is saving
+	 */
 	_updateSaveStatus() {
 		this._saveStatusDiv.innerHTML = "";
 

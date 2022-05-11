@@ -8,6 +8,7 @@ async function start() {
         "shopifyID": shopifyProductID
     });
 
+    // Create the price indicator
     let totalPriceIndicator = document.getElementById("totalPriceIndicator");
     totalPriceIndicator.textContent = "$" + (document.getElementById("shopifyProductPrice").value / 100).toFixed(2);
 
@@ -131,6 +132,13 @@ async function start() {
 
 }
 
+/**
+ * Execute a GET Request to the database API
+ * @param {string} baseURL the base URL to query to
+ * @param {string} request the request string
+ * @param {JSON} data key-value pairs of extra query parameters
+ * @returns {Promise<JSON>} the JSON data obtained from the API
+ */
 async function executeGetRequest(baseURL, request, data = {}) {
     let url = new URL("https://" + baseURL + "/database/");
     url.searchParams.append("request", request);

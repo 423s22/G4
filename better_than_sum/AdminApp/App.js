@@ -1,6 +1,6 @@
 import AppState from "./AppState";
-import NavBar from "./NavBar";
 import AppStateType from "./AppStateType";
+import NavBar from "./NavBar";
 import DashboardState from "./DashboardState";
 import ProductState from "./ProductState";
 import HelpState from "./HelpState";
@@ -8,6 +8,9 @@ import DatabaseConnection from "./BTSDatabase/DatabaseConnection";
 import ShopifyApiConnection from "./ShopifyAPI/ShopifyAPIConnection";
 import EditProductState from "./EditProductState";
 
+/**
+ * Represents the BTS app controller
+ */
 export default class App {
 	constructor() {
 
@@ -31,6 +34,9 @@ export default class App {
 
 	}
 
+	/**
+	 * Start the app
+	 */
 	start() {
 		this._running = true;
 
@@ -47,10 +53,18 @@ export default class App {
 		this._state.onEnable();
 	}
 
+	/**
+	 * 
+	 * @returns {boolean} if the app is running
+	 */
 	isRunning() {
 		return this._running;
 	}
 
+	/**
+	 * Sets the current state of the app
+	 * @param {AppStateType} stateType the type of the state
+	 */
 	setState(stateType) {
 		let oldState = this._state;
 		oldState.onDisable("stateDiv");
@@ -62,6 +76,10 @@ export default class App {
 		newState.onRender("stateDiv");
 	}
 
+	/**
+	 * 
+	 * @returns {AppState} the current state of the app
+	 */
 	getState() {
 		return this._state;
 	}

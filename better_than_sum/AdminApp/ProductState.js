@@ -1,5 +1,8 @@
 import AppState from "./AppState";
 import AppStateType from "./AppStateType";
+/**
+ * Represents the state for viewing all of the products
+ */
 export default class ProductState extends AppState {
   constructor(app) {
     super(app);
@@ -22,6 +25,7 @@ export default class ProductState extends AppState {
           .getDatabaseConnection()
           .getUserProducts(this._app.getShopifyAPIConnection())
           .then((dbProducts) => {
+            // Once all of the products have been loaded
             div.innerHTML = "";
 
             let pageTitle = document.createElement("h1");
@@ -44,6 +48,7 @@ export default class ProductState extends AppState {
                 }
               }
 
+              // No data in BTS for this product
               if (associatedBTSProduct == null) {
                 let unusedProductDiv = document.createElement("div");
                 unusedProductDiv.classList.add("psUnusedProductDiv");
@@ -72,6 +77,7 @@ export default class ProductState extends AppState {
 
                 div.appendChild(unusedProductDiv);
               } else {
+                // This product exists in the BTS database
                 let btsProductDiv = document.createElement("div");
                 btsProductDiv.classList.add("psBTSProductDiv");
 

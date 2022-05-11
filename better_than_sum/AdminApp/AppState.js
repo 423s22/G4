@@ -9,9 +9,19 @@ export default class AppState {
 		this._app = app;
 	}
 
+	/**
+	 * Called whenever the state is enabled
+	 */
 	onEnable() { }
 
+	/**
+	 * Called whenever the state is disabled
+	 */
 	onDisable() { }
 
+	/**
+	 * Called when the state should be rendered
+	 * @param {string} divID the ID of the div to draw the state to 
+	 */
 	onRender(divID) { }
 }
