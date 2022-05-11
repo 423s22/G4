@@ -10,13 +10,13 @@ Maybe give more group demos and code reviews.
 
 # Jacob Hofer
 ## What went well?
-
+Overall helping Faith and Meg get better caught up and providing an understanding of the overall codebase.
 
 ## What failed?
-
+Communication was somewhat lacking or unsubstantiated by any sort of pull-requests or screenshots of output. 
 
 ## What to do differently?
-
+Focus more on providing help and support going forward to ensure all of us are able to work on the project.
 
 # Megan Fehres
 ## What went Well?
