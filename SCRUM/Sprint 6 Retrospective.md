@@ -10,13 +10,13 @@ Probably meet outside of class if only virtually at least. That would have at le
 
 # Jacob Hofer
 ## What went well?
-
+Getting our code and documentation cleaned up was easy, since we had individual parts we had each worked on that we knew extensively how they worked in order to properly comment.
 
 ## What failed?
-
+Not all members followed the proper guidelines for committing, either accidentally pushing directly into main (my fault, whoops) or not allowing time for other members to submit their reviews before merging a PR.
 
 ## What to do differently?
-
+Reinforce expectations for managing and using GitHub
 
 # Megan Fehres
 ## What went Well?
